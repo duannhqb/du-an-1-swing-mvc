@@ -15,9 +15,10 @@ public class MainJFrame extends javax.swing.JFrame {
      * Creates new form MainJFrame
      */
     public MainJFrame() {
-        initComponents();        
+        initComponents();  
+        
+        ngon rong
     }
-âdfgh
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
