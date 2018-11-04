@@ -17,7 +17,7 @@ public class MainJFrame extends javax.swing.JFrame {
      * Creates new form MainJFrame
      */
     public MainJFrame() {
-        initComponents();        
+        initComponents();  
         
        jLabel1.setText("Ádad");
        jLabel1.setBackground(Color.red);
