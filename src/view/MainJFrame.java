@@ -5,7 +5,11 @@
  */
 package view;
 
-import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.Timer;
 
 /**
  *
@@ -19,9 +23,16 @@ public class MainJFrame extends javax.swing.JFrame {
     public MainJFrame() {
         initComponents();  
         
-       jLabel1.setText("Ádad");
-       jLabel1.setBackground(Color.red);
-       jLabel1.setText("ádsd");
+//        set time for mainFrame
+        new Timer(1000, new ActionListener() {
+            SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss a");
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lblDongHo.setText(format.format(new Date()));
+            }
+        }).start();
+
     }
     
     
@@ -35,33 +46,444 @@ public class MainJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        toolBar = new javax.swing.JToolBar();
+        btnDangXuat = new javax.swing.JButton();
+        jSeparator6 = new javax.swing.JToolBar.Separator();
+        btnChuyenDe = new javax.swing.JButton();
+        btnNguoiHoc = new javax.swing.JButton();
+        btnKhoaHoc = new javax.swing.JButton();
+        jSeparator7 = new javax.swing.JToolBar.Separator();
+        btnHuongDan = new javax.swing.JButton();
+        btnHuongDan1 = new javax.swing.JButton();
+        btnHuongDan2 = new javax.swing.JButton();
+        pnlTrangThai = new javax.swing.JPanel();
+        lblTrangThai = new javax.swing.JLabel();
+        lblDongHo = new javax.swing.JLabel();
+        lblNoiDung = new javax.swing.JLabel();
+        mnb = new javax.swing.JMenuBar();
+        mnuHeThong = new javax.swing.JMenu();
+        mniDangNhap = new javax.swing.JMenuItem();
+        mniDangXuat = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        mniKetThuc = new javax.swing.JMenuItem();
+        mnuQuanLy = new javax.swing.JMenu();
+        mniQLNguoiHoc = new javax.swing.JMenuItem();
+        mniQLChuyenDe = new javax.swing.JMenuItem();
+        mniQLKhoaHoc = new javax.swing.JMenuItem();
+        mniQLNhanVien = new javax.swing.JMenuItem();
+        mniQLNhanVien1 = new javax.swing.JMenuItem();
+        mniQLNhanVien2 = new javax.swing.JMenuItem();
+        mniQLNhanVien3 = new javax.swing.JMenuItem();
+        mniQLNhanVien4 = new javax.swing.JMenuItem();
+        mnuThongKe = new javax.swing.JMenu();
+        mniTKNguoiHoc = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        mniTKBangDiem = new javax.swing.JMenuItem();
+        mniTKKhoaHoc = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        mnuTroGiup = new javax.swing.JMenu();
+        mniHuongDan = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
+        mniGioiThieu = new javax.swing.JMenuItem();
 
         jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("jLabel1");
+        toolBar.setRollover(true);
+
+        btnDangXuat.setText("Danh mục gọi món");
+        btnDangXuat.setFocusable(false);
+        btnDangXuat.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDangXuat.setMargin(new java.awt.Insets(2, 10, 2, 10));
+        btnDangXuat.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnDangXuat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDangXuatActionPerformed(evt);
+            }
+        });
+        toolBar.add(btnDangXuat);
+        toolBar.add(jSeparator6);
+
+        btnChuyenDe.setText("Khu vực");
+        btnChuyenDe.setFocusable(false);
+        btnChuyenDe.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnChuyenDe.setMargin(new java.awt.Insets(2, 10, 2, 10));
+        btnChuyenDe.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnChuyenDe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChuyenDeActionPerformed(evt);
+            }
+        });
+        toolBar.add(btnChuyenDe);
+
+        btnNguoiHoc.setText("Bàn");
+        btnNguoiHoc.setFocusable(false);
+        btnNguoiHoc.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNguoiHoc.setMargin(new java.awt.Insets(2, 10, 2, 10));
+        btnNguoiHoc.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnNguoiHoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNguoiHocActionPerformed(evt);
+            }
+        });
+        toolBar.add(btnNguoiHoc);
+
+        btnKhoaHoc.setText("Kho hàng");
+        btnKhoaHoc.setFocusable(false);
+        btnKhoaHoc.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnKhoaHoc.setMargin(new java.awt.Insets(2, 10, 2, 10));
+        btnKhoaHoc.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnKhoaHoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKhoaHocActionPerformed(evt);
+            }
+        });
+        toolBar.add(btnKhoaHoc);
+        toolBar.add(jSeparator7);
+
+        btnHuongDan.setText("Sản phẩm");
+        btnHuongDan.setFocusable(false);
+        btnHuongDan.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnHuongDan.setMargin(new java.awt.Insets(2, 10, 2, 10));
+        btnHuongDan.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnHuongDan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuongDanActionPerformed(evt);
+            }
+        });
+        toolBar.add(btnHuongDan);
+
+        btnHuongDan1.setText("Loại sản phẩm");
+        btnHuongDan1.setFocusable(false);
+        btnHuongDan1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnHuongDan1.setMargin(new java.awt.Insets(2, 10, 2, 10));
+        btnHuongDan1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnHuongDan1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuongDan1ActionPerformed(evt);
+            }
+        });
+        toolBar.add(btnHuongDan1);
+
+        btnHuongDan2.setText("Ca làm việc");
+        btnHuongDan2.setFocusable(false);
+        btnHuongDan2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnHuongDan2.setMargin(new java.awt.Insets(2, 10, 2, 10));
+        btnHuongDan2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnHuongDan2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuongDan2ActionPerformed(evt);
+            }
+        });
+        toolBar.add(btnHuongDan2);
+
+        pnlTrangThai.setBackground(new java.awt.Color(215, 222, 229));
+
+        lblTrangThai.setText("Hệ thống quản lý quán cà phê");
+
+        lblDongHo.setText("10:55 PM");
+
+        javax.swing.GroupLayout pnlTrangThaiLayout = new javax.swing.GroupLayout(pnlTrangThai);
+        pnlTrangThai.setLayout(pnlTrangThaiLayout);
+        pnlTrangThaiLayout.setHorizontalGroup(
+            pnlTrangThaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTrangThaiLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTrangThai)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblDongHo)
+                .addGap(25, 25, 25))
+        );
+        pnlTrangThaiLayout.setVerticalGroup(
+            pnlTrangThaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTrangThaiLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnlTrangThaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTrangThai)
+                    .addComponent(lblDongHo))
+                .addContainerGap())
+        );
+
+        lblNoiDung.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlTrangThai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblNoiDung, javax.swing.GroupLayout.PREFERRED_SIZE, 987, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(lblNoiDung, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(pnlTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        mnuHeThong.setText("Hệ thống");
+
+        mniDangNhap.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        mniDangNhap.setText("Đăng nhập");
+        mniDangNhap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniDangNhapActionPerformed(evt);
+            }
+        });
+        mnuHeThong.add(mniDangNhap);
+
+        mniDangXuat.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_0, java.awt.event.InputEvent.CTRL_MASK));
+        mniDangXuat.setText("Đăng xuất");
+        mniDangXuat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniDangXuatActionPerformed(evt);
+            }
+        });
+        mnuHeThong.add(mniDangXuat);
+        mnuHeThong.add(jSeparator2);
+
+        mniKetThuc.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F10, 0));
+        mniKetThuc.setText("Kết thúc");
+        mniKetThuc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniKetThucActionPerformed(evt);
+            }
+        });
+        mnuHeThong.add(mniKetThuc);
+
+        mnb.add(mnuHeThong);
+
+        mnuQuanLy.setText("Quản lý");
+
+        mniQLNguoiHoc.setText("Nhân viên");
+        mniQLNguoiHoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniQLNguoiHocActionPerformed(evt);
+            }
+        });
+        mnuQuanLy.add(mniQLNguoiHoc);
+
+        mniQLChuyenDe.setText("Khu vực");
+        mniQLChuyenDe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniQLChuyenDeActionPerformed(evt);
+            }
+        });
+        mnuQuanLy.add(mniQLChuyenDe);
+
+        mniQLKhoaHoc.setText("Bàn");
+        mniQLKhoaHoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniQLKhoaHocActionPerformed(evt);
+            }
+        });
+        mnuQuanLy.add(mniQLKhoaHoc);
+
+        mniQLNhanVien.setText("Kho hàng");
+        mniQLNhanVien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniQLNhanVienActionPerformed(evt);
+            }
+        });
+        mnuQuanLy.add(mniQLNhanVien);
+
+        mniQLNhanVien1.setText("Sản phẩm");
+        mniQLNhanVien1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniQLNhanVien1ActionPerformed(evt);
+            }
+        });
+        mnuQuanLy.add(mniQLNhanVien1);
+
+        mniQLNhanVien2.setText("Loại sản phẩm");
+        mniQLNhanVien2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniQLNhanVien2ActionPerformed(evt);
+            }
+        });
+        mnuQuanLy.add(mniQLNhanVien2);
+
+        mniQLNhanVien3.setText("Ca làm việc");
+        mniQLNhanVien3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniQLNhanVien3ActionPerformed(evt);
+            }
+        });
+        mnuQuanLy.add(mniQLNhanVien3);
+
+        mniQLNhanVien4.setText("Hóa đơn");
+        mniQLNhanVien4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniQLNhanVien4ActionPerformed(evt);
+            }
+        });
+        mnuQuanLy.add(mniQLNhanVien4);
+
+        mnb.add(mnuQuanLy);
+
+        mnuThongKe.setText("Thống kê");
+
+        mniTKNguoiHoc.setText("Kho hàng theo loại sản phẩm");
+        mniTKNguoiHoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniTKNguoiHocActionPerformed(evt);
+            }
+        });
+        mnuThongKe.add(mniTKNguoiHoc);
+        mnuThongKe.add(jSeparator3);
+
+        mniTKBangDiem.setText("Doanh thu từng năm và tháng");
+        mniTKBangDiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniTKBangDiemActionPerformed(evt);
+            }
+        });
+        mnuThongKe.add(mniTKBangDiem);
+
+        mniTKKhoaHoc.setText("Lương nhân viên");
+        mniTKKhoaHoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniTKKhoaHocActionPerformed(evt);
+            }
+        });
+        mnuThongKe.add(mniTKKhoaHoc);
+        mnuThongKe.add(jSeparator4);
+
+        mnb.add(mnuThongKe);
+
+        mnuTroGiup.setText("Trợ giúp");
+
+        mniHuongDan.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+        mniHuongDan.setText("Hướng dẫn sử dụng");
+        mniHuongDan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniHuongDanActionPerformed(evt);
+            }
+        });
+        mnuTroGiup.add(mniHuongDan);
+        mnuTroGiup.add(jSeparator5);
+
+        mniGioiThieu.setText("Giới thiệu sản phẩm");
+        mniGioiThieu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniGioiThieuActionPerformed(evt);
+            }
+        });
+        mnuTroGiup.add(mniGioiThieu);
+
+        mnb.add(mnuTroGiup);
+
+        setJMenuBar(mnb);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(355, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(316, 316, 316))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(80, 80, 80)
-                .addComponent(jLabel1)
-                .addContainerGap(363, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void mniQLNguoiHocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniQLNguoiHocActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniQLNguoiHocActionPerformed
+
+    private void mniQLChuyenDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniQLChuyenDeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniQLChuyenDeActionPerformed
+
+    private void mniQLKhoaHocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniQLKhoaHocActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniQLKhoaHocActionPerformed
+
+    private void mniQLNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniQLNhanVienActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniQLNhanVienActionPerformed
+
+    private void mniTKNguoiHocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniTKNguoiHocActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniTKNguoiHocActionPerformed
+
+    private void mniTKBangDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniTKBangDiemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniTKBangDiemActionPerformed
+
+    private void mniTKKhoaHocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniTKKhoaHocActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniTKKhoaHocActionPerformed
+
+    private void mniHuongDanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniHuongDanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniHuongDanActionPerformed
+
+    private void mniGioiThieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniGioiThieuActionPerformed
+    }//GEN-LAST:event_mniGioiThieuActionPerformed
+
+    private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDangXuatActionPerformed
+
+    private void btnChuyenDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChuyenDeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnChuyenDeActionPerformed
+
+    private void btnNguoiHocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNguoiHocActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNguoiHocActionPerformed
+
+    private void btnKhoaHocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhoaHocActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnKhoaHocActionPerformed
+
+    private void btnHuongDanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuongDanActionPerformed
+
+    }//GEN-LAST:event_btnHuongDanActionPerformed
+
+    private void mniKetThucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniKetThucActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniKetThucActionPerformed
+
+    private void mniDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniDangXuatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniDangXuatActionPerformed
+
+    private void mniDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniDangNhapActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniDangNhapActionPerformed
+
+    private void mniQLNhanVien1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniQLNhanVien1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniQLNhanVien1ActionPerformed
+
+    private void mniQLNhanVien2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniQLNhanVien2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniQLNhanVien2ActionPerformed
+
+    private void mniQLNhanVien3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniQLNhanVien3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniQLNhanVien3ActionPerformed
+
+    private void mniQLNhanVien4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniQLNhanVien4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniQLNhanVien4ActionPerformed
+
+    private void btnHuongDan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuongDan1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnHuongDan1ActionPerformed
+
+    private void btnHuongDan2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuongDan2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnHuongDan2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -99,7 +521,46 @@ public class MainJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnChuyenDe;
+    private javax.swing.JButton btnDangXuat;
+    private javax.swing.JButton btnHuongDan;
+    private javax.swing.JButton btnHuongDan1;
+    private javax.swing.JButton btnHuongDan2;
+    private javax.swing.JButton btnKhoaHoc;
+    private javax.swing.JButton btnNguoiHoc;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JToolBar.Separator jSeparator6;
+    private javax.swing.JToolBar.Separator jSeparator7;
+    private javax.swing.JLabel lblDongHo;
+    private javax.swing.JLabel lblNoiDung;
+    private javax.swing.JLabel lblTrangThai;
+    private javax.swing.JMenuBar mnb;
+    private javax.swing.JMenuItem mniDangNhap;
+    private javax.swing.JMenuItem mniDangXuat;
+    private javax.swing.JMenuItem mniGioiThieu;
+    private javax.swing.JMenuItem mniHuongDan;
+    private javax.swing.JMenuItem mniKetThuc;
+    private javax.swing.JMenuItem mniQLChuyenDe;
+    private javax.swing.JMenuItem mniQLKhoaHoc;
+    private javax.swing.JMenuItem mniQLNguoiHoc;
+    private javax.swing.JMenuItem mniQLNhanVien;
+    private javax.swing.JMenuItem mniQLNhanVien1;
+    private javax.swing.JMenuItem mniQLNhanVien2;
+    private javax.swing.JMenuItem mniQLNhanVien3;
+    private javax.swing.JMenuItem mniQLNhanVien4;
+    private javax.swing.JMenuItem mniTKBangDiem;
+    private javax.swing.JMenuItem mniTKKhoaHoc;
+    private javax.swing.JMenuItem mniTKNguoiHoc;
+    private javax.swing.JMenu mnuHeThong;
+    private javax.swing.JMenu mnuQuanLy;
+    private javax.swing.JMenu mnuThongKe;
+    private javax.swing.JMenu mnuTroGiup;
+    private javax.swing.JPanel pnlTrangThai;
+    private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
 }
