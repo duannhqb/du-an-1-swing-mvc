@@ -21,6 +21,7 @@ public class MainJFrame extends javax.swing.JFrame {
         
        jLabel1.setText("Ádad");
        jLabel1.setBackground(Color.red);
+       jLabel1.setText("ádsd");
     }
     
     
