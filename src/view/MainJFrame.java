@@ -18,6 +18,7 @@ public class MainJFrame extends javax.swing.JFrame {
         initComponents();  
         
        jLabel1.setText("Ádad");
+       jLabel1.setText("ádsd");
     }
     
     
