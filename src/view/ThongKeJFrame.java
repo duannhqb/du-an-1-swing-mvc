@@ -16,6 +16,7 @@ public class ThongKeJFrame extends javax.swing.JFrame {
      */
     public ThongKeJFrame() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -29,18 +30,14 @@ public class ThongKeJFrame extends javax.swing.JFrame {
 
         pnlWallpaper = new javax.swing.JPanel();
         lblTitle = new javax.swing.JLabel();
-        tas1 = new javax.swing.JTabbedPane();
+        tabs = new javax.swing.JTabbedPane();
         pnlThongKeKhoHang = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblThongKeKhoHang = new javax.swing.JTable();
         pnlThongKeDoanhThu = new javax.swing.JPanel();
-        tas2 = new javax.swing.JTabbedPane();
-        pnlTKNam = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tblThongKeTheoNam = new javax.swing.JTable();
-        pnlTKThang = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblThongKeTheoThang = new javax.swing.JTable();
+        cboThoiGian = new javax.swing.JComboBox<>();
         pnlThongKeNhanVien = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblThongKeNhanVien = new javax.swing.JTable();
@@ -65,77 +62,52 @@ public class ThongKeJFrame extends javax.swing.JFrame {
         pnlThongKeKhoHang.setLayout(pnlThongKeKhoHangLayout);
         pnlThongKeKhoHangLayout.setHorizontalGroup(
             pnlThongKeKhoHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlThongKeKhoHangLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 945, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 806, Short.MAX_VALUE)
         );
         pnlThongKeKhoHangLayout.setVerticalGroup(
             pnlThongKeKhoHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlThongKeKhoHangLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 3, Short.MAX_VALUE))
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tas1.addTab("Thống kê kho hàng ", pnlThongKeKhoHang);
-
-        tblThongKeTheoNam.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Năm", "Doanh thu"
-            }
-        ));
-        jScrollPane3.setViewportView(tblThongKeTheoNam);
-
-        javax.swing.GroupLayout pnlTKNamLayout = new javax.swing.GroupLayout(pnlTKNam);
-        pnlTKNam.setLayout(pnlTKNamLayout);
-        pnlTKNamLayout.setHorizontalGroup(
-            pnlTKNamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 940, Short.MAX_VALUE)
-        );
-        pnlTKNamLayout.setVerticalGroup(
-            pnlTKNamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
-        );
-
-        tas2.addTab("Thống kê doanh thu theo năm", pnlTKNam);
+        tabs.addTab("Thống kê kho hàng ", pnlThongKeKhoHang);
 
         tblThongKeTheoThang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Tháng", "Doanh thu"
+                "Thời gian", "Doanh thu"
             }
         ));
         jScrollPane4.setViewportView(tblThongKeTheoThang);
 
-        javax.swing.GroupLayout pnlTKThangLayout = new javax.swing.GroupLayout(pnlTKThang);
-        pnlTKThang.setLayout(pnlTKThangLayout);
-        pnlTKThangLayout.setHorizontalGroup(
-            pnlTKThangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 940, Short.MAX_VALUE)
-        );
-        pnlTKThangLayout.setVerticalGroup(
-            pnlTKThangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
-        );
-
-        tas2.addTab("Thống kê doanh thu theo tháng", pnlTKThang);
+        cboThoiGian.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Năm", "Tháng" }));
 
         javax.swing.GroupLayout pnlThongKeDoanhThuLayout = new javax.swing.GroupLayout(pnlThongKeDoanhThu);
         pnlThongKeDoanhThu.setLayout(pnlThongKeDoanhThuLayout);
         pnlThongKeDoanhThuLayout.setHorizontalGroup(
             pnlThongKeDoanhThuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tas2)
+            .addGroup(pnlThongKeDoanhThuLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(pnlThongKeDoanhThuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 727, Short.MAX_VALUE)
+                    .addComponent(cboThoiGian, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
         pnlThongKeDoanhThuLayout.setVerticalGroup(
             pnlThongKeDoanhThuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tas2)
+            .addGroup(pnlThongKeDoanhThuLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(cboThoiGian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
-        tas1.addTab("Thống kê doanh thu", pnlThongKeDoanhThu);
+        tabs.addTab("Thống kê doanh thu", pnlThongKeDoanhThu);
 
         tblThongKeNhanVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -151,29 +123,34 @@ public class ThongKeJFrame extends javax.swing.JFrame {
         pnlThongKeNhanVien.setLayout(pnlThongKeNhanVienLayout);
         pnlThongKeNhanVienLayout.setHorizontalGroup(
             pnlThongKeNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 945, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 806, Short.MAX_VALUE)
         );
         pnlThongKeNhanVienLayout.setVerticalGroup(
             pnlThongKeNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlThongKeNhanVienLayout.createSequentialGroup()
+                .addGap(0, 37, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        tas1.addTab("Thống kê nhân viên", pnlThongKeNhanVien);
+        tabs.addTab("Thống kê nhân viên", pnlThongKeNhanVien);
 
         javax.swing.GroupLayout pnlWallpaperLayout = new javax.swing.GroupLayout(pnlWallpaper);
         pnlWallpaper.setLayout(pnlWallpaperLayout);
         pnlWallpaperLayout.setHorizontalGroup(
             pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tas1)
             .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnlWallpaperLayout.createSequentialGroup()
+                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 811, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
         pnlWallpaperLayout.setVerticalGroup(
             pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlWallpaperLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(tas1, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(217, 217, 217))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -184,7 +161,9 @@ public class ThongKeJFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlWallpaper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pnlWallpaper, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -226,22 +205,18 @@ public class ThongKeJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cboThoiGian;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lblTitle;
-    private javax.swing.JPanel pnlTKNam;
-    private javax.swing.JPanel pnlTKThang;
     private javax.swing.JPanel pnlThongKeDoanhThu;
     private javax.swing.JPanel pnlThongKeKhoHang;
     private javax.swing.JPanel pnlThongKeNhanVien;
     private javax.swing.JPanel pnlWallpaper;
-    private javax.swing.JTabbedPane tas1;
-    private javax.swing.JTabbedPane tas2;
+    private javax.swing.JTabbedPane tabs;
     private javax.swing.JTable tblThongKeKhoHang;
     private javax.swing.JTable tblThongKeNhanVien;
-    private javax.swing.JTable tblThongKeTheoNam;
     private javax.swing.JTable tblThongKeTheoThang;
     // End of variables declaration//GEN-END:variables
 }
