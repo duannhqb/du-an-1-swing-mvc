@@ -5,6 +5,8 @@
  */
 package view;
 
+import java.awt.Color;
+
 /**
  *
  * @author duann
@@ -18,6 +20,7 @@ public class MainJFrame extends javax.swing.JFrame {
         initComponents();        
         
        jLabel1.setText("Ádad");
+       jLabel1.setBackground(Color.red);
     }
     
     
