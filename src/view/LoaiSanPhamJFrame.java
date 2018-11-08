@@ -43,7 +43,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         lblLoaiSanPham = new javax.swing.JLabel();
         txtLoaiSanPham = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblTieuDe.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         lblTieuDe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
