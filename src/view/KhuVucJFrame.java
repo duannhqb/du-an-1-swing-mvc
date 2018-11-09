@@ -5,11 +5,20 @@
  */
 package view;
 
+import DAO.KhuVucDAO;
+import helper.DialogHelper;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import model.KhuVuc;
+
 /**
  *
  * @author NgọcHải
  */
 public class KhuVucJFrame extends javax.swing.JFrame {
+
+    int index = 0;
+    KhuVucDAO dao = new KhuVucDAO();
 
     /**
      * Creates new form KhuVucJFrame
@@ -17,6 +26,108 @@ public class KhuVucJFrame extends javax.swing.JFrame {
     public KhuVucJFrame() {
         initComponents();
         setLocationRelativeTo(null);
+    }
+
+    void load() {
+        DefaultTableModel model = (DefaultTableModel) tblKhuVuc.getModel();
+        model.setRowCount(0);
+        try {
+            List<KhuVuc> list = dao.select();
+            for (KhuVuc kv : list) {
+                Object[] row = {
+                    kv.getMaKhuVuc(),
+                    kv.getTenKhuVuc(),
+                    kv.getViTri(),
+                    kv.getGhichu()
+                };
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi truy vấn dữ liệu!");
+        }
+    }
+
+    void setModel(KhuVuc model) {
+        txtTenKhuVuc.setText(model.getTenKhuVuc());
+        txtViTri.setText(model.getViTri());
+        txtGhiChu.setText(model.getGhichu());
+    }
+
+    KhuVuc getModel() {
+        KhuVuc model = new KhuVuc();
+        model.setTenKhuVuc(txtTenKhuVuc.getText());
+        model.setViTri(txtViTri.getText());
+        model.setGhichu(txtGhiChu.getText());
+        return model;
+    }
+
+    void setStatus(boolean insertable) {
+        btnThem.setEnabled(!insertable);
+        btnSua.setEnabled(!insertable);
+        btnXoa.setEnabled(!insertable);
+
+        boolean first = this.index > 0;
+        boolean last = this.index < tblKhuVuc.getRowCount() - 1;
+        btnFirst.setEnabled(!insertable && first);
+        btnPrev.setEnabled(!insertable && first);
+        btnNext.setEnabled(!insertable && last);
+        btnLast.setEnabled(!insertable && last);
+    }
+
+    void clear() {
+        this.setModel(new KhuVuc());
+        this.setStatus(true);
+    }
+
+    void insert() {
+        KhuVuc model = getModel();
+        try {
+            dao.insert(model);
+            this.load();
+            this.clear();
+            DialogHelper.alert(this, "Thêm mới thành công!");
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Thêm mới thất bại!");
+        }
+    }
+
+    void update() {
+        KhuVuc model = getModel();
+        try {
+            dao.update(model);
+            this.load();
+            this.clear();
+            DialogHelper.alert(this, "Cập nhật thành công!");
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Cập nhật mới thất bại!");
+        }
+    }
+
+    void delete(String maKhuVuc) {
+        if (DialogHelper.confirm(this, "Bạn thực sự muốn xóa khu vực này?")) {
+
+            try {
+                dao.delete(maKhuVuc);
+                this.load();
+                this.clear();
+                DialogHelper.alert(this, "Xóa thành công!");
+            } catch (Exception e) {
+                DialogHelper.alert(this, "Xóa thất bại!");
+            }
+        }
+    }
+
+    void edit() {
+        try {
+            String maKhuVuc = (String) tblKhuVuc.getValueAt(this.index, 0);
+            KhuVuc model = new KhuVuc();
+            if (model != null) {
+                this.setModel(model);
+                this.setStatus(false);
+            }
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi truy vấn dữ liệu!");
+        }
     }
 
     /**
@@ -36,7 +147,7 @@ public class KhuVucJFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtGhiChu = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblKhuVuc = new javax.swing.JTable();
         btnThem = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
@@ -45,10 +156,15 @@ public class KhuVucJFrame extends javax.swing.JFrame {
         btnPrev = new javax.swing.JButton();
         btnNext = new javax.swing.JButton();
         btnLast = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txtTenKhuVuc = new javax.swing.JTextField();
+        txtViTri = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         lblTitle.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -64,8 +180,8 @@ public class KhuVucJFrame extends javax.swing.JFrame {
         txtGhiChu.setRows(5);
         jScrollPane1.setViewportView(txtGhiChu);
 
-        jTable1.setAutoCreateRowSorter(true);
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblKhuVuc.setAutoCreateRowSorter(true);
+        tblKhuVuc.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -73,7 +189,12 @@ public class KhuVucJFrame extends javax.swing.JFrame {
                 "Mã khu vực", "Tên khu vực", "Vị trí", "Ghi chú"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        tblKhuVuc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblKhuVucMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblKhuVuc);
 
         btnThem.setText("Thêm");
 
@@ -128,8 +249,8 @@ public class KhuVucJFrame extends javax.swing.JFrame {
                                 .addComponent(lblTenKhuVuc))
                             .addGap(22, 22, 22)
                             .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txtTenKhuVuc, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtViTri, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlWallpaperLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
@@ -154,7 +275,7 @@ public class KhuVucJFrame extends javax.swing.JFrame {
                 .addGap(43, 43, 43)
                 .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTenKhuVuc)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTenKhuVuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPrev)
                     .addComponent(btnNext)
                     .addComponent(btnLast)
@@ -164,7 +285,7 @@ public class KhuVucJFrame extends javax.swing.JFrame {
                     .addGroup(pnlWallpaperLayout.createSequentialGroup()
                         .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblViTri)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtViTri, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblGhiChu)
@@ -199,7 +320,25 @@ public class KhuVucJFrame extends javax.swing.JFrame {
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
         // TODO add your handling code here:
+        this.index--;
+        
     }//GEN-LAST:event_btnPrevActionPerformed
+
+    private void tblKhuVucMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhuVucMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            this.index = tblKhuVuc.rowAtPoint(evt.getPoint());
+            if (this.index >= 0) {
+                this.edit();
+            }
+        }
+    }//GEN-LAST:event_tblKhuVucMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        this.load();
+        this.setStatus(true);
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -247,14 +386,14 @@ public class KhuVucJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnXoa;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lblGhiChu;
     private javax.swing.JLabel lblTenKhuVuc;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblViTri;
     private javax.swing.JPanel pnlWallpaper;
+    private javax.swing.JTable tblKhuVuc;
     private javax.swing.JTextArea txtGhiChu;
+    private javax.swing.JTextField txtTenKhuVuc;
+    private javax.swing.JTextField txtViTri;
     // End of variables declaration//GEN-END:variables
 }
