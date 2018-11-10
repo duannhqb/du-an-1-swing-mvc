@@ -72,12 +72,17 @@ public class NhanVienDAO {
         nhanVien.setSoNgayLamViec(rs.getInt(11));
 //      Thêm ca làm việc để bên bảng xuất hiện tên ca làm việc thay vì mã ca làm việc, giúp cho người sử dụng phần mềm tiện theo dõi.
         CaLamViec caLamViec = new CaLamViec();
+<<<<<<< HEAD
         caLamViec.setMaCaLamViec(rs.getInt(12));
         caLamViec.setBatDau(rs.getString(13));
         caLamViec.setKetThuc(rs.getString(14));
         caLamViec.setGhiChu(rs.getString(15));
         caLamViec.setTenCaLamViec(rs.getString(16));
         nhanVien.setCaLamViec(caLamViec);
+=======
+//        caLamViec.set
+//        nhanVien.setCaLamViec();
+>>>>>>> 23ada80dbe196d54c5791d9fde68acb59f40bbbd
         return nhanVien;
     }
 

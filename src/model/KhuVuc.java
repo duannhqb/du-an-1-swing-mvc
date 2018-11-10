@@ -14,7 +14,7 @@ public class KhuVuc {
     private int maKhuVuc;
     private String tenKhuVuc;
     private String viTri;
-    private String ghichu;
+    private String ghiChu;
 
     public KhuVuc() {
     }
@@ -23,7 +23,7 @@ public class KhuVuc {
         this.maKhuVuc = maKhuVuc;
         this.tenKhuVuc = tenKhuVuc;
         this.viTri = viTri;
-        this.ghichu = ghichu;
+        this.ghiChu = ghichu;
     }
 
     public int getMaKhuVuc() {
@@ -50,12 +50,12 @@ public class KhuVuc {
         this.viTri = viTri;
     }
 
-    public String getGhichu() {
-        return ghichu;
+    public String getGhiChu() {
+        return ghiChu;
     }
 
-    public void setGhichu(String ghichu) {
-        this.ghichu = ghichu;
+    public void setGhiChu(String ghiChu) {
+        this.ghiChu = ghiChu;
     }
 
 }
