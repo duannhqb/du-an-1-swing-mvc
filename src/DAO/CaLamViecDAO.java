@@ -76,9 +76,15 @@ public class CaLamViecDAO {
         return select(sql);
     }
 
-    public CaLamViec findById(int maKhuVuc) {
+    public CaLamViec findById(int maCaLV) {
         String sql = "SELECT * FROM CaLamviec WHERE MaCaLV=?";
-        List<CaLamViec> list = select(sql, maKhuVuc);
+        List<CaLamViec> list = select(sql, maCaLV);
+        return list.size() > 0 ? list.get(0) : null;
+    }
+
+    public CaLamViec findByName(String tenCaLV) {
+        String sql = "SELECT * FROM CaLamviec WHERE TenCaLV like ?";
+        List<CaLamViec> list = select(sql, tenCaLV);
         return list.size() > 0 ? list.get(0) : null;
     }
 }
