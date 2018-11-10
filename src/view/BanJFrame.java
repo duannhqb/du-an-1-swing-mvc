@@ -5,11 +5,20 @@
  */
 package view;
 
+import DAO.BanDAO;
+import helper.DialogHelper;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import model.Ban;
+
 /**
  *
  * @author NgọcHải
  */
 public class BanJFrame extends javax.swing.JFrame {
+
+    int index = 0;
+    BanDAO dao = new BanDAO();
 
     /**
      * Creates new form BanJFrame
@@ -17,6 +26,23 @@ public class BanJFrame extends javax.swing.JFrame {
     public BanJFrame() {
         initComponents();
         setLocationRelativeTo(null);
+        load();
+    }
+
+    void load() {
+        DefaultTableModel model = (DefaultTableModel)tblBan.getModel();
+        model.setRowCount(0);
+        try {
+            List<Ban> list = dao.select();
+            for (Ban ban : list) {
+                Object[] row = {
+                    ban.getMaBan(),
+                    ban.getMaKhuvuc(),};
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi truy vấn dữ liệu!");
+        }
     }
 
     /**
@@ -66,8 +92,6 @@ public class BanJFrame extends javax.swing.JFrame {
 
         lblMaBan.setText("Mã bàn");
 
-        cboKhuVuc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sân thượng" }));
-
         btnXoa.setText("Xóa");
 
         btnMoi.setText("Mới");
@@ -113,8 +137,8 @@ public class BanJFrame extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlWallpaperLayout.createSequentialGroup()
                         .addComponent(btnThem)
                         .addGap(18, 18, 18)
-                        .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)

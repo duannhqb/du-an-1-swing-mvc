@@ -19,26 +19,25 @@ import model.CaLamViec;
 public class CaLamViecDAO {
 
     public void insert(CaLamViec model) {
-        String sql = "INSERT INTO CaLamViec (BatDau, KetThuc, GhiChu) VALUES (?,?,?)";
+        String sql = "INSERT INTO CaLamViec (BatDau, KetThuc, GhiChu,TenCaLV) VALUES (?,?,?,?)";
         Jdbc.executeUpdate(sql,
-                model.getMaCaLamViec(),
-                model.getTenCaLamViec(),
                 model.getBatDau(),
                 model.getKetThuc(),
-                model.getGhiChu());
+                model.getGhiChu(),
+                model.getTenCaLamViec());
     }
 
     public void update(CaLamViec model) {
-        String sql = "UPDATE CaLamViec SET BatDau=?, KetThuc=?, GhiChu=? WHERE MaCaLV=?";
+        String sql = "UPDATE CaLamViec SET BatDau=?, KetThuc=?, GhiChu=?, TenCaLV=? WHERE MaCaLV=?";
         Jdbc.executeUpdate(sql,
-                model.getMaCaLamViec(),
-                model.getTenCaLamViec(),
                 model.getBatDau(),
                 model.getKetThuc(),
-                model.getGhiChu());
+                model.getGhiChu(),
+                model.getTenCaLamViec(),
+                model.getMaCaLamViec());
     }
 
-    public void delete(String maCaLamViec) {
+    public void delete(Integer maCaLamViec) {
         String sql = "DELETE FROM CaLamViec WHERE MaCaLV=?";
         Jdbc.executeQuery(sql, maCaLamViec);
     }
@@ -46,10 +45,10 @@ public class CaLamViecDAO {
     private CaLamViec readFromResultSet(ResultSet rs) throws SQLException {
         CaLamViec model = new CaLamViec();
         model.setMaCaLamViec(rs.getInt(1));
-        model.setTenCaLamViec(rs.getString(2));
-        model.setBatDau(rs.getString(3));
-        model.setKetThuc(rs.getString(4));
-        model.setGhiChu(rs.getString(5));
+        model.setBatDau(rs.getString(2));
+        model.setKetThuc(rs.getString(3));
+        model.setGhiChu(rs.getString(4));
+        model.setTenCaLamViec(rs.getString(5));
         return model;
     }
 
@@ -70,5 +69,16 @@ public class CaLamViecDAO {
             throw new RuntimeException(e);
         }
         return list;
+    }
+
+    public List<CaLamViec> select() {
+        String sql = "SELECT * FROM CaLamviec";
+        return select(sql);
+    }
+
+    public CaLamViec findById(int maKhuVuc) {
+        String sql = "SELECT * FROM CaLamviec WHERE MaCaLV=?";
+        List<CaLamViec> list = select(sql, maKhuVuc);
+        return list.size() > 0 ? list.get(0) : null;
     }
 }

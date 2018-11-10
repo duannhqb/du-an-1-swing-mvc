@@ -19,24 +19,23 @@ import model.KhuVuc;
 public class KhuVucDAO {
 
     public void insert(KhuVuc model) {
-        String sql = "INSERT INTO KhuVuc(TenKhuVuc, ViTri) VALUES (?,?)";
+        String sql = "INSERT INTO KhuVuc(TenKhuVuc, ViTri, GhiChu) VALUES (?,?,?)";
         Jdbc.executeUpdate(sql,
-                model.getMaKhuVuc(),
                 model.getTenKhuVuc(),
                 model.getViTri(),
-                model.getGhichu());
+                model.getGhiChu());
     }
 
     public void update(KhuVuc model) {
-        String sql = "UPDATE KhuVuc SET TenKhuVuc=?, ViTri=? WHERE MaKhuVuc=?";
+        String sql = "UPDATE KhuVuc SET TenKhuVuc=?, ViTri=?, GhiChu=? WHERE MaKhuVuc=?";
         Jdbc.executeUpdate(sql,
-                model.getMaKhuVuc(),
                 model.getTenKhuVuc(),
                 model.getViTri(),
-                model.getGhichu());
+                model.getGhiChu(),
+                model.getMaKhuVuc());
     }
 
-    public void delete(String maKhuVuc) {
+    public void delete(Integer maKhuVuc) {
         String sql = "DELETE FROM KhuVuc WHERE MaKhuVuc=?";
         Jdbc.executeUpdate(sql, maKhuVuc);
     }
@@ -46,7 +45,7 @@ public class KhuVucDAO {
         model.setMaKhuVuc(rs.getInt(1));
         model.setTenKhuVuc(rs.getString(2));
         model.setViTri(rs.getString(3));
-        model.setGhichu(rs.getString(4));
+        model.setGhiChu(rs.getString(4));
         return model;
     }
 
@@ -74,7 +73,7 @@ public class KhuVucDAO {
         return select(sql);
     }
 
-    public KhuVuc findById(String maKhuVuc) {
+    public KhuVuc findById(int maKhuVuc) {
         String sql = "SELECT * FROM KhuVuc WHERE MaKhuVuc=?";
         List<KhuVuc> list = select(sql, maKhuVuc);
         return list.size() > 0 ? list.get(0) : null;

@@ -72,8 +72,8 @@ public class NhanVienDAO {
         nhanVien.setSoNgayLamViec(rs.getInt(11));
 //        
         CaLamViec caLamViec = new CaLamViec();
-        caLamViec.set
-        nhanVien.setCaLamViec();
+//        caLamViec.set
+//        nhanVien.setCaLamViec();
         return nhanVien;
     }
 

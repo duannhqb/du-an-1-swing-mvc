@@ -5,10 +5,20 @@
  */
 package view;
 
+import DAO.CaLamViecDAO;
+import helper.DialogHelper;
+import helper.XDate;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+import javax.swing.table.DefaultTableModel;
+import model.CaLamViec;
 
 /**
  *
@@ -16,12 +26,119 @@ import javax.swing.SpinnerDateModel;
  */
 public class CaLamViecJFrame extends javax.swing.JFrame {
 
+    int index = 0;
+    CaLamViecDAO dao = new CaLamViecDAO();
+
     /**
      * Creates new form CaLamViecJFrame
      */
     public CaLamViecJFrame() {
         initComponents();
         this.setLocationRelativeTo(null);
+    }
+
+    void load() {
+        DefaultTableModel model = (DefaultTableModel) tblCaLamViec.getModel();
+        model.setRowCount(0);
+        try {
+            List<CaLamViec> list = dao.select();
+            for (CaLamViec clv : list) {
+                Object[] row = {
+                    clv.getMaCaLamViec(),
+                    clv.getTenCaLamViec(),
+                    clv.getBatDau(),
+                    clv.getKetThuc(),
+                    clv.getGhiChu()};
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi truy vấn dữ liệu!");
+        }
+    }
+
+    void setModel(CaLamViec model) throws ParseException {
+        txtTenCaLV.setToolTipText(String.valueOf(model.getTenCaLamViec()));
+        txtTenCaLV.setText(model.getTenCaLamViec());
+        txtBatDau.setText(model.getBatDau());
+        txtKetThuc.setText(model.getKetThuc());
+        txtGhiChu.setText(model.getGhiChu());
+    }
+
+    CaLamViec getModel() {
+        CaLamViec model = new CaLamViec();
+        model.setMaCaLamViec(Integer.parseInt(txtTenCaLV.getToolTipText()));
+        model.setTenCaLamViec(txtTenCaLV.getText());
+        model.setBatDau((String) txtBatDau.getText());
+        model.setKetThuc((String) txtKetThuc.getText());
+        model.setGhiChu(txtGhiChu.getText());
+        return model;
+    }
+
+    void setStatus(boolean insertable) {
+        btnThem.setEnabled(insertable);
+        btnSua.setEnabled(!insertable);
+        btnXoa.setEnabled(!insertable);
+
+        boolean first = this.index > 0;
+        boolean last = this.index < tblCaLamViec.getRowCount() - 1;
+        btnFirst.setEnabled(!insertable && first);
+        btnPrev.setEnabled(!insertable && first);
+        btnNext.setEnabled(!insertable && last);
+        btnLast.setEnabled(!insertable && last);
+    }
+
+    void clear() throws ParseException {
+        CaLamViec model = new CaLamViec();
+        this.setModel(model);
+        this.setStatus(true);
+    }
+
+    void insert() {
+        CaLamViec model = getModel();
+        try {
+            dao.insert(model);
+            this.load();
+            DialogHelper.setInfinity(lblThongBao, "Thêm mới thành công!");
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Thêm mới thất bại!");
+        }
+    }
+
+    void update() {
+        CaLamViec model = getModel();
+        try {
+            dao.update(model);
+            this.load();
+            DialogHelper.setInfinity(lblThongBao, "Cập nhật thành công!");
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Cập nhật thất bại!");
+        }
+    }
+
+    void delete(Integer maCaLamViec) {
+        if (DialogHelper.confirm(this, "Bạn thực sự muốn xóa ca làm việc này?")) {
+            try {
+                dao.delete(maCaLamViec);
+                this.load();
+                DialogHelper.setInfinity(lblThongBao, "Xóa thành công!");
+            } catch (Exception e) {
+                DialogHelper.alert(this, "Không thể xóa được vì dữ liệu đã được liên kết!");
+            }
+        }
+    }
+
+    void edit() {
+        try {
+            int maCa = (int) tblCaLamViec.getValueAt(this.index, 0);
+            CaLamViec model = dao.findById(maCa);
+            if (model != null) {
+                this.setModel(model);
+                this.setStatus(false);
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            DialogHelper.alert(this, "Lỗi truy vấn dữ liệu!");
+        }
     }
 
     /**
@@ -35,18 +152,8 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
 
         pnlWrapper = new javax.swing.JPanel();
         lblTieuDe = new javax.swing.JLabel();
-        Date date = new Date();
-        SpinnerDateModel sm =
-        new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-        txtBatDau = new javax.swing.JSpinner(sm);
         lblBatDau = new javax.swing.JLabel();
-        Date date2 = new Date();
-        SpinnerDateModel sm1 =
-        new SpinnerDateModel(date2, null, null, Calendar.HOUR_OF_DAY);
-        txtKetThuc = new javax.swing.JSpinner(sm1);
         lblKetThuc = new javax.swing.JLabel();
-        lblMaCa = new javax.swing.JLabel();
-        txtMaCa = new javax.swing.JTextField();
         lblTenCa = new javax.swing.JLabel();
         txtTenCaLV = new javax.swing.JTextField();
         lblGhiChu = new javax.swing.JLabel();
@@ -62,24 +169,24 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
         btnLast = new javax.swing.JButton();
         btnPrev = new javax.swing.JButton();
         btnNext = new javax.swing.JButton();
+        lblThongBao = new javax.swing.JLabel();
+        txtBatDau = new javax.swing.JTextField();
+        txtKetThuc = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         lblTieuDe.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         lblTieuDe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTieuDe.setText("QUẢN LÝ CA LÀM VIỆC");
 
-        JSpinner.DateEditor de = new JSpinner.DateEditor(txtBatDau, "HH:mm");
-        txtBatDau.setEditor(de);
-
         lblBatDau.setText("Thời gian bắt đầu");
 
-        JSpinner.DateEditor de1 = new JSpinner.DateEditor(txtKetThuc, "HH:mm");
-        txtKetThuc.setEditor(de1);
-
         lblKetThuc.setText("Thời gian kết thúc");
-
-        lblMaCa.setText("Mã ca làm việc");
 
         lblTenCa.setText("Tên ca làm việc");
 
@@ -97,6 +204,11 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
                 "Mã ca làm việc", "Tên ca làm việc", "Thời gian bắt đầu", "Thời gian Kết thúc"
             }
         ));
+        tblCaLamViec.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCaLamViecMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblCaLamViec);
 
         btnThem.setText("Thêm");
@@ -107,18 +219,53 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
         });
 
         btnSua.setText("Sửa");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
         btnMoi.setText("Mới");
+        btnMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoiActionPerformed(evt);
+            }
+        });
 
         btnXoa.setText("Xóa");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
         btnFirst.setText("<<");
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
 
         btnLast.setText(">>");
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
 
         btnPrev.setText("|<");
+        btnPrev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrevActionPerformed(evt);
+            }
+        });
 
         btnNext.setText(">|");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlWrapperLayout = new javax.swing.GroupLayout(pnlWrapper);
         pnlWrapper.setLayout(pnlWrapperLayout);
@@ -130,21 +277,19 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
                     .addGroup(pnlWrapperLayout.createSequentialGroup()
                         .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblBatDau)
-                            .addComponent(lblMaCa)
                             .addComponent(lblTenCa))
                         .addGap(28, 28, 28)
                         .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtBatDau)
-                            .addComponent(txtTenCaLV)
-                            .addComponent(txtMaCa, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtTenCaLV, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                            .addComponent(txtBatDau)))
                     .addGroup(pnlWrapperLayout.createSequentialGroup()
                         .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblKetThuc)
                             .addComponent(lblGhiChu))
                         .addGap(26, 26, 26)
                         .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtKetThuc)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlWrapperLayout.createSequentialGroup()
                         .addComponent(btnThem)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -169,6 +314,10 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(48, 48, 48))
             .addComponent(lblTieuDe, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnlWrapperLayout.createSequentialGroup()
+                .addGap(385, 385, 385)
+                .addComponent(lblThongBao)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlWrapperLayout.setVerticalGroup(
             pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,22 +334,21 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
             .addGroup(pnlWrapperLayout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addComponent(lblTieuDe)
-                .addGap(46, 46, 46)
-                .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblMaCa)
-                    .addComponent(txtMaCa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTenCa)
-                    .addComponent(txtTenCaLV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBatDau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblBatDau))
-                .addGap(18, 18, 18)
-                .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblKetThuc))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblThongBao)
+                .addGap(60, 60, 60)
+                .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnlWrapperLayout.createSequentialGroup()
+                        .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblTenCa)
+                            .addComponent(txtTenCaLV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblBatDau)
+                            .addComponent(txtBatDau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(lblKetThuc))
+                    .addComponent(txtKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblGhiChu)
@@ -234,7 +382,67 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
+        insert();
     }//GEN-LAST:event_btnThemActionPerformed
+
+    private void tblCaLamViecMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCaLamViecMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 1) {
+            this.index = tblCaLamViec.rowAtPoint(evt.getPoint());
+            if (this.index >= 0) {
+                this.edit();
+            }
+        }
+    }//GEN-LAST:event_tblCaLamViecMouseClicked
+
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        // TODO add your handling code here:
+        this.index--;
+        this.edit();
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
+        // TODO add your handling code here:
+        this.index = 0;
+        this.edit();
+    }//GEN-LAST:event_btnPrevActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        // TODO add your handling code here:
+        this.index = tblCaLamViec.getRowCount() - 1;
+        this.edit();
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        // TODO add your handling code here:
+        this.index++;
+        this.edit();
+    }//GEN-LAST:event_btnLastActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        this.load();
+        this.setStatus(true);
+    }//GEN-LAST:event_formWindowOpened
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        // TODO add your handling code here:
+        update();
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
+        delete(Integer.parseInt(txtTenCaLV.getToolTipText()));
+    }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
+        try {
+            
+            clear();
+        } catch (ParseException ex) {
+            Logger.getLogger(CaLamViecJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnMoiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -285,15 +493,14 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblBatDau;
     private javax.swing.JLabel lblGhiChu;
     private javax.swing.JLabel lblKetThuc;
-    private javax.swing.JLabel lblMaCa;
     private javax.swing.JLabel lblTenCa;
+    private javax.swing.JLabel lblThongBao;
     private javax.swing.JLabel lblTieuDe;
     private javax.swing.JPanel pnlWrapper;
     private javax.swing.JTable tblCaLamViec;
-    private javax.swing.JSpinner txtBatDau;
+    private javax.swing.JTextField txtBatDau;
     private javax.swing.JTextArea txtGhiChu;
-    private javax.swing.JSpinner txtKetThuc;
-    private javax.swing.JTextField txtMaCa;
+    private javax.swing.JTextField txtKetThuc;
     private javax.swing.JTextField txtTenCaLV;
     // End of variables declaration//GEN-END:variables
 }

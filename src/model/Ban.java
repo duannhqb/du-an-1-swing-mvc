@@ -10,9 +10,6 @@ package model;
  * @author duann
  */
 public class Ban {
-<<<<<<< HEAD
-      
-=======
 
     private int maBan;
     private int maKhuvuc;
@@ -50,5 +47,4 @@ public class Ban {
         this.trangThai = trangThai;
     }
 
->>>>>>> dc8790dcabc177ebf5e641c741d4c6c857762c42
 }
