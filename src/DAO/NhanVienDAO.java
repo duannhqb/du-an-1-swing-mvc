@@ -70,10 +70,14 @@ public class NhanVienDAO {
         nhanVien.setGhiChu(rs.getString(9));
         nhanVien.setMaCaLamViec(rs.getInt(10));
         nhanVien.setSoNgayLamViec(rs.getInt(11));
-//        
+//      Thêm ca làm việc để bên bảng xuất hiện tên ca làm việc thay vì mã ca làm việc, giúp cho người sử dụng phần mềm tiện theo dõi.
         CaLamViec caLamViec = new CaLamViec();
-        caLamViec.set
-        nhanVien.setCaLamViec();
+        caLamViec.setMaCaLamViec(rs.getInt(12));
+        caLamViec.setBatDau(rs.getString(13));
+        caLamViec.setKetThuc(rs.getString(14));
+        caLamViec.setGhiChu(rs.getString(15));
+        caLamViec.setTenCaLamViec(rs.getString(16));
+        nhanVien.setCaLamViec(caLamViec);
         return nhanVien;
     }
 
@@ -99,9 +103,10 @@ public class NhanVienDAO {
 
     public List<NhanVien> select() {
 //        String sql = "SELECT * FROM NhanVien";
-        String sql = "SELECT MaNhanVien, HoTen, MatKhau, VaiTro, NgaySinh, GioiTinh,"
-                + " Email, DienThoai, NhanVien.GhiChu, CaLamViec.TenCaLV from NhanVien"
-                + " join CaLamViec on NhanVien.MaCaLV = CaLamViec.MaCaLV";
+        String sql = "SELECT * from NhanVien join CaLamViec on NhanVien.MaCaLV = CaLamViec.MaCaLV";
+//        String sql = "SELECT MaNhanVien, HoTen, MatKhau, VaiTro, NgaySinh, GioiTinh,"
+//                + " Email, DienThoai, NhanVien.GhiChu, CaLamViec.TenCaLV from NhanVien"
+//                + " join CaLamViec on NhanVien.MaCaLV = CaLamViec.MaCaLV";
         return select(sql);
     }
 

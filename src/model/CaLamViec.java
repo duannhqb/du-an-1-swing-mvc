@@ -5,8 +5,6 @@
  */
 package model;
 
-import java.util.Date;
-
 /**
  *
  * @author duann
@@ -70,5 +68,4 @@ public class CaLamViec {
         this.tenCaLamViec = tenCaLamViec;
     }
 
-    
 }
