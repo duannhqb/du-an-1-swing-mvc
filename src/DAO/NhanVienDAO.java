@@ -52,6 +52,14 @@ public class NhanVienDAO {
         );
     }
 
+    public void diemDanh(NhanVien model) {
+        String sql = "UPDATE NhanVien SET SoNgayLV = ? WHERE MaNhanVien = ?";
+        Jdbc.executeUpdate(sql,
+                model.getSoNgayLamViec(),
+                model.getMaNhanVien()
+        );
+    }
+
     public void delete(int maNhanVien) {
         String sql = "DELETE FROM NhanVien WHERE MaNhanVien=?";
         Jdbc.executeUpdate(sql, maNhanVien);

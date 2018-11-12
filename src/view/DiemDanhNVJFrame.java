@@ -5,6 +5,14 @@
  */
 package view;
 
+import DAO.NhanVienDAO;
+import helper.DialogHelper;
+import helper.ShareHelper;
+import helper.XDate;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import model.NhanVien;
+
 /**
  *
  * @author duann
@@ -14,9 +22,73 @@ public class DiemDanhNVJFrame extends javax.swing.JFrame {
     /**
      * Creates new form DiemDanhNVJFrame
      */
+    NhanVienDAO nvdao = new NhanVienDAO();
+
     public DiemDanhNVJFrame() {
+        this.setTitle("Thông tin điểm danh ngày : " + XDate.toString(XDate.now()));
         initComponents();
         setLocationRelativeTo(null);
+        load();
+        checkDiemDanh();
+    }
+
+    void load() {
+        DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
+        model.setRowCount(0);
+        try {
+            boolean diemDanh = true;
+            List<NhanVien> list = nvdao.select();
+            for (NhanVien nhanVien : list) {
+                Object[] row = {
+                    nhanVien.getMaNhanVien(),
+                    nhanVien.getHoTen(),
+                    nhanVien.getDienThoai(),
+                    nhanVien.getCaLamViec().getTenCaLamViec(),
+                    diemDanh
+                };
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    boolean checkDiemDanh() {
+        for (int j = 0; j < tblNhanVien.getRowCount(); j++) {
+            Integer manv = (Integer) tblNhanVien.getValueAt(j, 0);
+            NhanVien n = nvdao.findById(manv);
+            if (n.getSoNgayLamViec() >= Integer.parseInt(XDate.toString(XDate.now()).substring(0, 2))) {
+                btnDiemDanh.setVisible(false);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    String diemDanh() {
+        if (checkDiemDanh()) {
+            return "Bạn đã điểm danh rồi!";
+        } else {
+            try {
+                for (int i = 0; i < tblNhanVien.getRowCount(); i++) {
+                    Integer maNhanVien = (Integer) tblNhanVien.getValueAt(i, 0);
+                    Boolean isDiemDanh = (Boolean) tblNhanVien.getValueAt(i, 4);
+
+                    NhanVien nv = nvdao.findById(maNhanVien);
+                    NhanVien model = new NhanVien();
+                    model.setMaNhanVien(maNhanVien);
+                    if (isDiemDanh == true) {
+                        model.setSoNgayLamViec(nv.getSoNgayLamViec() + 1);
+                    } else {
+                        model.setSoNgayLamViec(nv.getSoNgayLamViec());
+                    }
+                    nvdao.diemDanh(model);
+                    System.out.println(model.getSoNgayLamViec());
+                }
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+        }
+        return "Điểm danh thành công!";
     }
 
     /**
@@ -29,36 +101,38 @@ public class DiemDanhNVJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        tblNhanVien = new javax.swing.JTable();
+        btnDiemDanh = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblNhanVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Nguyễn Văn A", "0389185187", "Sáng",  new Boolean(true)}
+
             },
             new String [] {
-                "Họ và tên", "Điện thoại", "Ca làm việc", "Điểm danh"
+                "Mã nhân viên", "Họ và tên", "Điện thoại", "Ca làm việc", "Điểm danh"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblNhanVien);
 
-        jButton1.setText("Lưu");
+        btnDiemDanh.setText("Lưu");
+        btnDiemDanh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDiemDanhActionPerformed(evt);
+            }
+        });
 
-        jLabel1.setText("Bảng điểm danh ngày: 11/5/2018");
-
-        jLabel2.setText("* Xem tổng hợp điểm danh trong tháng ở bảng thống kê nhân viên");
+        jLabel2.setText("Xem tổng hợp điểm danh trong tháng ở bảng thống kê nhân viên");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -66,32 +140,33 @@ public class DiemDanhNVJFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(60, 60, 60)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDiemDanh))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(60, 60, 60))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(40, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addGap(16, 16, 16))
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnDiemDanh)
+                    .addComponent(jLabel2))
+                .addGap(32, 32, 32))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnDiemDanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiemDanhActionPerformed
+        // TODO add your handling code here:
+        DialogHelper.alert(this, this.diemDanh());
+    }//GEN-LAST:event_btnDiemDanhActionPerformed
 
     /**
      * @param args the command line arguments
@@ -104,19 +179,27 @@ public class DiemDanhNVJFrame extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DiemDanhNVJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DiemDanhNVJFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DiemDanhNVJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DiemDanhNVJFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DiemDanhNVJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DiemDanhNVJFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DiemDanhNVJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DiemDanhNVJFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -129,10 +212,9 @@ public class DiemDanhNVJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnDiemDanh;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblNhanVien;
     // End of variables declaration//GEN-END:variables
 }
