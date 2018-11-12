@@ -78,4 +78,10 @@ public class KhuVucDAO {
         List<KhuVuc> list = select(sql, maKhuVuc);
         return list.size() > 0 ? list.get(0) : null;
     }
+
+    public KhuVuc findByName(String tenBan) {
+        String sql = "SELECT * FROM KhuVuc WHERE TenKhuVuc=?";
+        List<KhuVuc> list = select(sql, tenBan);
+        return list.size() > 0 ? list.get(0) : null;
+    }
 }

@@ -7,16 +7,10 @@ package view;
 
 import DAO.CaLamViecDAO;
 import helper.DialogHelper;
-import helper.XDate;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerDateModel;
 import javax.swing.table.DefaultTableModel;
 import model.CaLamViec;
 
@@ -57,7 +51,7 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
     }
 
     void setModel(CaLamViec model) throws ParseException {
-        txtTenCaLV.setToolTipText(String.valueOf(model.getTenCaLamViec()));
+        txtTenCaLV.setToolTipText(String.valueOf(model.getMaCaLamViec()));
         txtTenCaLV.setText(model.getTenCaLamViec());
         txtBatDau.setText(model.getBatDau());
         txtKetThuc.setText(model.getKetThuc());
@@ -66,16 +60,16 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
 
     CaLamViec getModel() {
         CaLamViec model = new CaLamViec();
-        model.setMaCaLamViec(Integer.parseInt(txtTenCaLV.getToolTipText()));
         model.setTenCaLamViec(txtTenCaLV.getText());
         model.setBatDau((String) txtBatDau.getText());
         model.setKetThuc((String) txtKetThuc.getText());
         model.setGhiChu(txtGhiChu.getText());
+        model.setMaCaLamViec(Integer.parseInt(txtTenCaLV.getToolTipText()));
         return model;
     }
 
     void setStatus(boolean insertable) {
-        btnThem.setEnabled(insertable);
+        btnThem.setEnabled(!insertable);
         btnSua.setEnabled(!insertable);
         btnXoa.setEnabled(!insertable);
 
@@ -116,13 +110,14 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
     }
 
     void delete(Integer maCaLamViec) {
-        if (DialogHelper.confirm(this, "Bạn thực sự muốn xóa ca làm việc này?")) {
+        if (DialogHelper.confirm(this, "Bạn thực sự muốn xóa khu vực này?")) {
             try {
                 dao.delete(maCaLamViec);
                 this.load();
+                this.clear();
                 DialogHelper.setInfinity(lblThongBao, "Xóa thành công!");
             } catch (Exception e) {
-                DialogHelper.alert(this, "Không thể xóa được vì dữ liệu đã được liên kết!");
+                DialogHelper.alert(this, "Không thể xóa được vì dữ liệu đã được liên kết");
             }
         }
     }
@@ -433,11 +428,12 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
         delete(Integer.parseInt(txtTenCaLV.getToolTipText()));
+        this.load();
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
         try {
-            
+
             clear();
         } catch (ParseException ex) {
             Logger.getLogger(CaLamViecJFrame.class.getName()).log(Level.SEVERE, null, ex);

@@ -417,10 +417,12 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void btnKhoHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhoHangActionPerformed
         // TODO add your handling code here:
+        new KhoHangJFrame().setVisible(true);
     }//GEN-LAST:event_btnKhoHangActionPerformed
 
     private void btnLoaiSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoaiSanPhamActionPerformed
 
+        new LoaiSanPhamJFrame().setVisible(true);
     }//GEN-LAST:event_btnLoaiSanPhamActionPerformed
 
     private void mniDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniDangNhapActionPerformed
@@ -489,6 +491,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void btnSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSanPhamActionPerformed
         // TODO add your handling code here:
+        new SanPhamJFrame().setVisible(true);
     }//GEN-LAST:event_btnSanPhamActionPerformed
 
     private void btnCaLamViecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCaLamViecActionPerformed

@@ -2,7 +2,7 @@
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -52,7 +52,7 @@
                               <Component id="btnSua" max="32767" attributes="0"/>
                               <Component id="btnThem" alignment="1" max="32767" attributes="0"/>
                               <Component id="btnXoa" max="32767" attributes="0"/>
-                              <Component id="btnMoi" min="-2" pref="59" max="-2" attributes="0"/>
+                              <Component id="btnMoi" alignment="1" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -160,6 +160,9 @@
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblLoaiSanPhamMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -167,11 +170,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="TH&#xca;M"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThemActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnSua">
           <Properties>
             <Property name="text" type="java.lang.String" value="S&#x1eec;A"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSuaActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnXoa">
           <Properties>
@@ -185,6 +194,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="M&#x1eda;I"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMoiActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnFirst">
           <Properties>

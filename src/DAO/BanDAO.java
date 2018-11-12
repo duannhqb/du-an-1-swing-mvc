@@ -19,24 +19,25 @@ import model.Ban;
 public class BanDAO {
 
     public void insert(Ban model) {
-        String sql = "INSERT INTO Ban(MaBan,MaKhuVuc,TrangThai) VALUES(?,?,?)";
+        String sql = "INSERT INTO Ban(MaBan,MaKhuVuc) VALUES(?,?)";
         Jdbc.executeUpdate(sql,
                 model.getMaBan(),
-                model.getMaKhuvuc(),
-                model.isTrangThai());
+                model.getMaKhuvuc()
+        );
     }
 
     public void update(Ban model) {
         String sql = "UPDATE Ban SET MaKhuVuc=?, TrangThai=? WHERE MaBan=?";
         Jdbc.executeUpdate(sql,
-                model.getMaBan(),
                 model.getMaKhuvuc(),
-                model.isTrangThai());
+                model.isTrangThai(),
+                model.getMaBan()
+        );
     }
 
-    public void delete(String maBan) {
+   public void delete(Integer maBan) {
         String sql = "DELETE FROM Ban WHERE MaBan=?";
-        Jdbc.executeQuery(sql, maBan);
+        Jdbc.executeUpdate(sql, maBan);
     }
 
     private Ban readFromResultSet(ResultSet rs) throws SQLException {
@@ -71,9 +72,10 @@ public class BanDAO {
         return select(Sql);
     }
 
-    public Ban findById(String maBan) {
-        String sql = "SELECT * FROM WHERE MaBan=?";
+    public Ban findById(Integer maBan) {
+        String sql = "SELECT * FROM Ban WHERE MaBan=?";
         List<Ban> list = select(sql, maBan);
         return list.size() > 0 ? list.get(0) : null;
     }
+
 }

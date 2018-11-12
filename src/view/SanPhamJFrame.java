@@ -5,6 +5,15 @@
  */
 package view;
 
+import DAO.LoaiSanPhamDAO;
+import DAO.SanPhamDAO;
+import helper.DialogHelper;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+import model.LoaiSanPham;
+import model.SanPham;
+
 /**
  *
  * @author Admin
@@ -17,6 +26,153 @@ public class SanPhamJFrame extends javax.swing.JFrame {
     public SanPhamJFrame() {
         initComponents();
         setLocationRelativeTo(null);
+        load();
+    }
+    int index = 0;
+    SanPhamDAO dao = new SanPhamDAO();
+    LoaiSanPhamDAO lspdao = new LoaiSanPhamDAO();
+
+    void init() {
+        fillCombobox();
+    }
+
+    void fillCombobox() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cboLoaiSanPham.getModel();
+        model.removeAllElements();
+        try {
+            List<LoaiSanPham> list = lspdao.select();
+            for (LoaiSanPham loaisanpham : list) {
+                model.addElement(loaisanpham.getTenLoaiSP());
+
+            }
+        } catch (Exception e) {
+        }
+
+    }
+
+    void load() {
+        DefaultTableModel model = (DefaultTableModel) tblSanPham.getModel();
+        model.setRowCount(0);
+        try {
+            List<SanPham> list = dao.select();
+            for (SanPham sp : list) {
+                Object[] row = {
+                    sp.getMaSanPham(),
+                    sp.getTenSanPham(),
+                    sp.getMaLoaiSP(),
+                    sp.getGiaBan(),
+                    sp.getGhiChu()
+                };
+                model.addRow(row);
+
+            }
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi truy vấn dữ liệu!");
+        }
+    }
+
+    void insert() {
+        SanPham model = getModel();
+        try {
+            dao.insert(model);
+            this.load();
+            this.clear();
+            DialogHelper.alert(this, "Thêm mới thành công!");
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Thêm mới thất bại!");
+        }
+    }
+
+    void update() {
+        SanPham model = getModel();
+        try {
+            dao.update(model);
+            this.load();
+            DialogHelper.alert(this, "Cập nhập thành công!");
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Cập nhập thất bại");
+            System.out.println(e.toString());
+        }
+    }
+
+    void delete() {
+        if (DialogHelper.confirm(this, "Bạn thực sự muốn xóa sản phẩm này")) {
+            Integer masp = Integer.valueOf(txtTenSanPham.getToolTipText());
+            try {
+                dao.delete(masp);
+                this.load();
+                this.clear();
+                DialogHelper.alert(this, "Xóa thành công!");
+
+            } catch (Exception e) {
+                DialogHelper.alert(this, "Xóa thất bại");
+                System.out.println(e.toString());
+            }
+        }
+    }
+
+    void clear() {
+        SanPham model = new SanPham();
+        String loaisp = (String) cboLoaiSanPham.getSelectedItem();
+        LoaiSanPham a = lspdao.findByName(loaisp);
+        model.setMaLoaiSP(a.getMaLoaiSP());
+        this.cboLoaiSanPham.setSelectedItem(0);
+        this.setModel(model);
+        txtGiaBan.setText("");
+    }
+
+    void edit() {
+        try {
+            int masp = (int) tblSanPham.getValueAt(this.index, 0);
+            SanPham model = dao.findById(masp);
+            if (model != null) {
+                this.setModel(model);
+            }
+
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi truy vấn dữ liệu");
+        }
+    }
+
+    void setModel(SanPham model) {
+        txtTenSanPham.setToolTipText(String.valueOf(model.getMaSanPham()));
+        txtTenSanPham.setText(model.getTenSanPham());
+        cboLoaiSanPham.setToolTipText(String.valueOf(model.getMaLoaiSP()));
+        LoaiSanPham lsp = lspdao.findById(model.getMaLoaiSP());
+        cboLoaiSanPham.setSelectedItem(lsp.getTenLoaiSP());
+        txtGiaBan.setText(String.valueOf(model.getGiaBan()));
+        txtGhiChu.setText(model.getGhiChu());
+
+    }
+
+    SanPham getModel() {
+        SanPham sanpham = new SanPham();
+        LoaiSanPham loaisanpham = new LoaiSanPham();
+
+        sanpham.setMaSanPham(Integer.valueOf(txtTenSanPham.getToolTipText()));
+
+        String tenLoaiSanPham = (String) cboLoaiSanPham.getSelectedItem();
+
+        LoaiSanPham lsp = lspdao.findByName(tenLoaiSanPham);
+
+        sanpham.setMaLoaiSP(lsp.getMaLoaiSP());
+        sanpham.setTenSanPham(txtTenSanPham.getText());
+        sanpham.setGiaBan(Float.valueOf(txtGiaBan.getText()));
+        sanpham.setGhiChu(txtGhiChu.getText());
+        return sanpham;
+    }
+
+    void setStatus(boolean insertable) {
+        btnThem.setEnabled(insertable);
+        btnSua.setEnabled(insertable);
+        btnXoa.setEnabled(insertable);
+        btnMoi.setEnabled(insertable);
+        boolean first = this.index > 0;
+        boolean last = this.index < tblSanPham.getRowCount() - 1;
+        btnNext.setEnabled(!insertable && last);
+        btnLast.setEnabled(!insertable && last);
+        btnFirst.setEnabled(!insertable && first);
+        btnPrev.setEnabled(!insertable && first);
     }
 
     /**
@@ -50,7 +206,12 @@ public class SanPhamJFrame extends javax.swing.JFrame {
         btnXoa = new javax.swing.JButton();
         btnMoi = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         lblTieuDe.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         lblTieuDe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -76,10 +237,21 @@ public class SanPhamJFrame extends javax.swing.JFrame {
             new String [] {
                 "Mã Sản Phẩm", "Tên Sản Phẩm", "Mã Loại Sản Phẩm", "Giá Bán", "Ghi chú"
             }
-        ));
-        jScrollPane2.setViewportView(tblSanPham);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
 
-        cboLoaiSanPham.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nước giải khát" }));
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSanPhamMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblSanPham);
 
         btnFirst.setText("<<");
 
@@ -90,12 +262,32 @@ public class SanPhamJFrame extends javax.swing.JFrame {
         btnLast.setText(">>");
 
         btnThem.setText("Thêm");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         btnSua.setText("Sửa");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
         btnXoa.setText("Xóa");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
         btnMoi.setText("Mới");
+        btnMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoiActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlWrapperLayout = new javax.swing.GroupLayout(pnlWrapper);
         pnlWrapper.setLayout(pnlWrapperLayout);
@@ -119,9 +311,9 @@ public class SanPhamJFrame extends javax.swing.JFrame {
                                 .addComponent(txtTenSanPham, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(pnlWrapperLayout.createSequentialGroup()
                         .addComponent(btnThem)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(14, 14, 14)
+                        .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -201,6 +393,46 @@ public class SanPhamJFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        // TODO add your handling code here:
+        insert();
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        // TODO add your handling code here:
+        update();
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
+        delete();
+    }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
+        // TODO add your handling code here:
+        clear();
+    }//GEN-LAST:event_btnMoiActionPerformed
+
+    private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 1) {
+            this.index = tblSanPham.rowAtPoint(evt.getPoint());
+            if (this.index >= 0) {
+                this.edit();
+            }
+        }
+
+    }//GEN-LAST:event_tblSanPhamMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        fillCombobox();
+        load();
+        clear();
+        setStatus(true);
+
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
