@@ -6,10 +6,13 @@
 package view;
 
 import DAO.BanDAO;
+import DAO.KhuVucDAO;
 import helper.DialogHelper;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import model.Ban;
+import model.KhuVuc;
 
 /**
  *
@@ -19,6 +22,7 @@ public class BanJFrame extends javax.swing.JFrame {
 
     int index = 0;
     BanDAO dao = new BanDAO();
+    KhuVucDAO kvdao = new KhuVucDAO();
 
     /**
      * Creates new form BanJFrame
@@ -30,15 +34,127 @@ public class BanJFrame extends javax.swing.JFrame {
     }
 
     void load() {
-        DefaultTableModel model = (DefaultTableModel)tblBan.getModel();
+        DefaultTableModel model = (DefaultTableModel) tblBan.getModel();
         model.setRowCount(0);
         try {
             List<Ban> list = dao.select();
             for (Ban ban : list) {
                 Object[] row = {
                     ban.getMaBan(),
-                    ban.getMaKhuvuc(),};
+                    ban.getMaKhuvuc(),
+                    ban.isTrangThai()
+                };
                 model.addRow(row);
+            }
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi truy vấn dữ liệu!");
+        }
+    }
+
+    void setModel(Ban model) {
+        try {
+            txtMaBan.setText(String.valueOf(model.getMaBan()));
+            cboKhuVuc.setToolTipText(String.valueOf(model.getMaKhuvuc()));
+            KhuVuc cd = kvdao.findById(model.getMaKhuvuc());
+            cboKhuVuc.setSelectedItem(cd.getTenKhuVuc());
+        } catch (Exception e) {
+        }
+
+    }
+
+    Ban getModel() {
+        Ban model = new Ban();
+        KhuVuc khuVuc = new KhuVuc();
+        model.setMaBan(Integer.valueOf(txtMaBan.getText()));
+        String tenKhuVuc = (String) cboKhuVuc.getSelectedItem();
+        KhuVuc kv = kvdao.findByName(tenKhuVuc);
+        model.setMaKhuvuc(kv.getMaKhuVuc());
+        return model;
+
+    }
+
+    void setStatus(boolean insertable) {
+        btnThem.setEnabled(insertable);
+        btnSua.setEnabled(!insertable);
+        btnXoa.setEnabled(!insertable);
+
+        boolean first = this.index > 0;
+        boolean last = this.index < tblBan.getRowCount() - 1;
+        btnFirst.setEnabled(!insertable && first);
+        btnPrev.setEnabled(!insertable && first);
+        btnNext.setEnabled(!insertable && last);
+        btnLast.setEnabled(!insertable && last);
+    }
+
+    void clear() {
+        Ban model = new Ban();
+        String khuVuc = (String) cboKhuVuc.getSelectedItem();
+        KhuVuc a = kvdao.findByName(khuVuc);
+        model.setMaKhuvuc(a.getMaKhuVuc());
+        this.setModel(model);
+        this.setStatus(true);
+        this.cboKhuVuc.setSelectedIndex(0);
+
+    }
+
+    void edit() {
+        try {
+            Integer maBan = (Integer) tblBan.getValueAt(this.index, 0);
+            Ban model = dao.findById(maBan);
+            if (model != null) {
+                this.setModel(model);
+                this.setStatus(false);
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    void insert() {
+        Ban model = getModel();
+        try {
+            dao.insert(model);
+            this.load();
+            this.clear();
+            DialogHelper.setInfinity(lblThongBao, "Thêm mới thành công!");
+            System.out.println(txtMaBan.getText());
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Thêm mới thất bại!");
+            System.out.println(e.toString());
+        }
+    }
+
+    void update() {
+        Ban model = getModel();
+        try {
+            dao.update(model);
+            this.load();
+            DialogHelper.setInfinity(lblThongBao, "Thêm mới thành công!");
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Thêm mới thất bại!");
+        }
+    }
+
+    void delete(Integer maBan) {
+        if (DialogHelper.confirm(this, "Bạn thực sự muốn xóa bàn này?")) {
+            try {
+                dao.delete(maBan);
+                this.load();
+                this.clear();
+                DialogHelper.setInfinity(lblThongBao, "Xóa thành công!");
+            } catch (Exception e) {
+                DialogHelper.alert(this, "Xóa thất bại!");
+                System.out.println(e.toString());
+            }
+        }
+    }
+
+    void fillComboBox() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cboKhuVuc.getModel();
+        model.removeAllElements();
+        try {
+            List<KhuVuc> list = kvdao.select();
+            for (KhuVuc kv : list) {
+                model.addElement(kv.getTenKhuVuc());
             }
         } catch (Exception e) {
             DialogHelper.alert(this, "Lỗi truy vấn dữ liệu!");
@@ -70,8 +186,14 @@ public class BanJFrame extends javax.swing.JFrame {
         btnNext = new javax.swing.JButton();
         btnPrev = new javax.swing.JButton();
         btnFirst = new javax.swing.JButton();
+        lblThongBao = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         lblTitle.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -87,26 +209,79 @@ public class BanJFrame extends javax.swing.JFrame {
             new String [] {
                 "Mã bàn", "Mã khu vực", "Trạng thái"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblBan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblBanMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblBan);
 
         lblMaBan.setText("Mã bàn");
 
         btnXoa.setText("Xóa");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
         btnMoi.setText("Mới");
+        btnMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoiActionPerformed(evt);
+            }
+        });
 
         btnSua.setText("Sửa");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
         btnThem.setText("Thêm");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         btnLast.setText(">>");
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
 
         btnNext.setText(">|");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
 
         btnPrev.setText("|<");
+        btnPrev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrevActionPerformed(evt);
+            }
+        });
 
         btnFirst.setText("<<");
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlWallpaperLayout = new javax.swing.GroupLayout(pnlWallpaper);
         pnlWallpaper.setLayout(pnlWallpaperLayout);
@@ -145,13 +320,19 @@ public class BanJFrame extends javax.swing.JFrame {
                         .addGap(77, 77, 77)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45))
+            .addGroup(pnlWallpaperLayout.createSequentialGroup()
+                .addGap(405, 405, 405)
+                .addComponent(lblThongBao)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlWallpaperLayout.setVerticalGroup(
             pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlWallpaperLayout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(lblTitle)
-                .addGap(43, 43, 43)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblThongBao)
+                .addGap(20, 20, 20)
                 .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnlWallpaperLayout.createSequentialGroup()
                         .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -191,6 +372,68 @@ public class BanJFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        // TODO add your handling code here:
+        insert();
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void tblBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBanMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 1) {
+            this.index = tblBan.rowAtPoint(evt.getPoint());
+            if (this.index >= 0) {
+                this.edit();
+            }
+        }
+    }//GEN-LAST:event_tblBanMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        this.fillComboBox();
+        this.load();
+        this.setStatus(true);
+    }//GEN-LAST:event_formWindowOpened
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        // TODO add your handling code here:
+        update();
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
+        delete(Integer.parseInt(txtMaBan.getText()));
+        this.load();
+    }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
+        // TODO add your handling code here:
+        clear();
+    }//GEN-LAST:event_btnMoiActionPerformed
+
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        // TODO add your handling code here:
+        this.index = 0;
+        this.edit();
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
+        // TODO add your handling code here:
+        this.index--;
+        this.edit();
+    }//GEN-LAST:event_btnPrevActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        // TODO add your handling code here:
+        this.index++;
+        this.edit();
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        // TODO add your handling code here:
+        this.index = tblBan.getRowCount() - 1;
+        this.edit();
+    }//GEN-LAST:event_btnLastActionPerformed
 
     /**
      * @param args the command line arguments
@@ -240,6 +483,7 @@ public class BanJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblMaBan;
     private javax.swing.JLabel lblMaKhuVuc;
+    private javax.swing.JLabel lblThongBao;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JPanel pnlWallpaper;
     private javax.swing.JTable tblBan;

@@ -39,8 +39,12 @@ public class CaLamViecDAO {
 
     public void delete(Integer maCaLamViec) {
         String sql = "DELETE FROM CaLamViec WHERE MaCaLV=?";
-        Jdbc.executeQuery(sql, maCaLamViec);
+        Jdbc.executeUpdate(sql, maCaLamViec);
     }
+//    public void delete(Integer maCaLamViec) {
+//        String sql = "DELETE FROM CaLamViec WHERE MaCaLV=?";
+//        Jdbc.executeQuery(sql, maCaLamViec);
+//    }
 
     private CaLamViec readFromResultSet(ResultSet rs) throws SQLException {
         CaLamViec model = new CaLamViec();
@@ -76,9 +80,9 @@ public class CaLamViecDAO {
         return select(sql);
     }
 
-    public CaLamViec findById(int maKhuVuc) {
+    public CaLamViec findById(int maCaLamViec) {
         String sql = "SELECT * FROM CaLamviec WHERE MaCaLV=?";
-        List<CaLamViec> list = select(sql, maKhuVuc);
+        List<CaLamViec> list = select(sql, maCaLamViec);
         return list.size() > 0 ? list.get(0) : null;
     }
 }
