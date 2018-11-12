@@ -54,7 +54,7 @@ public class BanJFrame extends javax.swing.JFrame {
     void setModel(Ban model) {
         try {
             txtMaBan.setText(String.valueOf(model.getMaBan()));
-            cboKhuVuc.setToolTipText(String.valueOf(model.getMaKhuvuc()));
+            cboKhuVuc.setSelectedItem(String.valueOf(model.getMaKhuvuc()));
             KhuVuc cd = kvdao.findById(model.getMaKhuvuc());
             cboKhuVuc.setSelectedItem(cd.getTenKhuVuc());
         } catch (Exception e) {
@@ -142,7 +142,7 @@ public class BanJFrame extends javax.swing.JFrame {
                 this.clear();
                 DialogHelper.setInfinity(lblThongBao, "Xóa thành công!");
             } catch (Exception e) {
-                DialogHelper.alert(this, "Xóa thất bại!");
+                DialogHelper.alert(this, "Không thể xóa được vì dữ liệu đã được liên kết!");
                 System.out.println(e.toString());
             }
         }

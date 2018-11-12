@@ -117,7 +117,7 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
                 this.clear();
                 DialogHelper.setInfinity(lblThongBao, "Xóa thành công!");
             } catch (Exception e) {
-                DialogHelper.alert(this, "Không thể xóa được vì dữ liệu đã được liên kết");
+                DialogHelper.alert(this, "Không thể xóa được vì dữ liệu đã được liên kết!");
             }
         }
     }
