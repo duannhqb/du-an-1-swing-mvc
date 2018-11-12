@@ -3,12 +3,32 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/G:/javaproject/DuAn1/du-an-1-swing-mvc/src/view/SanPhamJFrame.java</file>
             <file>file:/G:/javaproject/DuAn1/du-an-1-swing-mvc/src/view/LoaiSanPhamJFrame.java</file>
             <file>file:/G:/javaproject/DuAn1/du-an-1-swing-mvc/src/view/KhoHangJFrame.java</file>
             <file>file:/G:/javaproject/DuAn1/du-an-1-swing-mvc/src/DAO/LoaiSanPhamDAO.java</file>
             <file>file:/G:/javaproject/DuAn1/du-an-1-swing-mvc/src/model/SanPham.java</file>
             <file>file:/G:/javaproject/DuAn1/du-an-1-swing-mvc/src/DAO/SanPhamDAO.java</file>
+=======
+<<<<<<< HEAD
+            <file>file:/C:/Users/Ngoc%20Hai/Documents/NetBeansProjects/DuAn/du-an-1-swing-mvc/src/model/Ban.java</file>
+            <file>file:/C:/Users/Ngoc%20Hai/Documents/NetBeansProjects/DuAn/du-an-1-swing-mvc/src/view/KhuVucJFrame.java</file>
+            <file>file:/C:/Users/Ngoc%20Hai/Documents/NetBeansProjects/DuAn/du-an-1-swing-mvc/src/DAO/BanDAO.java</file>
+            <file>file:/C:/Users/Ngoc%20Hai/Documents/NetBeansProjects/DuAn/du-an-1-swing-mvc/src/view/CaLamViecJFrame.java</file>
+            <file>file:/C:/Users/Ngoc%20Hai/Documents/NetBeansProjects/DuAn/du-an-1-swing-mvc/src/view/BanJFrame.java</file>
+            <file>file:/C:/Users/Ngoc%20Hai/Documents/NetBeansProjects/DuAn/du-an-1-swing-mvc/src/DAO/KhuVucDAO.java</file>
+=======
+<<<<<<< HEAD
+            <file>file:/C:/Users/duann/Documents/NetBeansProjects/DuAnSwing/src/view/NhanVienJFrame.java</file>
+            <file>file:/C:/Users/duann/Documents/NetBeansProjects/DuAnSwing/src/DAO/NhanVienDAO.java</file>
+            <file>file:/C:/Users/duann/Documents/NetBeansProjects/DuAnSwing/src/DAO/CaLamViecDAO.java</file>
+=======
+            <file>file:/C:/Users/Ngoc%20Hai/Documents/NetBeansProjects/DuAn/du-an-1-swing-mvc/src/view/CaLamViecJFrame.java</file>
+            <file>file:/C:/Users/Ngoc%20Hai/Documents/NetBeansProjects/DuAn/du-an-1-swing-mvc/src/view/BanJFrame.java</file>
+>>>>>>> 23ada80dbe196d54c5791d9fde68acb59f40bbbd
+>>>>>>> 8b278349757d7cc4c6077c230c7c33c8b8c62a60
+>>>>>>> bf1c51253b85e847ab31680b923dd63b0e0bcfbf
         </group>
     </open-files>
 </project-private>

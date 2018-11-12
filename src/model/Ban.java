@@ -10,4 +10,44 @@ package model;
  * @author duann
  */
 public class Ban {
+<<<<<<< HEAD
+=======
+
+    private int maBan;
+    private int maKhuvuc;
+    private boolean trangThai = false;
+
+    public Ban() {
+    }
+
+    public Ban(int maBan, int maKhuvuc) {
+        this.maBan = maBan;
+        this.maKhuvuc = maKhuvuc;
+    }
+
+    public int getMaBan() {
+        return maBan;
+    }
+
+    public void setMaBan(int maBan) {
+        this.maBan = maBan;
+    }
+
+    public int getMaKhuvuc() {
+        return maKhuvuc;
+    }
+
+    public void setMaKhuvuc(int maKhuvuc) {
+        this.maKhuvuc = maKhuvuc;
+    }
+
+    public boolean isTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(boolean trangThai) {
+        this.trangThai = trangThai;
+    }
+
+>>>>>>> bf1c51253b85e847ab31680b923dd63b0e0bcfbf
 }

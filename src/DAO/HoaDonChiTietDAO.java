@@ -5,10 +5,78 @@
  */
 package DAO;
 
+import helper.Jdbc;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import model.HoaDonChiTiet;
+
 /**
  *
  * @author duann
  */
 public class HoaDonChiTietDAO {
-    
+
+    public void insert(HoaDonChiTiet model) {
+        String sql = "INSERT INTO HoaDonChiTiet (MaHoaDon, SoLuongSP, MaSanPham) VALUES (?,?,?)";
+        Jdbc.executeUpdate(sql,
+                model.getMaHoaDon(),
+                model.getSoLuongSP(),
+                model.getMaSanPham()
+        );
+    }
+
+    public void update(HoaDonChiTiet model) {
+        String sql = "UPDATE HoaDonChiTiet SET MaHoaDon= ?, SoLuongSP=?, MaSanPham= ? WHERE MaHoaDonCT=?";
+        Jdbc.executeUpdate(sql,
+                model.getMaHoaDon(),
+                model.getSoLuongSP(),
+                model.getMaSanPham(),
+                model.getMaHoaDonCT()
+        );
+    }
+
+    public void delete(String maHoaDonCT) {
+        String sql = "DELETE FROM HoaDonChiTiet WHERE MaHoaDonCT=?";
+        Jdbc.executeUpdate(sql, maHoaDonCT);
+    }
+
+    private HoaDonChiTiet readFormResultSet(ResultSet rs) throws SQLException {
+        HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet();
+        hoaDonChiTiet.setMaHoaDonCT(rs.getInt(1));
+        hoaDonChiTiet.setMaHoaDon(rs.getInt(2));
+        hoaDonChiTiet.setSoLuongSP(rs.getInt(3));
+        hoaDonChiTiet.setMaSanPham(rs.getInt(4));
+        return hoaDonChiTiet;
+    }
+
+    private List<HoaDonChiTiet> select(String sql, Object... args) {
+        List<HoaDonChiTiet> list = new ArrayList<>();
+        try {
+            ResultSet rs = null;
+            try {
+                rs = Jdbc.executeQuery(sql, args);
+                while (rs.next()) {
+                    HoaDonChiTiet hoaDonChiTiet = readFormResultSet(rs);
+                    list.add(hoaDonChiTiet);
+                }
+            } finally {
+                rs.getStatement().getConnection().close();
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
+    public List<HoaDonChiTiet> select() {
+        String sql = "SELECT * FROM HoaDonChiTiet";
+        return select(sql);
+    }
+
+    public HoaDonChiTiet findById() {
+        String sql = "SELECT * FROM HoaDonChiTiet WHERE MaHoaDonCT=?";
+        List<HoaDonChiTiet> list = select(sql);
+        return list.size() > 0 ? list.get(0) : null;
+    }
 }
