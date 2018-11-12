@@ -1,71 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
-  <NonVisualComponents>
-    <Component class="javax.swing.JButton" name="btnthem">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="TH&#xca;M"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnsua">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="S&#x1eec;A"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnxoa">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="X&#xd3;A"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnxoaActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnmoi">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="M&#x1eda;I"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnFirst">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="|&lt;"/>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-            <LineBorder/>
-          </Border>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnPrev">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="&lt;&lt;"/>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-            <LineBorder/>
-          </Border>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnNext">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="&gt;&gt;"/>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-            <LineBorder/>
-          </Border>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnLast">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="&gt;|"/>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-            <LineBorder/>
-          </Border>
-        </Property>
-      </Properties>
-    </Component>
-  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
   </Properties>
@@ -73,6 +8,9 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowOpened" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowOpened"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -88,7 +26,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
               <Component id="pnlWrapper" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
@@ -96,7 +34,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
               <Component id="pnlWrapper" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
           </Group>
@@ -113,25 +51,25 @@
                   <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" attributes="0">
-                          <Component id="btnthem1" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnthem" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="btnsua1" min="-2" pref="65" max="-2" attributes="0"/>
+                          <Component id="btnsua" min="-2" pref="65" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="btnxoa1" min="-2" pref="65" max="-2" attributes="0"/>
+                          <Component id="btnxoa" min="-2" pref="65" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="btnmoi1" min="-2" pref="65" max="-2" attributes="0"/>
+                          <Component id="btnmoi" min="-2" pref="65" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblsanpham" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblsoluong" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblghichu" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="jScrollPane1" pref="304" max="32767" attributes="0"/>
                               <Component id="cboSanPham" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtSoLuong" max="32767" attributes="0"/>
+                              <Component id="txtSoLuong" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -143,39 +81,39 @@
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="btnFirst1" min="-2" pref="59" max="-2" attributes="0"/>
+                          <Component id="btnFirst" min="-2" pref="59" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="btnPrev1" min="-2" pref="59" max="-2" attributes="0"/>
+                          <Component id="btnPrev" min="-2" pref="59" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                          <Component id="btnNext1" min="-2" pref="59" max="-2" attributes="0"/>
+                          <Component id="btnNext" min="-2" pref="59" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="btnLast1" min="-2" pref="59" max="-2" attributes="0"/>
+                          <Component id="btnLast" min="-2" pref="59" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="163" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <Component id="jLabel1" alignment="1" max="32767" attributes="0"/>
+              <Component id="lblTieuDe" alignment="1" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                  <Component id="jLabel1" min="-2" pref="51" max="-2" attributes="0"/>
+                  <Component id="lblTieuDe" min="-2" pref="51" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblsanpham" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cboSanPham" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                              <Component id="btnNext1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnLast1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnNext" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnLast" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnFirst1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnPrev1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnFirst" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnPrev" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -183,20 +121,20 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblsoluong" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtSoLuong" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblghichu" min="-2" max="-2" attributes="0"/>
                               <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnthem1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnsua1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnxoa1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnmoi1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnthem" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnsua" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnxoa" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnmoi" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jScrollPane2" min="-2" pref="189" max="-2" attributes="0"/>
@@ -207,7 +145,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel1">
+        <Component class="javax.swing.JLabel" name="lblTieuDe">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="24" style="0"/>
@@ -216,17 +154,17 @@
             <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n L&#xfd; Kho H&#xe0;ng"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel3">
+        <Component class="javax.swing.JLabel" name="lblsanpham">
           <Properties>
             <Property name="text" type="java.lang.String" value="S&#x1ea3;n Ph&#x1ea9;m:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel6">
+        <Component class="javax.swing.JLabel" name="lblghichu">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ghi Ch&#xfa;:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel7">
+        <Component class="javax.swing.JLabel" name="lblsoluong">
           <Properties>
             <Property name="text" type="java.lang.String" value="S&#x1ed1; L&#x1b0;&#x1ee3;ng:"/>
           </Properties>
@@ -238,7 +176,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="txtghichu">
+            <Component class="javax.swing.JTextArea" name="txtGhiChu">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="rows" type="int" value="5"/>
@@ -253,16 +191,16 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="tblquanlykhohang">
+            <Component class="javax.swing.JTable" name="tblQuanLyKhoHang">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="6" rowCount="0">
-                    <Column editable="true" title="M&#xe3; Kho H&#xe0;ng" type="java.lang.Object"/>
-                    <Column editable="true" title="M&#xe3; S&#x1ea3;n Ph&#x1ea9;m" type="java.lang.Object"/>
+                    <Column editable="false" title="M&#xe3; Kho H&#xe0;ng" type="java.lang.Object"/>
+                    <Column editable="false" title="M&#xe3; S&#x1ea3;n Ph&#x1ea9;m" type="java.lang.Object"/>
                     <Column editable="true" title="M&#xe3; Nh&#xe2;n Vi&#xea;n" type="java.lang.Object"/>
-                    <Column editable="true" title="Ng&#xe0;y Nh&#x1ead;p" type="java.lang.Object"/>
+                    <Column editable="false" title="Ng&#xe0;y Nh&#x1ead;p" type="java.lang.Object"/>
                     <Column editable="true" title="S&#x1ed1; L&#x1b0;&#x1ee3;ng" type="java.lang.Object"/>
-                    <Column editable="true" title="Ghi Ch&#xfa;" type="java.lang.Object"/>
+                    <Column editable="false" title="Ghi Ch&#xfa;" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -303,48 +241,60 @@
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblQuanLyKhoHangMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="btnthem1">
+        <Component class="javax.swing.JButton" name="btnthem">
           <Properties>
             <Property name="text" type="java.lang.String" value="TH&#xca;M"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnthemActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnsua1">
+        <Component class="javax.swing.JButton" name="btnsua">
           <Properties>
             <Property name="text" type="java.lang.String" value="S&#x1eec;A"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnsuaActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnxoa1">
+        <Component class="javax.swing.JButton" name="btnxoa">
           <Properties>
             <Property name="text" type="java.lang.String" value="X&#xd3;A"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnxoa1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnxoaActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnmoi1">
+        <Component class="javax.swing.JButton" name="btnmoi">
           <Properties>
             <Property name="text" type="java.lang.String" value="M&#x1eda;I"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnmoiActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnFirst1">
+        <Component class="javax.swing.JButton" name="btnFirst">
           <Properties>
             <Property name="text" type="java.lang.String" value="|&lt;"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btnPrev1">
+        <Component class="javax.swing.JButton" name="btnPrev">
           <Properties>
             <Property name="text" type="java.lang.String" value="&lt;&lt;"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btnNext1">
+        <Component class="javax.swing.JButton" name="btnNext">
           <Properties>
             <Property name="text" type="java.lang.String" value="&gt;&gt;"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btnLast1">
+        <Component class="javax.swing.JButton" name="btnLast">
           <Properties>
             <Property name="text" type="java.lang.String" value="&gt;|"/>
           </Properties>
@@ -352,16 +302,14 @@
         <Component class="javax.swing.JComboBox" name="cboSanPham">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="1">
-                <StringItem index="0" value="C&#xe0; ph&#xea; s&#x1eef;a s&#xe0;i g&#xf2;n"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JSpinner" name="txtSoLuong">
+        <Component class="javax.swing.JTextField" name="txtSoLuong">
         </Component>
       </SubComponents>
     </Container>

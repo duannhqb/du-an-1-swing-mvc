@@ -9,6 +9,6 @@ package model;
  *
  * @author duann
  */
-public interface GiaoTiepInterface {
+public class KhuVuc {
     
 }

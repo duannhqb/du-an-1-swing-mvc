@@ -3,12 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Users/duann/Documents/NetBeansProjects/DuAnSwing/src/model/Ban.java</file>
-=======
-            <file>file:/G:/javaproject/DuAn1/du-an-1-swing-mvc/src/view/MainJFrame.java</file>
-            <file>file:/G:/javaproject/DuAn1/du-an-1-swing-mvc/src/model/Ban.java</file>
->>>>>>> ce653674b6b9bad3790e5048c2a1537d79f99c0a
+            <file>file:/G:/javaproject/DuAn1/du-an-1-swing-mvc/src/view/SanPhamJFrame.java</file>
+            <file>file:/G:/javaproject/DuAn1/du-an-1-swing-mvc/src/view/LoaiSanPhamJFrame.java</file>
+            <file>file:/G:/javaproject/DuAn1/du-an-1-swing-mvc/src/view/KhoHangJFrame.java</file>
+            <file>file:/G:/javaproject/DuAn1/du-an-1-swing-mvc/src/DAO/LoaiSanPhamDAO.java</file>
+            <file>file:/G:/javaproject/DuAn1/du-an-1-swing-mvc/src/model/SanPham.java</file>
+            <file>file:/G:/javaproject/DuAn1/du-an-1-swing-mvc/src/DAO/SanPhamDAO.java</file>
         </group>
     </open-files>
 </project-private>

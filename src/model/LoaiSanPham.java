@@ -7,6 +7,7 @@ package model;
 
 /**
  *
+
  * @author Admin
  */
 public class LoaiSanPham {
@@ -37,5 +38,6 @@ public class LoaiSanPham {
     public void setTenLoaiSP(String tenLoaiSP) {
         this.tenLoaiSP = tenLoaiSP;
     }
+
 
 }

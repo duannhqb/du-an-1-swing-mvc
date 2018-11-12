@@ -5,6 +5,7 @@
  */
 package model;
 
+
 import java.util.Date;
 
 /**
@@ -89,7 +90,4 @@ public class KhoHang {
         this.hanSuDung = hanSuDung;
     }
  
-
-    
-    
 }
