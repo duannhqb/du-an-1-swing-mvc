@@ -60,7 +60,10 @@ public class KhuVucJFrame extends javax.swing.JFrame {
         model.setTenKhuVuc(txtTenKhuVuc.getText());
         model.setViTri(txtViTri.getText());
         model.setGhiChu(txtGhiChu.getText());
+        if(txtTenKhuVuc.getToolTipText()!=null){
+            
         model.setMaKhuVuc(Integer.parseInt(txtTenKhuVuc.getToolTipText()));
+        }
         return model;
     }
 
