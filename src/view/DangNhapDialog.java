@@ -5,11 +5,18 @@
  */
 package view;
 
+import DAO.NhanVienDAO;
+import helper.DialogHelper;
+import helper.ShareHelper;
+import model.NhanVien;
+
 /**
  *
  * @author NgọcHải
  */
 public class DangNhapDialog extends javax.swing.JDialog {
+
+    NhanVienDAO dao = new NhanVienDAO();
 
     /**
      * Creates new form DangNhapDialog
@@ -18,6 +25,38 @@ public class DangNhapDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+    }
+
+    void login() {
+        String email= txtTenDangNhap.getText();
+        String matKhau = new String(txtMatKhau.getPassword());
+        try {
+            NhanVien model = dao.findByEmail(email);
+            if (model != null) {
+                String matKhau2 = model.getMatKhau();
+                if (matKhau.equals(matKhau2)) {
+                    try {
+                        ShareHelper.USER = model;
+                    } catch (Exception e) {
+                        System.out.println(e.toString());
+                    }
+                    DialogHelper.alert(this, "Đăng nhập thành công!");
+                    this.dispose();
+                } else {
+                    DialogHelper.alert(this, "Sai mật khẩu!");
+                }
+            } else {
+                DialogHelper.alert(this, "Sai tên đăng nhập!");
+            }
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi truy vấn dữ liệu");
+        }
+    }
+
+    void exit() {
+        if (DialogHelper.confirm(this, "Bạn có muốn thoát khỏi ứng dụng không!")) {
+            System.exit(0);
+        }
     }
 
     /**
@@ -56,8 +95,18 @@ public class DangNhapDialog extends javax.swing.JDialog {
         lblMatKhau.setText("Mật khẩu");
 
         btnDangNhap.setText("Đăng nhập");
+        btnDangNhap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDangNhapActionPerformed(evt);
+            }
+        });
 
         btnKetThuc.setText("Kết thúc");
+        btnKetThuc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKetThucActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,6 +153,16 @@ public class DangNhapDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
+        // TODO add your handling code here:
+        login();
+    }//GEN-LAST:event_btnDangNhapActionPerformed
+
+    private void btnKetThucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKetThucActionPerformed
+        // TODO add your handling code here:
+        exit();
+    }//GEN-LAST:event_btnKetThucActionPerformed
 
     /**
      * @param args the command line arguments

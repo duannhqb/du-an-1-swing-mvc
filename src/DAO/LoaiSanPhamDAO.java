@@ -26,15 +26,15 @@ public class LoaiSanPhamDAO {
     }
 
     public void update(LoaiSanPham model) {
-        String sql = "UPDATE LoaiSanPham TenLoaiSP=? WHERE MaLoaiSP=?";
+        String sql = "UPDATE LoaiSanPham SET TenLoaiSP=? WHERE MaLoaiSP=?";
         Jdbc.executeUpdate(sql,
                 model.getTenLoaiSP(),
                 model.getMaLoaiSP());
     }
 
-    public void delete(String maLoaiSP) {
+    public void delete(int maLoaiSP) {
         String sql = "DELETE FROM LoaiSanPham WHERE MaLoaiSP=?";
-        Jdbc.executeUpdate(sql);
+        Jdbc.executeUpdate(sql,maLoaiSP);
     }
 
     private LoaiSanPham readFormResultSet(ResultSet rs) throws SQLException {
@@ -73,6 +73,7 @@ public class LoaiSanPhamDAO {
         List<LoaiSanPham> list = select(sql, maLoaiSP);
         return list.size() > 0 ? list.get(0) : null;
     }
+
     public LoaiSanPham findByName(String tenLoaiSP) {
         String sql = "SELECT * FROM LoaiSanPham WHERE TenLoaiSP=?";
         List<LoaiSanPham> list = select(sql, tenLoaiSP);

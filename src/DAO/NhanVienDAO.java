@@ -125,4 +125,10 @@ public class NhanVienDAO {
         return list.size() > 0 ? list.get(0) : null;
     }
 
+    public NhanVien findByEmail(String email) {
+        String sql = "SELECT * FROM NhanVien Where Email=?  and MatKhau=?";
+        List<NhanVien> list = select(sql, email);
+        return list.size() > 0 ? list.get(0) : null;
+    }
+
 }

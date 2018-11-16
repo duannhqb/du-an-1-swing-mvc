@@ -5,6 +5,8 @@
  */
 package view;
 
+import helper.DialogHelper;
+import helper.ShareHelper;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -32,6 +34,93 @@ public class MainJFrame extends javax.swing.JFrame {
             }
 
         }).start();
+    }
+
+    void openLogin() {
+        new DangNhapDialog(this, true).setVisible(true);
+    }
+
+    void openWelcome() {
+        new ChaoDialog(this, true).setVisible(true);
+    }
+
+    void openAbout() {
+        new GioiThieuDialog(this, true).setVisible(true);
+    }
+
+    void logOff() {
+        ShareHelper.logOff();
+        this.openLogin();
+    }
+
+    void exit() {
+        if (DialogHelper.confirm(this, "Bạn thực sự muốn kết thúc?")) {
+            System.exit(0);
+        }
+    }
+
+    void openBan() {
+        if (ShareHelper.authenticated()) {
+            new BanJFrame().setVisible(true);
+        } else {
+            DialogHelper.alert(this, "Vui long đăng nhập!");
+        }
+    }
+
+    void openKhuVuc() {
+        if (ShareHelper.authenticated()) {
+            new KhuVucJFrame().setVisible(true);
+        } else {
+            DialogHelper.alert(this, "Vui long đăng nhập!");
+        }
+    }
+
+    void openCaLamViec() {
+        if (ShareHelper.authenticated()) {
+            new CaLamViecJFrame().setVisible(true);
+        } else {
+            DialogHelper.alert(this, "Vui long đăng nhập!");
+        }
+    }
+
+    void openNhanVien() {
+        if (ShareHelper.authenticated()) {
+            new NhanVienJFrame().setVisible(true);
+        } else {
+            DialogHelper.alert(this, "Vui long đăng nhập!");
+        }
+    }
+
+    void openKhoHang() {
+        if (ShareHelper.authenticated()) {
+            new KhoHangJFrame().setVisible(true);
+        } else {
+            DialogHelper.alert(this, "Vui long đăng nhập!");
+        }
+    }
+
+    void openSanPham() {
+        if (ShareHelper.authenticated()) {
+            new SanPhamJFrame().setVisible(true);
+        } else {
+            DialogHelper.alert(this, "Vui long đăng nhập!");
+        }
+    }
+
+    void openHoaDon() {
+        if (ShareHelper.authenticated()) {
+            new HoaDonJFrame().setVisible(true);
+        } else {
+            DialogHelper.alert(this, "Vui long đăng nhập!");
+        }
+    }
+
+    void openLoaiSanPham() {
+        if (ShareHelper.authenticated()) {
+            new LoaiSanPhamJFrame().setVisible(true);
+        } else {
+            DialogHelper.alert(this, "Vui long đăng nhập!");
+        }
     }
 
     /**
