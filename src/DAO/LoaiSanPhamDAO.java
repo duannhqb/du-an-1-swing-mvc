@@ -26,11 +26,7 @@ public class LoaiSanPhamDAO {
     }
 
     public void update(LoaiSanPham model) {
-<<<<<<< HEAD
         String sql = "UPDATE LoaiSanPham SET TenLoaiSP=? WHERE MaLoaiSP=?";
-=======
-        String sql = "UPDATE LoaiSanPham set TenLoaiSp=? WHERE MaLoaiSP=?";
->>>>>>> 697c0e6908ea5220acda662c457d21dc750e289d
         Jdbc.executeUpdate(sql,
                 model.getTenLoaiSP(),
                 model.getMaLoaiSP());
@@ -38,7 +34,7 @@ public class LoaiSanPhamDAO {
 
     public void delete(int maLoaiSP) {
         String sql = "DELETE FROM LoaiSanPham WHERE MaLoaiSP=?";
-        Jdbc.executeUpdate(sql,maLoaiSP);
+        Jdbc.executeUpdate(sql, maLoaiSP);
     }
 
     private LoaiSanPham readFormResultSet(ResultSet rs) throws SQLException {

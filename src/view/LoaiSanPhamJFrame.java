@@ -67,11 +67,8 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         try {
             dao.update(model);
             this.load();
-<<<<<<< HEAD
             DialogHelper.alert(this, "Cập nhâp thành công");
-=======
-            DialogHelper.alert(this , "Cập nhật thành công");
->>>>>>> 697c0e6908ea5220acda662c457d21dc750e289d
+
         } catch (Exception e) {
             DialogHelper.alert(this, "Cập nhật thất bại");
             System.out.println(e.toString());
