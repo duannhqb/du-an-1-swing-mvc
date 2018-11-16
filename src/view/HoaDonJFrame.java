@@ -33,7 +33,6 @@ public class HoaDonJFrame extends javax.swing.JFrame {
         lblSanPham = new javax.swing.JLabel();
         lblBan = new javax.swing.JLabel();
         lblSoLuong = new javax.swing.JLabel();
-        txtSoLuong = new javax.swing.JSpinner();
         cboSanPham = new javax.swing.JComboBox<>();
         cboBan = new javax.swing.JComboBox<>();
         lblThanhTien = new javax.swing.JLabel();
@@ -51,6 +50,7 @@ public class HoaDonJFrame extends javax.swing.JFrame {
         btnPrev = new javax.swing.JButton();
         btnNext = new javax.swing.JButton();
         btnLast = new javax.swing.JButton();
+        txtSoLuong = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,10 +63,6 @@ public class HoaDonJFrame extends javax.swing.JFrame {
         lblBan.setText("Bàn");
 
         lblSoLuong.setText("Số lượng");
-
-        cboSanPham.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cà phê sữa sài gòn" }));
-
-        cboBan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A1" }));
 
         lblThanhTien.setText("Thành tiền");
 
@@ -127,10 +123,10 @@ public class HoaDonJFrame extends javax.swing.JFrame {
                         .addGap(48, 48, 48)
                         .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cboSanPham, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtSoLuong)
                             .addComponent(cboBan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtThanhTien)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                            .addComponent(txtSoLuong)))
                     .addGroup(pnlWrapperLayout.createSequentialGroup()
                         .addGap(73, 73, 73)
                         .addComponent(btnThem)
@@ -161,14 +157,15 @@ public class HoaDonJFrame extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addComponent(lblTieuDe)
                 .addGap(40, 40, 40)
-                .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblSanPham)
-                    .addComponent(cboSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnFirst)
                         .addComponent(btnLast)
                         .addComponent(btnPrev)
-                        .addComponent(btnNext)))
+                        .addComponent(btnNext))
+                    .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblSanPham)
+                        .addComponent(cboSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlWrapperLayout.createSequentialGroup()
@@ -276,7 +273,7 @@ public class HoaDonJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel pnlWrapper;
     private javax.swing.JTable tblHoaDon;
     private javax.swing.JTextArea txtGhiChu;
-    private javax.swing.JSpinner txtSoLuong;
+    private javax.swing.JTextField txtSoLuong;
     private javax.swing.JTextField txtThanhTien;
     // End of variables declaration//GEN-END:variables
 }

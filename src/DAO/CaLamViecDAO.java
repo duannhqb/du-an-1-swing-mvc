@@ -41,11 +41,7 @@ public class CaLamViecDAO {
         String sql = "DELETE FROM CaLamViec WHERE MaCaLV=?";
         Jdbc.executeUpdate(sql, maCaLamViec);
     }
-//    public void delete(Integer maCaLamViec) {
-//        String sql = "DELETE FROM CaLamViec WHERE MaCaLV=?";
-//        Jdbc.executeQuery(sql, maCaLamViec);
-//    }
-
+    
     private CaLamViec readFromResultSet(ResultSet rs) throws SQLException {
         CaLamViec model = new CaLamViec();
         model.setMaCaLamViec(rs.getInt(1));

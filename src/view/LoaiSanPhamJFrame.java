@@ -67,9 +67,14 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         try {
             dao.update(model);
             this.load();
+<<<<<<< HEAD
             DialogHelper.alert(this, "Cập nhâp thành công");
+=======
+            DialogHelper.alert(this , "Cập nhật thành công");
+>>>>>>> 697c0e6908ea5220acda662c457d21dc750e289d
         } catch (Exception e) {
-            DialogHelper.alert(this, "Cập nhập thất bại");
+            DialogHelper.alert(this, "Cập nhật thất bại");
+            System.out.println(e.toString());
         }
     }
 
@@ -112,6 +117,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
 
     LoaiSanPham getModel() {
         LoaiSanPham model = new LoaiSanPham();
+        model.setMaLoaiSP((int) tblLoaiSanPham.getValueAt(this.index , 0));
         model.setTenLoaiSP(txtLoaiSanPham.getText());
         model.setMaLoaiSP(Integer.parseInt(txtLoaiSanPham.getToolTipText()));
         return model;
@@ -142,6 +148,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         txtLoaiSanPham = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Quản lý loại sản phẩm");
 
         lblTieuDe.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         lblTieuDe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -155,7 +162,15 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
             new String [] {
                 "Mã Loại Sản Phẩm", "Tên Loại Sản Phẩm"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblLoaiSanPham.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tblLoaiSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

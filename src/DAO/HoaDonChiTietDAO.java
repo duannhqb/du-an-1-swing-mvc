@@ -18,19 +18,18 @@ import model.HoaDonChiTiet;
  */
 public class HoaDonChiTietDAO {
 
-    public void insert(HoaDonChiTiet model) {
+    public void insert(HoaDonChiTiet model, int maHoaDon) {
         String sql = "INSERT INTO HoaDonChiTiet (MaHoaDon, SoLuongSP, MaSanPham) VALUES (?,?,?)";
         Jdbc.executeUpdate(sql,
-                model.getMaHoaDon(),
+                maHoaDon,
                 model.getSoLuongSP(),
                 model.getMaSanPham()
         );
     }
 
     public void update(HoaDonChiTiet model) {
-        String sql = "UPDATE HoaDonChiTiet SET MaHoaDon= ?, SoLuongSP=?, MaSanPham= ? WHERE MaHoaDonCT=?";
+        String sql = "UPDATE HoaDonChiTiet SET SoLuongSP=?, MaSanPham= ? WHERE MaHoaDonCT=?";
         Jdbc.executeUpdate(sql,
-                model.getMaHoaDon(),
                 model.getSoLuongSP(),
                 model.getMaSanPham(),
                 model.getMaHoaDonCT()

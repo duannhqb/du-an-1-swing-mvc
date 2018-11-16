@@ -8,7 +8,6 @@ package view;
 import DAO.CaLamViecDAO;
 import DAO.NhanVienDAO;
 import helper.DialogHelper;
-import helper.ShareHelper;
 import helper.XDate;
 import java.util.List;
 import javax.swing.ButtonGroup;
@@ -177,9 +176,14 @@ public class NhanVienJFrame extends javax.swing.JFrame {
 
     private void insert() {
         NhanVien model = getModel();
-        dao.insert(model);
-        this.load();
-        this.clear();
+        try {
+            dao.insert(model);
+            this.load();
+            this.clear();
+            DialogHelper.setInfinity(lblMsg, "Thêm mới thành công!");
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Thêm mới thất bại!");
+        }
     }
 
     void update() {
@@ -263,7 +267,8 @@ public class NhanVienJFrame extends javax.swing.JFrame {
         cboLoaiTimKiem = new javax.swing.JComboBox<>();
         btnDiemDanh = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Quản lý nhân viên");
 
         lblTieuDe.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         lblTieuDe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
