@@ -8,10 +8,13 @@ package view;
 import DAO.KhoHangDAO;
 import DAO.SanPhamDAO;
 import helper.DialogHelper;
+import helper.ShareHelper;
+import helper.XDate;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import model.KhoHang;
+import model.NhanVien;
 import model.SanPham;
 
 /**
@@ -26,7 +29,6 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     public KhoHangJFrame() {
         initComponents();
         setLocationRelativeTo(null);
-        init();
         load();
     }
     int index = 0;
@@ -57,7 +59,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
             for (KhoHang kh : list) {
                 Object[] row = {
                     kh.getMaKhoHang(),
-                    kh.getMaSanPham(),
+                    spdao.findById(kh.getMaSanPham()).getTenSanPham(),
                     kh.getMaNhanVien(),
                     kh.getNgayNhap(),
                     kh.getSoLuong(),
@@ -77,9 +79,11 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         try {
             dao.insert(model);
             this.load();
+            this.clear();
             DialogHelper.alert(this, "Thêm mới thành công!");
         } catch (Exception e) {
             DialogHelper.alert(this, "Thêm mới thất bại!");
+            System.out.println(e.toString());
         }
     }
 
@@ -88,6 +92,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         try {
             dao.update(model);
             this.load();
+            this.clear();
             DialogHelper.alert(this, "Cập nhập thành công!");
         } catch (Exception e) {
             DialogHelper.alert(this, "Cập nhập thất bại!");
@@ -96,23 +101,26 @@ public class KhoHangJFrame extends javax.swing.JFrame {
 
     void delete() {
         if (DialogHelper.confirm(this, "Bạn thực sự muôn xóa Kho Hàng này!")) {
-            String makh = String.valueOf(cboSanPham.getToolTipText());
+            Integer makh = Integer.valueOf(cboSanPham.getToolTipText());
             try {
-                
+                dao.delete(makh);
                 this.load();
+                this.clear();
                 DialogHelper.alert(this, "Xóa thành công!");
             } catch (Exception e) {
                 DialogHelper.alert(this, "Xóa thất bại!");
             }
+
         }
     }
 
     void clear() {
         KhoHang model = new KhoHang();
-        SanPham sanpham = (SanPham) cboSanPham.getSelectedItem();
-        model.setMaSanPham(sanpham.getMaSanPham());
+        String sanpham = (String) cboSanPham.getSelectedItem();
+        SanPham sp = spdao.findByName(sanpham);
         model.setSoLuong(model.getSoLuong());
         model.setGhiChu(model.getGhiChu());
+        this.cboSanPham.setSelectedItem(0);
         this.setModel(model);
     }
 
@@ -129,33 +137,46 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     }
 
     void setModel(KhoHang model) {
-        cboSanPham.setSelectedItem(spdao.findById(model.getMaSanPham()).getTenSanPham());
+        txtSoLuong.setToolTipText(String.valueOf(model.getMaKhoHang()));
+        cboSanPham.setToolTipText(String.valueOf(model.getMaKhoHang()));
+        SanPham sp = spdao.findById(model.getMaSanPham());
+//        cboSanPham.setSelectedItem(sp.getTenSanPham());
         txtSoLuong.setText(String.valueOf(model.getSoLuong()));
         txtGhiChu.setText(model.getGhiChu());
     }
 
     KhoHang getModel() {
-        KhoHang model = new KhoHang();
-        SanPham sanpham = new SanPham();
-        model.setMaSanPham(sanpham.getMaSanPham());
-//        model.setMaSanPham(dao.findByName((int) cboSanPham.getSelectedItem()).getMaSanPham());
-        model.setSoLuong(Integer.valueOf(txtSoLuong.getText()) );
-        model.setGhiChu(txtGhiChu.getText());
-        return model;
+
+        KhoHang khoHang = new KhoHang();
+        SanPham sanPham = new SanPham();
+        String tenSanPham = (String) cboSanPham.getSelectedItem();
+        SanPham sp = spdao.findByName(tenSanPham);
+        khoHang.setMaKhoHang(Integer.valueOf(txtSoLuong.getToolTipText()));
+        khoHang.setMaSanPham(Integer.valueOf(txtSoLuong.getToolTipText()));
+        khoHang.setMaNhanVien(Integer.valueOf(txtSoLuong.getToolTipText()));
+        khoHang.setMaKhoHang(khoHang.getMaKhoHang());
+        khoHang.setMaSanPham(sp.getMaSanPham());
+        khoHang.setMaNhanVien(4);
+//        khoHang.setMaNhanVien(ShareHelper.USER.getMaNhanVien());
+        khoHang.setNgayNhap(XDate.now());
+        khoHang.setSoLuong(Integer.valueOf(txtSoLuong.getText()));
+        khoHang.setGhiChu(txtGhiChu.getText());
+        khoHang.setHanSuDung(XDate.add(30)); // hạn sử dụng 1 tháng kể từ ngày thêm 
+
+        return khoHang;
     }
 
     void setStatus(boolean insertable) {
         btnthem.setEnabled(insertable);
         btnsua.setEnabled(insertable);
         btnxoa.setEnabled(insertable);
+        btnmoi.setEnabled(insertable);
         boolean first = this.index > 0;
         boolean last = this.index < tblQuanLyKhoHang.getRowCount() - 1;
         btnNext.setEnabled(!insertable && last);
         btnLast.setEnabled(!insertable && last);
         btnFirst.setEnabled(!insertable && first);
         btnPrev.setEnabled(!insertable && first);
-        
-        // boolean insertable dùng để ẩn các nút thêm sửa xóa
 
     }
 
@@ -215,11 +236,11 @@ public class KhoHangJFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Mã Kho Hàng", "Mã Sản Phẩm", "Mã Nhân Viên", "Ngày Nhập", "Số Lượng", "Ghi Chú"
+                "Mã Kho Hàng", "Tên Sản Phẩm", "Mã Nhân Viên", "Ngày Nhập", "Số Lượng", "Ghi Chú"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true, false, true, false
+                false, false, false, true, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -329,7 +350,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
                             .addComponent(btnFirst)
                             .addComponent(btnPrev))))
                 .addGap(18, 18, 18)
-                .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnlWrapperLayout.createSequentialGroup()
                         .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblsoluong)
@@ -344,7 +365,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
                             .addComponent(btnsua)
                             .addComponent(btnxoa)
                             .addComponent(btnmoi)))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
@@ -389,9 +410,9 @@ public class KhoHangJFrame extends javax.swing.JFrame {
 
     private void tblQuanLyKhoHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQuanLyKhoHangMouseClicked
         // TODO add your handling code here:
-        if (evt.getClickCount() == 1){
+        if (evt.getClickCount() == 1) {
             this.index = tblQuanLyKhoHang.rowAtPoint(evt.getPoint());
-            if (this.index >=0){
+            if (this.index >= 0) {
                 this.edit();
             }
         }
@@ -400,6 +421,9 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         fillCombobox();
+        load();
+        clear();
+        setStatus(true);
     }//GEN-LAST:event_formWindowOpened
 
     /**

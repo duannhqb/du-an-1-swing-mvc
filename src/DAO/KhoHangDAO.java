@@ -30,19 +30,16 @@ public class KhoHangDAO {
     }
 
     public void update(KhoHang model) {
-        String sql = "UPDATE KhoHang SET MaSanPham=?, NgayNhap=?, MaNhanVien=?, SoLuong=?, GhiChu=?, HanSuDung=? WHERE MaKhoHang=?";
+        String sql = "UPDATE KhoHang SET MaSanPham=?, SoLuong=?, GhiChu=? WHERE MaKhoHang=?";
         Jdbc.executeUpdate(sql,
                 model.getMaSanPham(),
-                model.getNgayNhap(),
-                model.getMaNhanVien(),
                 model.getSoLuong(),
                 model.getGhiChu(),
-                model.getHanSuDung(),
                 model.getMaKhoHang());
     }
 
     public void delete(int MaKhoHang) {
-        String sql = "DELETE FROM KhoHang WHERE MaSanPham=?";
+        String sql = "DELETE FROM KhoHang WHERE MaKhoHang=?";
         Jdbc.executeUpdate(sql, MaKhoHang);
     }
 
@@ -89,9 +86,9 @@ public class KhoHangDAO {
         return list.size() > 0 ? list.get(0) : null;
     }
 
-    public KhoHang findByName(int name) {
-        String sql = "SELECT * FROM KhoHang WHERE HoTen like ?";
-        List<KhoHang> list = select(sql, name);
+    public KhoHang findByName(String khohang) {
+        String sql = "SELECT * FROM KhoHang WHERE MaKhoHang like ?";
+        List<KhoHang> list = select(sql, khohang);
         return list.size() > 0 ? list.get(0) : null;
     }
 

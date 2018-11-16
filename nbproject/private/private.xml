@@ -5,6 +5,9 @@
 <<<<<<< HEAD
         <group/>
 =======
+<<<<<<< HEAD
+        <group/>
+=======
         <group>
             <file>file:/C:/Users/duann/Documents/NetBeansProjects/DuAnSwing/src/DAO/HoaDonChiTietDAO.java</file>
             <file>file:/C:/Users/duann/Documents/NetBeansProjects/DuAnSwing/src/view/DanhMucJFrame.java</file>
@@ -12,5 +15,6 @@
             <file>file:/C:/Users/duann/Documents/NetBeansProjects/DuAnSwing/src/DAO/HoaDonDAO.java</file>
         </group>
 >>>>>>> 697c0e6908ea5220acda662c457d21dc750e289d
+>>>>>>> 37414f2552fc5fbf1b6c6b66028ea39e24ba31df
     </open-files>
 </project-private>

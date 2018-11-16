@@ -27,6 +27,16 @@ public class LoaiSanPhamDAO {
 
     public void update(LoaiSanPham model) {
         String sql = "UPDATE LoaiSanPham SET TenLoaiSP=? WHERE MaLoaiSP=?";
+<<<<<<< HEAD
+=======
+=======
+<<<<<<< HEAD
+        String sql = "UPDATE LoaiSanPham SET TenLoaiSP=? WHERE MaLoaiSP=?";
+=======
+        String sql = "UPDATE LoaiSanPham set TenLoaiSp=? WHERE MaLoaiSP=?";
+>>>>>>> 697c0e6908ea5220acda662c457d21dc750e289d
+>>>>>>> 37414f2552fc5fbf1b6c6b66028ea39e24ba31df
+>>>>>>> cd7bb5e526359109b8d55d078fdcf537064dc711
         Jdbc.executeUpdate(sql,
                 model.getTenLoaiSP(),
                 model.getMaLoaiSP());
@@ -34,7 +44,15 @@ public class LoaiSanPhamDAO {
 
     public void delete(int maLoaiSP) {
         String sql = "DELETE FROM LoaiSanPham WHERE MaLoaiSP=?";
+<<<<<<< HEAD
         Jdbc.executeUpdate(sql, maLoaiSP);
+=======
+<<<<<<< HEAD
+        Jdbc.executeUpdate(sql, maLoaiSP);
+=======
+        Jdbc.executeUpdate(sql,maLoaiSP);
+>>>>>>> 37414f2552fc5fbf1b6c6b66028ea39e24ba31df
+>>>>>>> cd7bb5e526359109b8d55d078fdcf537064dc711
     }
 
     private LoaiSanPham readFormResultSet(ResultSet rs) throws SQLException {
@@ -79,5 +97,7 @@ public class LoaiSanPhamDAO {
         List<LoaiSanPham> list = select(sql, tenLoaiSP);
         return list.size() > 0 ? list.get(0) : null;
     }
+
+  
 
 }

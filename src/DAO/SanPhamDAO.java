@@ -85,10 +85,21 @@ public class SanPhamDAO {
         List<SanPham> list = select(sql, maSanPham);
         return list.size() > 0 ? list.get(0) : null;
     }
+<<<<<<< HEAD
+
+    public SanPham findByName(String sanpham) {
+        String sql = "SELECT * FROM SanPham WHERE TenSanPham like ?";
+        List<SanPham> list = select(sql, sanpham);
+        return list.size() > 0 ? list.get(0) : null;
+        
+    }
+
+=======
     
     public SanPham findByName(String tenSP) {
         String sql = "SELECT * FROM SanPham WHERE TenSanPham=?";
         List<SanPham> list = select(sql, tenSP);
         return list.size() > 0 ? list.get(0) : null;
     }
+>>>>>>> 37414f2552fc5fbf1b6c6b66028ea39e24ba31df
 }

@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -59,7 +59,7 @@ public class SanPhamJFrame extends javax.swing.JFrame {
                 Object[] row = {
                     sp.getMaSanPham(),
                     sp.getTenSanPham(),
-                    sp.getMaLoaiSP(),
+                    lspdao.findById(sp.getMaLoaiSP()).getTenLoaiSP(),
                     sp.getGiaBan(),
                     sp.getGhiChu()
                 };
@@ -88,10 +88,10 @@ public class SanPhamJFrame extends javax.swing.JFrame {
         try {
             dao.update(model);
             this.load();
+            this.clear();
             DialogHelper.alert(this, "Cập nhập thành công!");
         } catch (Exception e) {
             DialogHelper.alert(this, "Cập nhập thất bại");
-            System.out.println(e.toString());
         }
     }
 
@@ -103,10 +103,8 @@ public class SanPhamJFrame extends javax.swing.JFrame {
                 this.load();
                 this.clear();
                 DialogHelper.alert(this, "Xóa thành công!");
-
             } catch (Exception e) {
                 DialogHelper.alert(this, "Xóa thất bại");
-                System.out.println(e.toString());
             }
         }
     }
@@ -128,7 +126,6 @@ public class SanPhamJFrame extends javax.swing.JFrame {
             if (model != null) {
                 this.setModel(model);
             }
-
         } catch (Exception e) {
             DialogHelper.alert(this, "Lỗi truy vấn dữ liệu");
         }
@@ -137,7 +134,7 @@ public class SanPhamJFrame extends javax.swing.JFrame {
     void setModel(SanPham model) {
         txtTenSanPham.setToolTipText(String.valueOf(model.getMaSanPham()));
         txtTenSanPham.setText(model.getTenSanPham());
-        cboLoaiSanPham.setToolTipText(String.valueOf(model.getMaLoaiSP()));
+        cboLoaiSanPham.setToolTipText(String.valueOf(model.getMaSanPham()));
         LoaiSanPham lsp = lspdao.findById(model.getMaLoaiSP());
         cboLoaiSanPham.setSelectedItem(lsp.getTenLoaiSP());
         txtGiaBan.setText(String.valueOf(model.getGiaBan()));
@@ -148,13 +145,9 @@ public class SanPhamJFrame extends javax.swing.JFrame {
     SanPham getModel() {
         SanPham sanpham = new SanPham();
         LoaiSanPham loaisanpham = new LoaiSanPham();
-
         sanpham.setMaSanPham(Integer.valueOf(txtTenSanPham.getToolTipText()));
-
         String tenLoaiSanPham = (String) cboLoaiSanPham.getSelectedItem();
-
         LoaiSanPham lsp = lspdao.findByName(tenLoaiSanPham);
-
         sanpham.setMaLoaiSP(lsp.getMaLoaiSP());
         sanpham.setTenSanPham(txtTenSanPham.getText());
         sanpham.setGiaBan(Float.valueOf(txtGiaBan.getText()));
@@ -236,7 +229,7 @@ public class SanPhamJFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Mã Sản Phẩm", "Tên Sản Phẩm", "Mã Loại Sản Phẩm", "Giá Bán", "Ghi chú"
+                "Mã Sản Phẩm", "Tên Sản Phẩm", "Tên Loại Sản Phẩm", "Giá Bán", "Ghi chú"
             }
         ) {
             boolean[] canEdit = new boolean [] {

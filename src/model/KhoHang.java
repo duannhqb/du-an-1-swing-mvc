@@ -5,7 +5,7 @@
  */
 package model;
 
-
+import helper.XDate;
 import java.util.Date;
 
 /**
@@ -13,25 +13,25 @@ import java.util.Date;
  * @author Admin
  */
 public class KhoHang {
+
     private int maKhoHang;
     private int maSanPham;
     private Date ngayNhap;
     private int maNhanVien;
-    private  int soLuong;
+    private int soLuong;
     private String ghiChu;
-    private Date hanSuDung;
+    private Date hanSuDung = XDate.now();
 
     public KhoHang() {
     }
 
-    public KhoHang(int maKhoHang, int maSanPham, Date ngayNhap, int maNhanVien, int soLuong, String ghiChu, Date hanSuDung) {
+    public KhoHang(int maKhoHang, int maSanPham, Date ngayNhap, int maNhanVien, int soLuong, String ghiChu) {
         this.maKhoHang = maKhoHang;
         this.maSanPham = maSanPham;
         this.ngayNhap = ngayNhap;
         this.maNhanVien = maNhanVien;
         this.soLuong = soLuong;
         this.ghiChu = ghiChu;
-        this.hanSuDung = hanSuDung;
     }
 
     public int getMaKhoHang() {
@@ -89,5 +89,5 @@ public class KhoHang {
     public void setHanSuDung(Date hanSuDung) {
         this.hanSuDung = hanSuDung;
     }
- 
+
 }
