@@ -26,7 +26,7 @@ public class LoaiSanPhamDAO {
     }
 
     public void update(LoaiSanPham model) {
-        String sql = "UPDATE LoaiSanPham TenLoaiSP=? WHERE MaLoaiSP=?";
+        String sql = "UPDATE LoaiSanPham set TenLoaiSp=? WHERE MaLoaiSP=?";
         Jdbc.executeUpdate(sql,
                 model.getTenLoaiSP(),
                 model.getMaLoaiSP());

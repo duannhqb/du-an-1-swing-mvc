@@ -35,7 +35,13 @@ public class BanDAO {
         );
     }
 
-   public void delete(Integer maBan) {
+//    Duần làm cái này
+    public void datBan(int trangThai, int maBan) {
+        String sql = "UPDATE Ban SET TrangThai=? WHERE MaBan=?";
+        Jdbc.executeUpdate(sql, trangThai, maBan);
+    }
+
+    public void delete(Integer maBan) {
         String sql = "DELETE FROM Ban WHERE MaBan=?";
         Jdbc.executeUpdate(sql, maBan);
     }

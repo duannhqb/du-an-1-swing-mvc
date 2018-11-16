@@ -88,13 +88,13 @@ public class BanJFrame extends javax.swing.JFrame {
 
     void clear() {
         Ban model = new Ban();
-        String khuVuc = (String) cboKhuVuc.getSelectedItem();
-        KhuVuc a = kvdao.findByName(khuVuc);
-        model.setMaKhuvuc(a.getMaKhuVuc());
+//        String khuVuc = (String) cboKhuVuc.getSelectedItem();
+//        KhuVuc a = kvdao.findByName(khuVuc);
+//        model.setMaKhuvuc(a.getMaKhuVuc());
         this.setModel(model);
         this.setStatus(true);
         this.cboKhuVuc.setSelectedIndex(0);
-
+        txtMaBan.setText("");
     }
 
     void edit() {
@@ -116,7 +116,6 @@ public class BanJFrame extends javax.swing.JFrame {
             this.load();
             this.clear();
             DialogHelper.setInfinity(lblThongBao, "Thêm mới thành công!");
-            System.out.println(txtMaBan.getText());
         } catch (Exception e) {
             DialogHelper.alert(this, "Thêm mới thất bại!");
             System.out.println(e.toString());
@@ -188,7 +187,8 @@ public class BanJFrame extends javax.swing.JFrame {
         btnFirst = new javax.swing.JButton();
         lblThongBao = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Quản lý bàn");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -376,6 +376,9 @@ public class BanJFrame extends javax.swing.JFrame {
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
         insert();
+//        cái này duần làm
+        DanhMucJFrame.loadTabs();
+        DanhMucJFrame.loadDonHangTheoBan();
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void tblBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBanMouseClicked
