@@ -8,13 +8,11 @@ package view;
 import DAO.KhoHangDAO;
 import DAO.SanPhamDAO;
 import helper.DialogHelper;
-import helper.ShareHelper;
 import helper.XDate;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import model.KhoHang;
-import model.NhanVien;
 import model.SanPham;
 
 /**
@@ -62,8 +60,8 @@ public class KhoHangJFrame extends javax.swing.JFrame {
                     spdao.findById(kh.getMaSanPham()).getTenSanPham(),
                     kh.getMaNhanVien(),
                     kh.getNgayNhap(),
-                    kh.getSoLuong(),
-                    kh.getGhiChu()
+                    kh.getHanSuDung(),
+                    kh.getSoLuong()
                 };
                 model.addRow(row);
 
@@ -92,7 +90,6 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         try {
             dao.update(model);
             this.load();
-            this.clear();
             DialogHelper.alert(this, "Cập nhập thành công!");
         } catch (Exception e) {
             DialogHelper.alert(this, "Cập nhập thất bại!");
@@ -140,7 +137,12 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         txtSoLuong.setToolTipText(String.valueOf(model.getMaKhoHang()));
         cboSanPham.setToolTipText(String.valueOf(model.getMaKhoHang()));
         SanPham sp = spdao.findById(model.getMaSanPham());
-//        cboSanPham.setSelectedItem(sp.getTenSanPham());
+
+        try {
+            cboSanPham.setSelectedItem(sp.getTenSanPham());
+        } catch (Exception e) {
+        }
+
         txtSoLuong.setText(String.valueOf(model.getSoLuong()));
         txtGhiChu.setText(model.getGhiChu());
     }
@@ -236,11 +238,11 @@ public class KhoHangJFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Mã Kho Hàng", "Tên Sản Phẩm", "Mã Nhân Viên", "Ngày Nhập", "Số Lượng", "Ghi Chú"
+                "Mã Kho Hàng", "Tên Sản Phẩm", "Mã Nhân Viên", "Ngày Nhập", "Ngày hết hạn", "Số Lượng"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -390,17 +392,25 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     private void btnxoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnxoaActionPerformed
         // TODO add your handling code here:
         delete();
+
+//        sau khi xóa xong thì load lại bảng sản phẩm ở danh mục chính
+        DanhMucJFrame.loadSanPham();
     }//GEN-LAST:event_btnxoaActionPerformed
 
     private void btnthemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemActionPerformed
         // TODO add your handling code here:
         insert();
 
+//        sau khi thêm xong thì load lại bảng sản phẩm ở danh mục chính
+        DanhMucJFrame.loadSanPham();
     }//GEN-LAST:event_btnthemActionPerformed
 
     private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
         // TODO add your handling code here:
         update();
+
+//        sau khi sửa xong thì load lại bảng sản phẩm ở danh mục chính
+        DanhMucJFrame.loadSanPham();
     }//GEN-LAST:event_btnsuaActionPerformed
 
     private void btnmoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmoiActionPerformed

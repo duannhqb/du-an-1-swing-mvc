@@ -223,11 +223,15 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         btnCaLamViec = new javax.swing.JButton();
         btnKhoHang = new javax.swing.JButton();
         btnSanPham = new javax.swing.JButton();
-        btnCapNhatBan = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         tabs.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        tabs.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tabsFocusGained(evt);
+            }
+        });
 
         pnlBan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         tabs.addTab("Chung", pnlBan);
@@ -367,13 +371,6 @@ public class DanhMucJFrame extends javax.swing.JFrame {
             }
         });
 
-        btnCapNhatBan.setText("Cập nhật bàn");
-        btnCapNhatBan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCapNhatBanActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout pnlWrapperLayout = new javax.swing.GroupLayout(pnlWrapper);
         pnlWrapper.setLayout(pnlWrapperLayout);
         pnlWrapperLayout.setHorizontalGroup(
@@ -397,9 +394,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
                         .addComponent(btnKhoHang)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(pnlWrapperLayout.createSequentialGroup()
-                        .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCapNhatBan))
+                        .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlWrapperLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -418,9 +413,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         pnlWrapperLayout.setVerticalGroup(
             pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlWrapperLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(btnCapNhatBan)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(45, 45, 45)
                 .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(tabs)
                     .addGroup(pnlWrapperLayout.createSequentialGroup()
@@ -485,6 +478,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
                 }
             }
         }
+        pnlBan.requestFocus();
     }//GEN-LAST:event_tblHoaDonMouseClicked
 
     private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
@@ -527,10 +521,19 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         new KhoHangJFrame().setVisible(true);
     }//GEN-LAST:event_btnKhoHangActionPerformed
 
-    private void btnCapNhatBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatBanActionPerformed
+    private void tabsFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabsFocusGained
         // TODO add your handling code here:
-        this.loadTabs();
-    }//GEN-LAST:event_btnCapNhatBanActionPerformed
+        tabsFocus();
+    }//GEN-LAST:event_tabsFocusGained
+
+    void tabsFocus() {
+        new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadTabs();
+            }
+        }).start();
+    }
 
     /**
      * @param args the command line arguments
@@ -570,7 +573,6 @@ public class DanhMucJFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBan;
     private javax.swing.JButton btnCaLamViec;
-    private javax.swing.JButton btnCapNhatBan;
     private javax.swing.JButton btnChiTiet;
     private javax.swing.JButton btnGoiMon;
     private javax.swing.JButton btnKhoHang;
