@@ -216,7 +216,7 @@
                   <Table columnCount="5" rowCount="0">
                     <Column editable="false" title="M&#xe3; S&#x1ea3;n Ph&#x1ea9;m" type="java.lang.Object"/>
                     <Column editable="false" title="T&#xea;n S&#x1ea3;n Ph&#x1ea9;m" type="java.lang.Object"/>
-                    <Column editable="false" title="M&#xe3; Lo&#x1ea1;i S&#x1ea3;n Ph&#x1ea9;m" type="java.lang.Object"/>
+                    <Column editable="false" title="T&#xea;n Lo&#x1ea1;i S&#x1ea3;n Ph&#x1ea9;m" type="java.lang.Object"/>
                     <Column editable="false" title="Gi&#xe1; B&#xe1;n" type="java.lang.Object"/>
                     <Column editable="false" title="Ghi ch&#xfa;" type="java.lang.Object"/>
                   </Table>

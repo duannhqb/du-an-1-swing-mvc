@@ -24,15 +24,10 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         load();
-        init();
     }
     int index = 0;
     LoaiSanPhamDAO dao = new LoaiSanPhamDAO();
     
-    
-    void init(){
-        
-    }
     
     void load(){
         DefaultTableModel model = (DefaultTableModel) tblLoaiSanPham.getModel();
@@ -56,6 +51,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         try {
             dao.insert(model);
             this.load();
+            this.clear();
             DialogHelper.alert(this, "Thêm mới thành công");
         } catch (Exception e) {
             DialogHelper.alert(this , "Thêm mới thất bại");
@@ -67,6 +63,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         try {
             dao.update(model);
             this.load();
+            this.clear();
             DialogHelper.alert(this , "Cập nhâp thành công");
         } catch (Exception e) {
             DialogHelper.alert(this, "Cập nhập thất bại");
@@ -76,8 +73,11 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
     
     void delete(){
         if(DialogHelper.confirm(this, "Bạn muốn xóa hàng này")){
+            Integer maLoaiSP = Integer.valueOf(txtLoaiSanPham.getToolTipText());
             try {
+                dao.delete(maLoaiSP);
                 this.load();
+                this.clear();
                 DialogHelper.alert(this , "Xoá thành công");
             } catch (Exception e) {
                 DialogHelper.alert(this , "Xóa thất bại");
@@ -90,6 +90,8 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         LoaiSanPham model = new LoaiSanPham();
         model.setMaLoaiSP(model.getMaLoaiSP());
         model.setTenLoaiSP(model.getTenLoaiSP());
+        this.setModel(model);
+        txtLoaiSanPham.setText("");
         
     }
     
@@ -108,17 +110,31 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
     }
     
     void setModel(LoaiSanPham model){
-        txtLoaiSanPham.setText(String.valueOf(model.getTenLoaiSP()));
+        txtLoaiSanPham.setToolTipText(String.valueOf(model.getMaLoaiSP()));
+        txtLoaiSanPham.setText(model.getTenLoaiSP());
+        
     }
-    
-    
     LoaiSanPham getModel(){
         LoaiSanPham model = new LoaiSanPham();
+        model.setMaLoaiSP(Integer.valueOf(txtLoaiSanPham.getToolTipText()));
         model.setTenLoaiSP(txtLoaiSanPham.getText());
         return model;
     }
     
     
+    
+     void setStatus(boolean insertable) {
+        btnThem.setEnabled(insertable);
+        btnSua.setEnabled(insertable);
+        btnXoa.setEnabled(insertable);
+        btnMoi.setEnabled(insertable);
+        boolean first = this.index > 0;
+        boolean last = this.index < tblLoaiSanPham.getRowCount() - 1;
+        btnNext.setEnabled(!insertable && last);
+        btnLast.setEnabled(!insertable && last);
+        btnFirst.setEnabled(!insertable && first);
+        btnPrev.setEnabled(!insertable && first);
+    }
     
     
     
@@ -162,7 +178,15 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
             new String [] {
                 "Mã Loại Sản Phẩm", "Tên Loại Sản Phẩm"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblLoaiSanPham.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tblLoaiSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
