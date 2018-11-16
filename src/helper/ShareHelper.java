@@ -8,23 +8,8 @@ package helper;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.Timer;
-import javax.swing.UIManager;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 import model.NhanVien;
 
 /**
@@ -38,11 +23,9 @@ public class ShareHelper {
 
     static {
 //        tải biểu tượng ứng dụng
-        String file = "/imgs/fpt.png";
+        String file = "/images/fpt.png";
         APP_ICON = new ImageIcon(ShareHelper.class.getResource(file)).getImage();
     }
-
-    public static final String PATH_IMAGE = "C:\\Users\\duann\\Pictures\\";
 
 //    đối tượng chứa thông tin của người sử dụng sau khi đăng nhập
     public static NhanVien USER = null;
@@ -69,4 +52,5 @@ public class ShareHelper {
         // Row Height
         tblGridView.setRowHeight(20);
     }
+    
 }

@@ -90,7 +90,34 @@ public class KhoHangDAO {
         String sql = "SELECT * FROM KhoHang WHERE MaKhoHang like ?";
         List<KhoHang> list = select(sql, khohang);
         return list.size() > 0 ? list.get(0) : null;
+    }
 
+//    dưới này duần làm
+    public int getSLByMaSP(int maSP) {
+        try {
+            ResultSet rs = null;
+            String sql = "SELECT SoLuong FROM KhoHang WHERE MaSanPham = ?";
+            try {
+                rs = Jdbc.executeQuery(sql, maSP);
+                while (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } finally {
+                rs.getStatement().getConnection().close();
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+    public void updateSLByMaSP(int soLuong, int maSP) {
+        String sql = "update KhoHang set SoLuong = SoLuong - ? where MaSanPham = ?";
+        Jdbc.executeUpdate(sql, soLuong, maSP);
+    }
+
+    public void themSLByMaSP(int soLuong, int maSP) {
+        String sql = "update KhoHang set SoLuong = SoLuong + ? where MaSanPham = ?";
+        Jdbc.executeUpdate(sql, soLuong, maSP);
     }
 
 }

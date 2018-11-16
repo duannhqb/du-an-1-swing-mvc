@@ -52,6 +52,14 @@ public class NhanVienDAO {
         );
     }
 
+    public void diemDanh(NhanVien model) {
+        String sql = "UPDATE NhanVien SET SoNgayLV = ? WHERE MaNhanVien = ?";
+        Jdbc.executeUpdate(sql,
+                model.getSoNgayLamViec(),
+                model.getMaNhanVien()
+        );
+    }
+
     public void delete(int maNhanVien) {
         String sql = "DELETE FROM NhanVien WHERE MaNhanVien=?";
         Jdbc.executeUpdate(sql, maNhanVien);
@@ -114,6 +122,12 @@ public class NhanVienDAO {
     public NhanVien findByName(String hoTen) {
         String sql = "SELECT * from NhanVien join CaLamViec on NhanVien.MaCaLV = CaLamViec.MaCaLV WHERE NhanVien.HoTen like ?";
         List<NhanVien> list = select(sql, "%" + hoTen + "%");
+        return list.size() > 0 ? list.get(0) : null;
+    }
+
+    public NhanVien findByEmail(String email) {
+        String sql = "SELECT * FROM NhanVien Where Email=?  and MatKhau=?";
+        List<NhanVien> list = select(sql, email);
         return list.size() > 0 ? list.get(0) : null;
     }
 

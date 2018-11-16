@@ -27,26 +27,36 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
     }
     int index = 0;
     LoaiSanPhamDAO dao = new LoaiSanPhamDAO();
+<<<<<<< HEAD
     
     
     void load(){
+=======
+
+    void init() {
+
+    }
+
+    void load() {
+>>>>>>> 37414f2552fc5fbf1b6c6b66028ea39e24ba31df
         DefaultTableModel model = (DefaultTableModel) tblLoaiSanPham.getModel();
         model.setRowCount(0);
         try {
             List<LoaiSanPham> list = dao.select();
-            for (LoaiSanPham lsp : list){
-                Object [] row = {
+            for (LoaiSanPham lsp : list) {
+                Object[] row = {
                     lsp.getMaLoaiSP(),
                     lsp.getTenLoaiSP()
                 };
                 model.addRow(row);
-                
+
             }
         } catch (Exception e) {
             DialogHelper.alert(this, "Lỗi truy ván dữ liệu");
         }
     }
-    void insert(){
+
+    void insert() {
         LoaiSanPham model = getModel();
         try {
             dao.insert(model);
@@ -54,21 +64,31 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
             this.clear();
             DialogHelper.alert(this, "Thêm mới thành công");
         } catch (Exception e) {
-            DialogHelper.alert(this , "Thêm mới thất bại");
+            DialogHelper.alert(this, "Thêm mới thất bại");
         }
     }
-    
-    void update(){
+
+    void update() {
         LoaiSanPham model = getModel();
         try {
             dao.update(model);
             this.load();
+<<<<<<< HEAD
             this.clear();
             DialogHelper.alert(this , "Cập nhâp thành công");
+=======
+<<<<<<< HEAD
+            DialogHelper.alert(this, "Cập nhâp thành công");
+=======
+            DialogHelper.alert(this , "Cập nhật thành công");
+>>>>>>> 697c0e6908ea5220acda662c457d21dc750e289d
+>>>>>>> 37414f2552fc5fbf1b6c6b66028ea39e24ba31df
         } catch (Exception e) {
-            DialogHelper.alert(this, "Cập nhập thất bại");
+            DialogHelper.alert(this, "Cập nhật thất bại");
+            System.out.println(e.toString());
         }
     }
+<<<<<<< HEAD
     
     
     void delete(){
@@ -79,35 +99,47 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
                 this.load();
                 this.clear();
                 DialogHelper.alert(this , "Xoá thành công");
+=======
+
+    void delete(int maLoaiSP) {
+        if (DialogHelper.confirm(this, "Bạn muốn xóa hàng này")) {
+            try {
+                dao.delete(maLoaiSP);
+                this.load();
+                DialogHelper.alert(this, "Xoá thành công");
+>>>>>>> 37414f2552fc5fbf1b6c6b66028ea39e24ba31df
             } catch (Exception e) {
-                DialogHelper.alert(this , "Xóa thất bại");
+                DialogHelper.alert(this, "Xóa thất bại");
             }
         }
     }
-    
-    
-    void clear(){
+
+    void clear() {
         LoaiSanPham model = new LoaiSanPham();
         model.setMaLoaiSP(model.getMaLoaiSP());
         model.setTenLoaiSP(model.getTenLoaiSP());
+<<<<<<< HEAD
         this.setModel(model);
         txtLoaiSanPham.setText("");
         
+=======
+
+>>>>>>> 37414f2552fc5fbf1b6c6b66028ea39e24ba31df
     }
-    
-    
-    void edit(){
+
+    void edit() {
         try {
-            int malsp = (int) tblLoaiSanPham.getValueAt(this.index , 0);
+            int malsp = (int) tblLoaiSanPham.getValueAt(this.index, 0);
             LoaiSanPham model = dao.findById(malsp);
-            
-            if (model != null){
+
+            if (model != null) {
                 this.setModel(model);
             }
         } catch (Exception e) {
             DialogHelper.alert(this, "Lỗi truy vấn dữ liệu");
         }
     }
+<<<<<<< HEAD
     
     void setModel(LoaiSanPham model){
         txtLoaiSanPham.setToolTipText(String.valueOf(model.getMaLoaiSP()));
@@ -117,9 +149,22 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
     LoaiSanPham getModel(){
         LoaiSanPham model = new LoaiSanPham();
         model.setMaLoaiSP(Integer.valueOf(txtLoaiSanPham.getToolTipText()));
+=======
+
+    void setModel(LoaiSanPham model) {
+        txtLoaiSanPham.setText(model.getTenLoaiSP());
+        txtLoaiSanPham.setToolTipText(String.valueOf(model.getMaLoaiSP()));
+    }
+
+    LoaiSanPham getModel() {
+        LoaiSanPham model = new LoaiSanPham();
+        model.setMaLoaiSP((int) tblLoaiSanPham.getValueAt(this.index , 0));
+>>>>>>> 37414f2552fc5fbf1b6c6b66028ea39e24ba31df
         model.setTenLoaiSP(txtLoaiSanPham.getText());
+        model.setMaLoaiSP(Integer.parseInt(txtLoaiSanPham.getToolTipText()));
         return model;
     }
+<<<<<<< HEAD
     
     
     
@@ -139,6 +184,8 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
     
     
     
+=======
+>>>>>>> 37414f2552fc5fbf1b6c6b66028ea39e24ba31df
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -165,6 +212,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         txtLoaiSanPham = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Quản lý loại sản phẩm");
 
         lblTieuDe.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         lblTieuDe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -180,7 +228,11 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
+<<<<<<< HEAD
                 true, false
+=======
+                false, false
+>>>>>>> 37414f2552fc5fbf1b6c6b66028ea39e24ba31df
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -313,7 +365,8 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
-        delete();
+        delete(Integer.parseInt(txtLoaiSanPham.getToolTipText()));
+        this.load();
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
@@ -333,9 +386,9 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
 
     private void tblLoaiSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLoaiSanPhamMouseClicked
         // TODO add your handling code here:
-        if (evt.getClickCount()==1){
+        if (evt.getClickCount() == 1) {
             this.index = tblLoaiSanPham.rowAtPoint(evt.getPoint());
-            if (this.index >=0){
+            if (this.index >= 0) {
                 this.edit();
             }
         }

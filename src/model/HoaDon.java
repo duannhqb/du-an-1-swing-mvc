@@ -19,6 +19,33 @@ public class HoaDon {
     private String ghiChu;
     private boolean trangThai = false;
     private Date ngayThanhToan;
+    private SanPham sanPham;
+    private HoaDonChiTiet hoaDonChiTiet;
+    private float thanhTien;
+
+    public float getThanhTien() {
+        return thanhTien;
+    }
+
+    public void setThanhTien(float thanhTien) {
+        this.thanhTien = thanhTien;
+    }
+
+    public HoaDonChiTiet getHoaDonChiTiet() {
+        return hoaDonChiTiet;
+    }
+
+    public void setHoaDonChiTiet(HoaDonChiTiet hoaDonChiTiet) {
+        this.hoaDonChiTiet = hoaDonChiTiet;
+    }
+
+    public SanPham getSanPham() {
+        return sanPham;
+    }
+
+    public void setSanPham(SanPham sanPham) {
+        this.sanPham = sanPham;
+    }
 
     public HoaDon() {
     }

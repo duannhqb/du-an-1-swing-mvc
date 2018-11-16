@@ -119,11 +119,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x110;&#x103;ng nh&#x1ead;p"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDangNhapActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnKetThuc">
       <Properties>
         <Property name="text" type="java.lang.String" value="K&#x1ebf;t th&#xfa;c"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnKetThucActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -76,7 +76,7 @@ public class SanPhamDAO {
     }
 
     public List<SanPham> select() {
-        String sql = "SELECT * FROM SanPham ";
+        String sql = "SELECT * FROM SanPham";
         return select(sql);
     }
 
@@ -85,6 +85,7 @@ public class SanPhamDAO {
         List<SanPham> list = select(sql, maSanPham);
         return list.size() > 0 ? list.get(0) : null;
     }
+<<<<<<< HEAD
 
     public SanPham findByName(String sanpham) {
         String sql = "SELECT * FROM SanPham WHERE TenSanPham like ?";
@@ -93,4 +94,12 @@ public class SanPhamDAO {
         
     }
 
+=======
+    
+    public SanPham findByName(String tenSP) {
+        String sql = "SELECT * FROM SanPham WHERE TenSanPham=?";
+        List<SanPham> list = select(sql, tenSP);
+        return list.size() > 0 ? list.get(0) : null;
+    }
+>>>>>>> 37414f2552fc5fbf1b6c6b66028ea39e24ba31df
 }

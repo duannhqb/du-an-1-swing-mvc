@@ -117,7 +117,7 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
                 this.clear();
                 DialogHelper.setInfinity(lblThongBao, "Xóa thành công!");
             } catch (Exception e) {
-                DialogHelper.alert(this, "Không thể xóa được vì dữ liệu đã được liên kết");
+                DialogHelper.alert(this, "Không thể xóa được vì dữ liệu đã được liên kết!");
             }
         }
     }
@@ -168,7 +168,8 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
         txtBatDau = new javax.swing.JTextField();
         txtKetThuc = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Quản lý ca làm việc");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
