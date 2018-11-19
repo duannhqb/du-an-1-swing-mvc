@@ -117,12 +117,15 @@ public class GoiMonJFrame extends javax.swing.JFrame {
 //      mã nhân viên sau khu tạo form đăng nhập sẽ sửa lại
         hoaDon.setMaNhanVien(1);
         hoaDon.setMaBan((int) cboBan.getSelectedItem());
-        hoaDon.setThanhTien(Float.parseFloat(txtThanhTien.getText()));
         hoaDon.setGhiChu("");
         hoaDon.setTrangThai(false);
 //        ngày thanh toán: ban đầu sản phẩm được thêm vào hóa đơn thì chưa thanh toán, nhưng, ta vẫn lấy ngày thanh toán là ngày thêm vào hóa đơn, rồi sau đó chạy phần update sửa ngày thanh toán, để tránh null dữ liệu dẫn đến bug
         hoaDon.setNgayThanhToan(XDate.now());
         hoaDon.setThanhTien(Float.parseFloat(txtThanhTien.getText()));
+        try {
+            hoaDon.setMaHoaDon(Integer.parseInt(cboSanPham.getToolTipText()));
+        } catch (Exception e) {
+        }
         return hoaDon;
     }
 
@@ -135,10 +138,6 @@ public class GoiMonJFrame extends javax.swing.JFrame {
             hoaDonCT.setMaHoaDonCT(Integer.parseInt(cboBan.getToolTipText()));
         }
         hoaDonCT.setMaSanPham(spDAO.findByName(tenSP).getMaSanPham());
-//        với trường hợp gọi món thì mã hóa đơn tự động set, vì vậy setMaHoaDon này dùng cho trường hợp cập nhật lại sản phẩm và lấy mã hóa đơn từ giá trị tuyền vào contructor
-        if (cboSanPham.getToolTipText() != null) {
-            hoaDonCT.setMaHoaDon(Integer.parseInt(cboSanPham.getToolTipText()));
-        }
         hoaDonCT.setSoLuongSP(Integer.parseInt(txtSoLuong.getText()));
         return hoaDonCT;
     }
@@ -156,26 +155,24 @@ public class GoiMonJFrame extends javax.swing.JFrame {
     void setModel(HoaDon model) {
         HoaDon hoaDon = checkHD(model);
 //        null thì chưa có cái này để giúp cho click vào bảng trong hóa đơn chi tiết hiển thị cái này lên
+//        nếu mà mã hóa đơn = null thì chưa có mã hóa đơn vì vậy => thêm mới
+//        ngược lại nếu mã hóa đơn đã có thì sẽ trả về hóa đơn rồi get mã hóa đơn về để chỉnh sửa
         if (hoaDon != null) {
-//            mã hóa đơn chi tiết gán lên tooltiptext
+//            mã hóa đơn chi tiết gán lên tooltiptext cboban
             cboBan.setToolTipText(String.valueOf(hoaDon.getHoaDonChiTiet().getMaHoaDonCT()));
+            cboSanPham.setToolTipText(String.valueOf(hoaDon.getMaHoaDon()));
 //            
             cboBan.setSelectedItem(hoaDon.getMaBan());
             cboSanPham.setSelectedItem(hoaDon.getSanPham().getTenSanPham());
             txtSoLuong.setText(String.valueOf(hoaDon.getHoaDonChiTiet().getSoLuongSP()));
             txtThanhTien.setText(String.valueOf(hoaDon.getThanhTien()));
         } else {
+
             cboBan.setSelectedItem(model.getMaBan());
             cboSanPham.setSelectedItem(model.getSanPham().getTenSanPham());
             txtSoLuong.setText(String.valueOf(model.getHoaDonChiTiet().getSoLuongSP()));
             txtThanhTien.setText(String.valueOf(model.getThanhTien()));
         }
-    }
-
-    void clear() {
-//        HoaDon model = new HoaDon();
-//        this.setModel(model);
-//        setStatus(true);
     }
 
     private void insert() {
@@ -188,19 +185,19 @@ public class GoiMonJFrame extends javax.swing.JFrame {
 //                      thêm mới vào bảng hóa đơn, sau đó thêm mới vào bảng hóa đơn chi tiết lấy mã hóa đơn cho bảng hóa đơn chi tiết là mã hóa đơn được thêm vào cuối cùng
                     if (dao.insert(model)) {
 
-                        List<HoaDon> list = dao.select();
-
                         HoaDonChiTiet modelChiTiet = getModelHDCT();
-                        daoCT.insert(modelChiTiet, list.get(list.size() - 1).getMaHoaDon());
+                        daoCT.insert(modelChiTiet, dao.getIDIdentity());
 
-                        this.clear();
                         DialogHelper.setInfinity(lblMSG, "Thêm mới thành công!");
 
+//                        trả về mã kho hàng đầu tiên trong danh sách, được sắp xếp tăng dần về ngày nhập hàng, sẽ bán những sản phẩm trong mã kho hàng được thêm đầu tiên, tránh hỏng hàng
+                        int maKhoHang = khDAO.getMaKhoHangByMaSP(spDAO.findByName((String) cboSanPham.
+                                getSelectedItem()).getMaSanPham());
+                        System.out.println(maKhoHang);
 //                      thêm thành công thì số lượng sản phẩm trong kho bị giảm
                         khDAO.updateSLByMaSP(Integer.parseInt(txtSoLuong.getText()),
                                 spDAO.findByName((String) cboSanPham.
-                                        getSelectedItem()).getMaSanPham());
-
+                                        getSelectedItem()).getMaSanPham(), maKhoHang);
 //                      load lại bảng đơn hàng và bảng thông tin sản phẩm ở danh mục sau khi gọi món
                         DanhMucJFrame.loadDonHangTheoBan();
                         DanhMucJFrame.loadSanPham();
@@ -219,8 +216,7 @@ public class GoiMonJFrame extends javax.swing.JFrame {
 
                     }
                 } catch (Exception e) {
-//                    DialogHelper.alert(this, "Thêm mới thất bại!");
-                    System.out.println(e.toString());
+                    DialogHelper.alert(this, "Số lượng trong kho không đủ yêu cầu.");
                 }
             } else {
                 DialogHelper.alert(this, "Số lượng sản phẩm chỉ còn " + khDAO.getSLByMaSP(
@@ -240,19 +236,25 @@ public class GoiMonJFrame extends javax.swing.JFrame {
                 try {
 //                      thêm mới vào bảng hóa đơn, sau đó thêm mới vào bảng hóa đơn chi tiết lấy mã hóa đơn cho bảng hóa đơn chi tiết là mã hóa đơn được thêm vào cuối cùng
                     if (dao.update(model)) {
+
                         HoaDonChiTiet modelChiTiet = getModelHDCT();
                         daoCT.update(modelChiTiet);
 
-                        this.clear();
                         DialogHelper.setInfinity(lblMSG, "Cập nhật thành công!");
 
 //                      trước khi tính số lượng sản phẩm tồn kho sau khi sửa thì phải cộng vào số lượng đã thêm vào hóa đơn từ trước để đảm bảo số lượng sản phẩm trước khi thêm vào đơn hàng
-                        khDAO.themSLByMaSP(soLuong, maSanPham);
-
+//                        khDAO.themSLByMaSP(soLuong, maSanPham);
+//                        trả về mã kho hàng đầu tiên trong danh sách, được sắp xếp tăng dần về ngày nhập hàng, sẽ bán những sản phẩm trong mã kho hàng được thêm đầu tiên, tránh hỏng hàng                       
+                        int maKhoHang = khDAO.getMaKhoHangByMaSP(maSanPham);
+                        khDAO.themSLByMaSP(soLuong, maSanPham, maKhoHang);
+                        
+                        maKhoHang = khDAO.getMaKhoHangByMaSP(spDAO.findByName((String) cboSanPham.
+                                        getSelectedItem()).getMaSanPham());
+                        
 //                      cập nhật thành công thì số lượng sản phẩm trong kho bị giảm đi
                         khDAO.updateSLByMaSP(Integer.parseInt(txtSoLuong.getText()),
                                 spDAO.findByName((String) cboSanPham.
-                                        getSelectedItem()).getMaSanPham());
+                                        getSelectedItem()).getMaSanPham(), maKhoHang);
 
 //                      load lại bảng đơn hàng và bảng thông tin sản phẩm ở danh mục sau khi sửa món
                         DanhMucJFrame.loadDonHangTheoBan();
@@ -295,7 +297,6 @@ public class GoiMonJFrame extends javax.swing.JFrame {
                 txtThanhTien.setText("");
             }
         } catch (Exception e) {
-            System.out.println(e.toString());
         }
     }
 
@@ -338,6 +339,12 @@ public class GoiMonJFrame extends javax.swing.JFrame {
         btnMoi.setText("Mới");
 
         lblSoLuong.setText("Số lượng");
+
+        cboSanPham.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboSanPhamActionPerformed(evt);
+            }
+        });
 
         btnSua.setText("Sửa");
         btnSua.addActionListener(new java.awt.event.ActionListener() {
@@ -447,6 +454,7 @@ public class GoiMonJFrame extends javax.swing.JFrame {
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
         this.insert();
+        this.dispose();
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void txtSoLuongCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSoLuongCaretUpdate
@@ -461,6 +469,11 @@ public class GoiMonJFrame extends javax.swing.JFrame {
         soLuong = Integer.parseInt(txtSoLuong.getText());
         maSanPham = spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham();
     }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void cboSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboSanPhamActionPerformed
+        // TODO add your handling code here:
+        tinhTien();
+    }//GEN-LAST:event_cboSanPhamActionPerformed
 
     /**
      * @param args the command line arguments

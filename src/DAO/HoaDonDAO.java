@@ -54,6 +54,23 @@ public class HoaDonDAO {
         }
         return list;
     }
+    
+    public int getIDIdentity() {
+        try {
+            ResultSet rs = null;
+            String sql = "SELECT IDENT_CURRENT('HoaDon')";
+            try {
+                rs = Jdbc.executeQuery(sql);
+                while (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } finally {
+                rs.getStatement().getConnection().close();
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
 
     public static List<Object[]> getHoaDonTheoBan() {
         List<Object[]> list = new ArrayList<>();
@@ -61,8 +78,12 @@ public class HoaDonDAO {
             ResultSet rs = null;
             String sql = "SELECT ban.MaBan ,sum(ban.MaKhuVuc)/count(Ban.MaKhuVuc), "
                     + "Sum(HoaDon.ThanhTien) from HoaDon JOIN Ban ON HoaDon.MaBan = "
-                    + "Ban.MaBan JOIN KhuVuc ON Ban.MaKhuVuc = KhuVuc.MaKhuVuc where ban.TrangThai = 1 "
+                    + "Ban.MaBan JOIN KhuVuc ON Ban.MaKhuVuc = KhuVuc.MaKhuVuc where ban.TrangThai = 1 and HoaDon.TrangThai = 0 "
                     + "group by Ban.MaBan";
+//            String sql = "SELECT ban.MaBan ,sum(ban.MaKhuVuc)/count(Ban.MaKhuVuc), "
+//                    + "Sum(HoaDon.ThanhTien) from HoaDon JOIN Ban ON HoaDon.MaBan = "
+//                    + "Ban.MaBan JOIN KhuVuc ON Ban.MaKhuVuc = KhuVuc.MaKhuVuc where ban.TrangThai = 1 and HoaDon.TrangThai = 0 "
+//                    + "group by Ban.MaBan";
             try {
                 rs = Jdbc.executeQuery(sql);
                 while (rs.next()) {
@@ -101,15 +122,17 @@ public class HoaDonDAO {
 
     public boolean update(HoaDon model) {
         try {
-            String sql = "UPDATE HoaDon SET MaNhanVien= ?, MaBan= ?, GhiChu= ?, TrangThai= ?, NgayThanhToan= ? WHERE MaHoaDon= ?";
+            String sql = "UPDATE HoaDon SET MaNhanVien= ?, MaBan= ?, GhiChu= ?, TrangThai= ?, NgayThanhToan= ?, ThanhTien = ? WHERE MaHoaDon= ?";
             Jdbc.executeUpdate(sql,
                     model.getMaNhanVien(),
                     model.getMaBan(),
                     model.getGhiChu(),
                     model.isTrangThai(),
                     model.getNgayThanhToan(),
+                    model.getThanhTien(),
                     model.getMaHoaDon()
             );
+            System.out.println(model.getMaHoaDon());
             return true;
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -118,7 +141,7 @@ public class HoaDonDAO {
     }
 
     public void updateTrangThaiHD(int trangThai, Date ngayThanhToan, int maBan) {
-        String sql = "UPDATE HoaDon SET TrangThai= ?, NgayThanhToan= ? WHERE MaBan= ?";
+        String sql = "UPDATE HoaDon SET TrangThai= ?, NgayThanhToan= ? WHERE MaBan= ? AND TrangThai = 0";
         Jdbc.executeUpdate(sql, trangThai, ngayThanhToan, maBan);
     }
 

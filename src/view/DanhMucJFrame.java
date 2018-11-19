@@ -5,14 +5,8 @@
  */
 package view;
 
-import DAO.BanDAO;
-import DAO.HoaDonDAO;
-import DAO.KhoHangDAO;
-import DAO.KhuVucDAO;
-import DAO.LoaiSanPhamDAO;
-import DAO.SanPhamDAO;
-import helper.DialogHelper;
-import helper.XDate;
+import DAO.*;
+import helper.*;
 import java.awt.event.*;
 import java.util.List;
 import javax.swing.*;
@@ -51,35 +45,36 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         loadTabs();
         loadDonHangTheoBan();
         loadSanPham();
+//        setBoderForTable(jScrollPane1);
+//        setBoderForTable(jScrollPane2);
     }
 
     public static void loadTabs() {
         loadBanChung();
         loadBanCoKhach();
         loadBanChuaCoKhach();
+        tabs.setSelectedIndex(0);
     }
 
+    void setBoderForTable(JScrollPane scp) {
+        scp.setViewportBorder(null);
+        scp.setBorder(null);
+    }
+    
     public static void loadBanChung() {
         List<Ban> list = banDAO.select();
         pnlBan.removeAll();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).isTrangThai()) {
-//                int iii = i;
                 ban = new JLabel(CafeGreen);
                 if (list.get(i).getMaBan() < 10) {
                     ban.setText("Bàn 0" + list.get(i).getMaBan());
                 } else {
                     ban.setText("Bàn " + list.get(i).getMaBan());
                 }
-//                ban.addMouseListener(new MouseAdapter() {
-//                    @Override
-//                    public void mouseReleased(MouseEvent e) {
-//                        if (e.getClickCount() == 2) {
-//                            xemCTTheoBan(list.get(iii).getMaBan());
-//                        }
-//                    }
-//                });
                 pnlBan.add(ban);
+                pnlBan.setVisible(true);
+                tabs.setVisible(true);
             } else {
                 ban = new JLabel(CafeBlack);
                 if (list.get(i).getMaBan() < 10) {
@@ -94,6 +89,8 @@ public class DanhMucJFrame extends javax.swing.JFrame {
                     }
                 });
                 pnlBan.add(ban);
+                pnlBan.setVisible(true);
+                tabs.setVisible(true);
             }
         }
     }
@@ -103,21 +100,12 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         pnlDaCoKhach.removeAll();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).isTrangThai()) {
-//                int iii = i;
                 JLabel ban = new JLabel(CafeGreen);
                 if (list.get(i).getMaBan() < 10) {
                     ban.setText("Bàn 0" + list.get(i).getMaBan());
                 } else {
                     ban.setText("Bàn " + list.get(i).getMaBan());
                 }
-//                ban.addMouseListener(new MouseAdapter() {
-//                    @Override
-//                    public void mouseReleased(MouseEvent e) {
-//                        if (e.getClickCount() == 2) {
-//                            xemCTTheoBan(list.get(iii).getMaBan());
-//                        }
-//                    }
-//                });
                 pnlDaCoKhach.add(ban);
             }
         }
@@ -149,9 +137,6 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         DialogHelper.alert(this, "Xem thông tin bàn");
     }
 
-//    static void xemCTTheoBan(int maBan) {
-//        new GoiMonJFrame(maBan).setVisible(true);
-//    }
     void xemThongTinChiTiet() {
         new HoaDonChiTietJFrame().setVisible(true);
     }
@@ -223,6 +208,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         btnCaLamViec = new javax.swing.JButton();
         btnKhoHang = new javax.swing.JButton();
         btnSanPham = new javax.swing.JButton();
+        btnThongKe = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -242,6 +228,8 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         pnlChuaCoKhach.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         tabs.addTab("Chưa có khách", pnlChuaCoKhach);
 
+        tblHoaDon.setAutoCreateRowSorter(true);
+        tblHoaDon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         tblHoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -258,6 +246,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblHoaDon.setGridColor(new java.awt.Color(255, 255, 255));
         tblHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblHoaDonMouseClicked(evt);
@@ -371,6 +360,13 @@ public class DanhMucJFrame extends javax.swing.JFrame {
             }
         });
 
+        btnThongKe.setText("Thống kê");
+        btnThongKe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThongKeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlWrapperLayout = new javax.swing.GroupLayout(pnlWrapper);
         pnlWrapper.setLayout(pnlWrapperLayout);
         pnlWrapperLayout.setHorizontalGroup(
@@ -392,6 +388,8 @@ public class DanhMucJFrame extends javax.swing.JFrame {
                         .addComponent(btnCaLamViec)
                         .addGap(18, 18, 18)
                         .addComponent(btnKhoHang)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnThongKe)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(pnlWrapperLayout.createSequentialGroup()
                         .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -426,7 +424,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
                         .addComponent(lblSanPham)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
                 .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBan)
                     .addComponent(btnKhuVuc)
@@ -434,8 +432,9 @@ public class DanhMucJFrame extends javax.swing.JFrame {
                     .addComponent(btnNhanVien)
                     .addComponent(btnCaLamViec)
                     .addComponent(btnKhoHang)
-                    .addComponent(btnSanPham))
-                .addContainerGap())
+                    .addComponent(btnSanPham)
+                    .addComponent(btnThongKe))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -448,7 +447,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pnlWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -478,7 +477,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
                 }
             }
         }
-        pnlBan.requestFocus();
+        loadTabs();
     }//GEN-LAST:event_tblHoaDonMouseClicked
 
     private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
@@ -523,17 +522,12 @@ public class DanhMucJFrame extends javax.swing.JFrame {
 
     private void tabsFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabsFocusGained
         // TODO add your handling code here:
-        tabsFocus();
     }//GEN-LAST:event_tabsFocusGained
 
-    void tabsFocus() {
-        new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loadTabs();
-            }
-        }).start();
-    }
+    private void btnThongKeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThongKeActionPerformed
+        // TODO add your handling code here:
+        new ThongKeJFrame().setVisible(true);
+    }//GEN-LAST:event_btnThongKeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -580,6 +574,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnLoaiSP;
     private javax.swing.JButton btnNhanVien;
     private javax.swing.JButton btnSanPham;
+    private javax.swing.JButton btnThongKe;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblSanPham;
@@ -587,7 +582,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
     public static javax.swing.JPanel pnlChuaCoKhach;
     public static javax.swing.JPanel pnlDaCoKhach;
     private javax.swing.JPanel pnlDanhMuc;
-    private javax.swing.JPanel pnlWrapper;
+    public static javax.swing.JPanel pnlWrapper;
     public static javax.swing.JTabbedPane tabs;
     private javax.swing.JLabel tblDonHang;
     public static javax.swing.JTable tblHoaDon;

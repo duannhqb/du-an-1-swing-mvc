@@ -42,6 +42,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
         grGioiTinh = new ButtonGroup();
         grGioiTinh.add(rdoNam);
         grGioiTinh.add(rdoNu);
+
         grVaiTro = new ButtonGroup();
         grVaiTro.add(rdoQuanLy);
         grVaiTro.add(rdoNhanVien);
@@ -61,7 +62,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
                 Object[] row = {
                     nhanVien.getMaNhanVien(),
                     nhanVien.getHoTen(),
-                    nhanVien.getNgaySinh(),
+                    XDate.toString(nhanVien.getNgaySinh()),
                     nhanVien.getDienThoai(),
                     nhanVien.isGioiTinh() ? "Nữ" : "Nam",
                     nhanVien.getEmail(),
@@ -95,11 +96,8 @@ public class NhanVienJFrame extends javax.swing.JFrame {
         }
         nhanVien.setHoTen(txtHoTen.getText());
         nhanVien.setMatKhau(txtMatKhau.getText());
-        if (grGioiTinh.getSelection().equals(rdoNam.getModel())) {
-            nhanVien.setVaiTro(true);
-        } else {
-            nhanVien.setVaiTro(false);
-        }
+        nhanVien.setGioiTinh(rdoNu.isSelected());
+        nhanVien.setVaiTro(rdoNhanVien.isSelected());
         nhanVien.setNgaySinh(XDate.toDate(txtNgaySinh.getText()));
         nhanVien.setEmail(txtEmail.getText());
         nhanVien.setDienThoai(txtDienThoai.getText());
@@ -119,19 +117,17 @@ public class NhanVienJFrame extends javax.swing.JFrame {
         txtHoTen.setText(model.getHoTen());
         txtNgaySinh.setText(XDate.toString(model.getNgaySinh()));
         txtDienThoai.setText(model.getDienThoai());
-        if (model.isGioiTinh()) {
-            rdoNu.setSelected(true);
-        } else {
-            rdoNam.setSelected(true);
-        }
+
+        rdoNam.setSelected(!model.isGioiTinh());
+        rdoNu.setSelected(model.isGioiTinh());
+
         txtEmail.setText(model.getEmail());
         txtMatKhau.setText(model.getMatKhau());
         txtMatKhauXacNhan.setText(model.getMatKhau());
-        if (model.isVaiTro()) {
-            rdoNhanVien.setSelected(true);
-        } else {
-            rdoQuanLy.setSelected(true);
-        }
+
+        rdoNhanVien.setSelected(model.isVaiTro());
+        rdoQuanLy.setSelected(!model.isVaiTro());
+
         txtGhiChu.setText(model.getGhiChu());
     }
 
@@ -526,7 +522,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, true, true
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

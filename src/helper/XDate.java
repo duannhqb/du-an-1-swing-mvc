@@ -7,6 +7,7 @@ package helper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -52,19 +53,10 @@ public class XDate {
         return DATE_FORMATER.format(date);
     }
 
-//     bổ sung số ngày vào thời gian
-//    date là thời gian hiện có
-//    days là số ngày cần bổ sung vào date
     public static Date addDays(Date date, int days) {
-        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-        return date;
-    }
-
-//    bổ sung ngày vào thời gian hiện hành
-//    days là số ngày cần bổ sung vào thời gian hiện hành
-    public static Date add(int days) {
-        Date now = XDate.now();
-        now.setTime(now.getTime() + days * 24 * 60 * 60 * 1000);
-        return now;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days); //minus number would decrement the days
+        return cal.getTime();
     }
 }

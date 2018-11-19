@@ -7,7 +7,7 @@ package view;
 
 import DAO.HoaDonDAO;
 import DAO.NhanVienDAO;
-import helper.DialogHelper;
+import helper.XDate;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import model.HoaDon;
@@ -53,12 +53,12 @@ public class HoaDonChiTietJFrame extends javax.swing.JFrame {
                     hoaDon.getSanPham().getGiaBan(),
                     hoaDon.getThanhTien(),
                     hoaDon.isTrangThai() ? "Đã thanh toán" : "Chưa thanh toán",
-                    nvdao.findById(hoaDon.getMaNhanVien()).getHoTen()
+                    nvdao.findById(hoaDon.getMaNhanVien()).getHoTen(),
+                    hoaDon.isTrangThai() ? XDate.toString(hoaDon.getNgayThanhToan()) : "",
                 };
                 model.addRow(row);
             }
         } catch (Exception e) {
-            System.out.println(e.toString());
         }
     }
 
@@ -74,12 +74,8 @@ public class HoaDonChiTietJFrame extends javax.swing.JFrame {
         pnlWrapper = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblHoaDon = new javax.swing.JTable();
-        btnFirst = new javax.swing.JButton();
-        btnPrev = new javax.swing.JButton();
-        btnNext = new javax.swing.JButton();
-        btnLast = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        tblTimKiem = new javax.swing.JLabel();
+        txtTimKiem = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Thông tin chi tiết");
@@ -89,11 +85,11 @@ public class HoaDonChiTietJFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Bàn", "Hóa đơn", "Sản phẩm", "Số lượng mua", "Đơn giá", "Thành tiền", "Trạng thái", "Nhân viên"
+                "Bàn", "Hóa đơn", "Sản phẩm", "Số lượng mua", "Đơn giá", "Thành tiền", "Trạng thái", "Nhân viên", "Ngày thanh toán"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -107,62 +103,37 @@ public class HoaDonChiTietJFrame extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblHoaDon);
 
-        btnFirst.setText("<<");
-
-        btnPrev.setText("|<");
-
-        btnNext.setText(">|");
-
-        btnLast.setText(">>");
-
-        jLabel1.setText("Tìm kiếm theo bàn");
+        tblTimKiem.setText("Tìm kiếm theo bàn");
 
         javax.swing.GroupLayout pnlWrapperLayout = new javax.swing.GroupLayout(pnlWrapper);
         pnlWrapper.setLayout(pnlWrapperLayout);
         pnlWrapperLayout.setHorizontalGroup(
             pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlWrapperLayout.createSequentialGroup()
-                .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlWrapperLayout.createSequentialGroup()
-                        .addGap(261, 261, 261)
-                        .addComponent(btnFirst)
-                        .addGap(20, 20, 20)
-                        .addComponent(btnPrev)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnNext)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnLast))
-                    .addGroup(pnlWrapperLayout.createSequentialGroup()
-                        .addGap(212, 212, 212)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(253, Short.MAX_VALUE))
+                .addGap(217, 217, 217)
+                .addComponent(tblTimKiem)
+                .addGap(18, 18, 18)
+                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(248, Short.MAX_VALUE))
             .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlWrapperLayout.createSequentialGroup()
-                    .addGap(90, 90, 90)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(90, Short.MAX_VALUE)))
+                    .addContainerGap()
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(22, Short.MAX_VALUE)))
         );
         pnlWrapperLayout.setVerticalGroup(
             pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlWrapperLayout.createSequentialGroup()
-                .addGap(60, 60, 60)
+            .addGroup(pnlWrapperLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
                 .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 311, Short.MAX_VALUE)
-                .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnFirst)
-                    .addComponent(btnLast)
-                    .addComponent(btnPrev)
-                    .addComponent(btnNext))
-                .addGap(26, 26, 26))
+                    .addComponent(tblTimKiem)
+                    .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(332, Short.MAX_VALUE))
             .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlWrapperLayout.createSequentialGroup()
-                    .addGap(106, 106, 106)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGap(65, 65, 65)))
+                    .addGap(94, 94, 94)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(46, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -238,14 +209,10 @@ public class HoaDonChiTietJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnFirst;
-    private javax.swing.JButton btnLast;
-    private javax.swing.JButton btnNext;
-    private javax.swing.JButton btnPrev;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel pnlWrapper;
     public static javax.swing.JTable tblHoaDon;
+    private javax.swing.JLabel tblTimKiem;
+    private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }

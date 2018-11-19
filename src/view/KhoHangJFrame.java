@@ -150,7 +150,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     KhoHang getModel() {
 
         KhoHang khoHang = new KhoHang();
-        SanPham sanPham = new SanPham();
+//        SanPham sanPham = new SanPham();
         String tenSanPham = (String) cboSanPham.getSelectedItem();
         SanPham sp = spdao.findByName(tenSanPham);
         khoHang.setMaKhoHang(Integer.valueOf(txtSoLuong.getToolTipText()));
@@ -163,7 +163,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         khoHang.setNgayNhap(XDate.now());
         khoHang.setSoLuong(Integer.valueOf(txtSoLuong.getText()));
         khoHang.setGhiChu(txtGhiChu.getText());
-        khoHang.setHanSuDung(XDate.add(30)); // hạn sử dụng 1 tháng kể từ ngày thêm 
+        khoHang.setHanSuDung(XDate.addDays(XDate.now(),30)); // hạn sử dụng 1 tháng kể từ ngày thêm 
 
         return khoHang;
     }

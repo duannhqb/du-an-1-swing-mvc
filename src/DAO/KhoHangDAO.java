@@ -72,7 +72,6 @@ public class KhoHangDAO {
             throw new RuntimeException(e);
         }
         return list;
-
     }
 
     public List<KhoHang> select() {
@@ -96,7 +95,7 @@ public class KhoHangDAO {
     public int getSLByMaSP(int maSP) {
         try {
             ResultSet rs = null;
-            String sql = "SELECT SoLuong FROM KhoHang WHERE MaSanPham = ?";
+            String sql = "SELECT SUM(SoLuong) FROM KhoHang WHERE MaSanPham = ? group by MaSanPham";
             try {
                 rs = Jdbc.executeQuery(sql, maSP);
                 while (rs.next()) {
@@ -110,14 +109,31 @@ public class KhoHangDAO {
         return 0;
     }
 
-    public void updateSLByMaSP(int soLuong, int maSP) {
-        String sql = "update KhoHang set SoLuong = SoLuong - ? where MaSanPham = ?";
-        Jdbc.executeUpdate(sql, soLuong, maSP);
+    public int getMaKhoHangByMaSP(int maSanPham) {
+        try {
+            ResultSet rs = null;
+            String sql = "SELECT MaKhoHang FROM KhoHang WHERE MaSanPham = ? and SoLuong > 0 ORDER BY NgayNhap ASC";
+            try {
+                rs = Jdbc.executeQuery(sql, maSanPham);
+                while (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } finally {
+                rs.getStatement().getConnection().close();
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    
+    public void updateSLByMaSP(int soLuong, int maSP, int maKhoHang) {
+        String sql = "update KhoHang set SoLuong = SoLuong - ? where MaSanPham = ? and MaKhoHang = ?";
+        Jdbc.executeUpdate(sql, soLuong, maSP, maKhoHang);
     }
 
-    public void themSLByMaSP(int soLuong, int maSP) {
-        String sql = "update KhoHang set SoLuong = SoLuong + ? where MaSanPham = ?";
-        Jdbc.executeUpdate(sql, soLuong, maSP);
+    public void themSLByMaSP(int soLuong, int maSP, int maKhoHang) {
+        String sql = "update KhoHang set SoLuong = SoLuong + ? where MaSanPham = ? and MaKhoHang = ?";
+        Jdbc.executeUpdate(sql, soLuong, maSP, maKhoHang);
     }
 
 }
