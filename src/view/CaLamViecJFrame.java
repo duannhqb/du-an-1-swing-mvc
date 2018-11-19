@@ -69,7 +69,7 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
     }
 
     void setStatus(boolean insertable) {
-        btnThem.setEnabled(!insertable);
+        btnThem.setEnabled(insertable);
         btnSua.setEnabled(!insertable);
         btnXoa.setEnabled(!insertable);
 

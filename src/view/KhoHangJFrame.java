@@ -6,6 +6,7 @@
 package view;
 
 import DAO.KhoHangDAO;
+import DAO.NhanVienDAO;
 import DAO.SanPhamDAO;
 import helper.DialogHelper;
 import helper.XDate;
@@ -32,6 +33,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     int index = 0;
     KhoHangDAO dao = new KhoHangDAO();
     SanPhamDAO spdao = new SanPhamDAO();
+    NhanVienDAO nvdao = new NhanVienDAO();
 
     void init() {
         fillCombobox();
@@ -58,7 +60,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
                 Object[] row = {
                     kh.getMaKhoHang(),
                     spdao.findById(kh.getMaSanPham()).getTenSanPham(),
-                    kh.getMaNhanVien(),
+                    nvdao.findById(kh.getMaNhanVien()).getHoTen(),
                     kh.getNgayNhap(),
                     kh.getHanSuDung(),
                     kh.getSoLuong()
@@ -238,7 +240,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Mã Kho Hàng", "Tên Sản Phẩm", "Mã Nhân Viên", "Ngày Nhập", "Ngày hết hạn", "Số Lượng"
+                "Mã Kho Hàng", "Tên Sản Phẩm", "Nhân Viên", "Ngày Nhập", "Ngày hết hạn", "Số Lượng"
             }
         ) {
             boolean[] canEdit = new boolean [] {
