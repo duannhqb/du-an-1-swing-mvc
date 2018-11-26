@@ -353,6 +353,11 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblThongTin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblThongTinMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblThongTin);
 
         lblTongTien.setText("Tổng tiền");
@@ -551,6 +556,16 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         }
         loadTabs();
     }//GEN-LAST:event_btnThanhToanActionPerformed
+
+    private void tblThongTinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblThongTinMouseClicked
+        // TODO add your handling code here:
+        this.index = tblThongTin.rowAtPoint(evt.getPoint());
+        if (this.index >= 0) {
+            cboSanPham.setSelectedItem(tblThongTin.getValueAt(index, 0));
+            txtSoLuong.setText(tblThongTin.getValueAt(index, 3).toString());
+        }
+        this.tinhTien();
+    }//GEN-LAST:event_tblThongTinMouseClicked
 
     /**
      * @param args the command line arguments
