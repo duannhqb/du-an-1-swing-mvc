@@ -181,42 +181,48 @@ public class GoiMonJFrame extends javax.swing.JFrame {
             if (khDAO.getSLByMaSP(spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham())
                     >= Integer.parseInt(txtSoLuong.getText())) {
                 HoaDon model = getModelHD();
+                int soLuongTheoMaKH = 0;
                 try {
-//                      thêm mới vào bảng hóa đơn, sau đó thêm mới vào bảng hóa đơn chi tiết lấy mã hóa đơn cho bảng hóa đơn chi tiết là mã hóa đơn được thêm vào cuối cùng
-                    if (dao.insert(model)) {
-
-                        HoaDonChiTiet modelChiTiet = getModelHDCT();
-                        daoCT.insert(modelChiTiet, dao.getIDIdentity());
-
-                        DialogHelper.setInfinity(lblMSG, "Thêm mới thành công!");
-
 //                        trả về mã kho hàng đầu tiên trong danh sách, được sắp xếp tăng dần về ngày nhập hàng, sẽ bán những sản phẩm trong mã kho hàng được thêm đầu tiên, tránh hỏng hàng
-                        int maKhoHang = khDAO.getMaKhoHangByMaSP(spDAO.findByName((String) cboSanPham.
-                                getSelectedItem()).getMaSanPham());
-                        System.out.println(maKhoHang);
+                    int maKhoHang = khDAO.getMaKhoHangByMaSP(spDAO.findByName((String) cboSanPham.
+                            getSelectedItem()).getMaSanPham());
+
+//                        Kiểm tra số lượng sản phẩm theo mã kho hàng, ( ở trên cũng có kiểm tra số lượng, nhưng đó là kiểm tra GROUP BY theo mã sản phẩm )
+                    soLuongTheoMaKH = khDAO.getMaSLHang(maKhoHang);
+                    if (soLuongTheoMaKH >= Integer.parseInt(txtSoLuong.getText())) {
+//                      thêm mới vào bảng hóa đơn, sau đó thêm mới vào bảng hóa đơn chi tiết lấy mã hóa đơn cho bảng hóa đơn chi tiết là mã hóa đơn được thêm vào cuối cùng
+                        if (dao.insert(model)) {
+
+                            HoaDonChiTiet modelChiTiet = getModelHDCT();
+                            daoCT.insert(modelChiTiet, dao.getIDIdentity());
+
+                            DialogHelper.setInfinity(lblMSG, "Thêm mới thành công!");
+
 //                      thêm thành công thì số lượng sản phẩm trong kho bị giảm
-                        khDAO.updateSLByMaSP(Integer.parseInt(txtSoLuong.getText()),
-                                spDAO.findByName((String) cboSanPham.
-                                        getSelectedItem()).getMaSanPham(), maKhoHang);
+                            khDAO.updateSLByMaSP(Integer.parseInt(txtSoLuong.getText()),
+                                    spDAO.findByName((String) cboSanPham.
+                                            getSelectedItem()).getMaSanPham(), maKhoHang);
 //                      load lại bảng đơn hàng và bảng thông tin sản phẩm ở danh mục sau khi gọi món
-                        DanhMucJFrame.loadDonHangTheoBan();
-                        DanhMucJFrame.loadSanPham();
+                            DanhMucJFrame.loadDonHangTheoBan();
 
 //                      gọi món xong thì bàn sẽ chuyển sang màu xanh và đợi thanh toán
-                        banDAO.datBan(1, (int) cboBan.getSelectedItem());
+                            banDAO.datBan(1, (int) cboBan.getSelectedItem());
 
 //                      gọi phương thức để load lại tab bàn ở danh mục
-                        DanhMucJFrame.loadTabs();
+                            DanhMucJFrame.loadTabs();
 
-                        try {
+                            try {
 //                      thêm xong load bảng hóa đơn ở danh mục
-                            DanhMucJFrame.loadDonHangTheoBan();
-                        } catch (Exception e) {
+                                DanhMucJFrame.loadDonHangTheoBan();
+                            } catch (Exception e) {
+                            }
+//                            thêm xong tắt form => tránh bug =))
+                            this.dispose();
                         }
-
+                    } else {
+                        DialogHelper.alert(this, "Số lượng sản phẩm trong kho hàng cũ chỉ còn : " + soLuongTheoMaKH + ".");
                     }
                 } catch (Exception e) {
-                    DialogHelper.alert(this, "Số lượng trong kho không đủ yêu cầu.");
                 }
             } else {
                 DialogHelper.alert(this, "Số lượng sản phẩm chỉ còn " + khDAO.getSLByMaSP(
@@ -247,10 +253,10 @@ public class GoiMonJFrame extends javax.swing.JFrame {
 //                        trả về mã kho hàng đầu tiên trong danh sách, được sắp xếp tăng dần về ngày nhập hàng, sẽ bán những sản phẩm trong mã kho hàng được thêm đầu tiên, tránh hỏng hàng                       
                         int maKhoHang = khDAO.getMaKhoHangByMaSP(maSanPham);
                         khDAO.themSLByMaSP(soLuong, maSanPham, maKhoHang);
-                        
+
                         maKhoHang = khDAO.getMaKhoHangByMaSP(spDAO.findByName((String) cboSanPham.
-                                        getSelectedItem()).getMaSanPham());
-                        
+                                getSelectedItem()).getMaSanPham());
+
 //                      cập nhật thành công thì số lượng sản phẩm trong kho bị giảm đi
                         khDAO.updateSLByMaSP(Integer.parseInt(txtSoLuong.getText()),
                                 spDAO.findByName((String) cboSanPham.
@@ -258,7 +264,6 @@ public class GoiMonJFrame extends javax.swing.JFrame {
 
 //                      load lại bảng đơn hàng và bảng thông tin sản phẩm ở danh mục sau khi sửa món
                         DanhMucJFrame.loadDonHangTheoBan();
-                        DanhMucJFrame.loadSanPham();
 
 //                      gọi phương thức để load lại tab bàn ở danh mục
                         DanhMucJFrame.loadTabs();
@@ -454,7 +459,6 @@ public class GoiMonJFrame extends javax.swing.JFrame {
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
         this.insert();
-        this.dispose();
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void txtSoLuongCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSoLuongCaretUpdate

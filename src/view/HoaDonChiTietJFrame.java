@@ -102,6 +102,18 @@ public class HoaDonChiTietJFrame extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(tblHoaDon);
+        if (tblHoaDon.getColumnModel().getColumnCount() > 0) {
+            tblHoaDon.getColumnModel().getColumn(0).setMinWidth(40);
+            tblHoaDon.getColumnModel().getColumn(0).setMaxWidth(40);
+            tblHoaDon.getColumnModel().getColumn(1).setMinWidth(65);
+            tblHoaDon.getColumnModel().getColumn(1).setMaxWidth(65);
+            tblHoaDon.getColumnModel().getColumn(2).setMinWidth(95);
+            tblHoaDon.getColumnModel().getColumn(2).setMaxWidth(95);
+            tblHoaDon.getColumnModel().getColumn(3).setMinWidth(80);
+            tblHoaDon.getColumnModel().getColumn(3).setMaxWidth(80);
+            tblHoaDon.getColumnModel().getColumn(8).setMinWidth(90);
+            tblHoaDon.getColumnModel().getColumn(8).setMaxWidth(90);
+        }
 
         tblTimKiem.setText("Tìm kiếm theo bàn");
 

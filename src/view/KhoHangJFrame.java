@@ -394,25 +394,16 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     private void btnxoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnxoaActionPerformed
         // TODO add your handling code here:
         delete();
-
-//        sau khi xóa xong thì load lại bảng sản phẩm ở danh mục chính
-        DanhMucJFrame.loadSanPham();
     }//GEN-LAST:event_btnxoaActionPerformed
 
     private void btnthemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemActionPerformed
         // TODO add your handling code here:
         insert();
-
-//        sau khi thêm xong thì load lại bảng sản phẩm ở danh mục chính
-        DanhMucJFrame.loadSanPham();
     }//GEN-LAST:event_btnthemActionPerformed
 
     private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
         // TODO add your handling code here:
         update();
-
-//        sau khi sửa xong thì load lại bảng sản phẩm ở danh mục chính
-        DanhMucJFrame.loadSanPham();
     }//GEN-LAST:event_btnsuaActionPerformed
 
     private void btnmoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmoiActionPerformed

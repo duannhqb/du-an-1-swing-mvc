@@ -126,6 +126,23 @@ public class KhoHangDAO {
         return 0;
     }
     
+    public int getMaSLHang(int maKhoHang) {
+        try {
+            ResultSet rs = null;
+            String sql = "SELECT SoLuong FROM KhoHang WHERE MaKhoHang = ?";
+            try {
+                rs = Jdbc.executeQuery(sql, maKhoHang);
+                while (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } finally {
+                rs.getStatement().getConnection().close();
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    
     public void updateSLByMaSP(int soLuong, int maSP, int maKhoHang) {
         String sql = "update KhoHang set SoLuong = SoLuong - ? where MaSanPham = ? and MaKhoHang = ?";
         Jdbc.executeUpdate(sql, soLuong, maSP, maKhoHang);
