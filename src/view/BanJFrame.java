@@ -142,7 +142,6 @@ public class BanJFrame extends javax.swing.JFrame {
                 DialogHelper.setInfinity(lblThongBao, "Xóa thành công!");
             } catch (Exception e) {
                 DialogHelper.alert(this, "Không thể xóa được vì dữ liệu đã được liên kết!");
-                System.out.println(e.toString());
             }
         }
     }
