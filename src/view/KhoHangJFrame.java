@@ -92,6 +92,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         try {
             dao.update(model);
             this.load();
+            this.clear();
             DialogHelper.alert(this, "Cập nhập thành công!");
         } catch (Exception e) {
             DialogHelper.alert(this, "Cập nhập thất bại!");
@@ -121,6 +122,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         model.setGhiChu(model.getGhiChu());
         this.cboSanPham.setSelectedItem(0);
         this.setModel(model);
+        this.setStatus(true);
     }
 
     void edit() {
@@ -172,16 +174,15 @@ public class KhoHangJFrame extends javax.swing.JFrame {
 
     void setStatus(boolean insertable) {
         btnthem.setEnabled(insertable);
-        btnsua.setEnabled(insertable);
-        btnxoa.setEnabled(insertable);
-        btnmoi.setEnabled(insertable);
+        btnsua.setEnabled(!insertable);
+        btnxoa.setEnabled(!insertable);
+        
         boolean first = this.index > 0;
         boolean last = this.index < tblQuanLyKhoHang.getRowCount() - 1;
-        btnNext.setEnabled(!insertable && last);
-        btnLast.setEnabled(!insertable && last);
         btnFirst.setEnabled(!insertable && first);
         btnPrev.setEnabled(!insertable && first);
-
+        btnLast.setEnabled(!insertable && last);
+        btnNext.setEnabled(!insertable && last);
     }
 
     /**
@@ -287,12 +288,32 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         });
 
         btnFirst.setText("|<");
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
 
         btnPrev.setText("<<");
+        btnPrev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrevActionPerformed(evt);
+            }
+        });
 
         btnNext.setText(">>");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
 
         btnLast.setText(">|");
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlWrapperLayout = new javax.swing.GroupLayout(pnlWrapper);
         pnlWrapper.setLayout(pnlWrapperLayout);
@@ -431,12 +452,34 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_tblQuanLyKhoHangMouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
-        fillCombobox();
-        load();
-        clear();
-        setStatus(true);
+        // TODO add your handling code here:    
+        this.load();   
+        this.setStatus(true);
     }//GEN-LAST:event_formWindowOpened
+
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        // TODO add your handling code here:
+        this.index--;
+        this.edit();
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
+        // TODO add your handling code here:
+        this.index=0;
+        this.edit();
+    }//GEN-LAST:event_btnPrevActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        // TODO add your handling code here:
+        this.index = tblQuanLyKhoHang.getRowCount() -1 ;
+        this.edit();
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        // TODO add your handling code here:
+        this.index ++;
+        this.edit();
+    }//GEN-LAST:event_btnLastActionPerformed
 
     /**
      * @param args the command line argumentsu

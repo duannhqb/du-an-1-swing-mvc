@@ -56,6 +56,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         try {
             dao.insert(model);
             this.load();
+            this.clear();
             DialogHelper.alert(this, "Thêm mới thành công");
         } catch (Exception e) {
             DialogHelper.alert(this, "Thêm mới thất bại");
@@ -67,6 +68,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         try {
             dao.update(model);
             this.load();
+            this.clear();
             DialogHelper.alert(this, "Cập nhâp thành công");
         } catch (Exception e) {
             DialogHelper.alert(this, "Cập nhập thất bại");
@@ -78,6 +80,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
             try {
                 dao.delete(maLoaiSP);
                 this.load();
+                this.clear();
                 DialogHelper.alert(this, "Xoá thành công");
             } catch (Exception e) {
                 DialogHelper.alert(this, "Xóa thất bại");
@@ -89,6 +92,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         LoaiSanPham model = new LoaiSanPham();
         model.setMaLoaiSP(model.getMaLoaiSP());
         model.setTenLoaiSP(model.getTenLoaiSP());
+        this.setStatus(true);
 
     }
 
@@ -113,10 +117,27 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
     LoaiSanPham getModel() {
         LoaiSanPham model = new LoaiSanPham();
         model.setTenLoaiSP(txtLoaiSanPham.getText());
-        model.setMaLoaiSP(Integer.parseInt(txtLoaiSanPham.getToolTipText()));
+        if(txtLoaiSanPham.getToolTipText() != null){
+          model.setMaLoaiSP(Integer.parseInt(txtLoaiSanPham.getToolTipText()));  
+        }
+        
         return model;
     }
 
+    void setStatus(boolean insertable) {
+        btnThem.setEnabled(insertable);
+        btnSua.setEnabled(!insertable);
+        btnXoa.setEnabled(!insertable);
+        
+        boolean first = this.index > 0;
+        boolean last = this.index < tblLoaiSanPham.getRowCount() - 1;
+        
+        btnNext.setEnabled(!insertable && last);
+        btnLast.setEnabled(!insertable && last);
+        btnFirst.setEnabled(!insertable && first);
+        btnPrev.setEnabled(!insertable && first);
+
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -142,6 +163,11 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         txtLoaiSanPham = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         lblTieuDe.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         lblTieuDe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -193,12 +219,32 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         });
 
         btnFirst.setText("<<");
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
 
         btnPrev.setText("|<");
+        btnPrev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrevActionPerformed(evt);
+            }
+        });
 
         btnNext.setText(">|");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
 
         btnLast.setText(">>");
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
 
         lblLoaiSanPham.setText("Loại sản phẩm");
 
@@ -268,7 +314,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(pnlWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
@@ -310,6 +356,36 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_tblLoaiSanPhamMouseClicked
+
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        // TODO add your handling code here:
+        this.index--;
+        this.edit();
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
+        // TODO add your handling code here:
+        this.index=0;
+        this.edit();
+    }//GEN-LAST:event_btnPrevActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        // TODO add your handling code here:
+        this.index = tblLoaiSanPham.getRowCount() -1;
+        this.edit();
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        // TODO add your handling code here:
+        this.index++;
+        this.edit();
+    }//GEN-LAST:event_btnLastActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        this.load();
+        this.setStatus(true);
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments

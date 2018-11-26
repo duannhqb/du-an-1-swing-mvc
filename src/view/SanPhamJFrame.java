@@ -26,7 +26,6 @@ public class SanPhamJFrame extends javax.swing.JFrame {
     public SanPhamJFrame() {
         initComponents();
         setLocationRelativeTo(null);
-        load();
     }
     int index = 0;
     SanPhamDAO dao = new SanPhamDAO();
@@ -117,6 +116,8 @@ public class SanPhamJFrame extends javax.swing.JFrame {
         this.cboLoaiSanPham.setSelectedItem(0);
         this.setModel(model);
         txtGiaBan.setText("");
+        this.setStatus(true);
+        
     }
 
     void edit() {
@@ -157,9 +158,9 @@ public class SanPhamJFrame extends javax.swing.JFrame {
 
     void setStatus(boolean insertable) {
         btnThem.setEnabled(insertable);
-        btnSua.setEnabled(insertable);
-        btnXoa.setEnabled(insertable);
-        btnMoi.setEnabled(insertable);
+        btnSua.setEnabled(!insertable);
+        btnXoa.setEnabled(!insertable);
+        
         boolean first = this.index > 0;
         boolean last = this.index < tblSanPham.getRowCount() - 1;
         btnNext.setEnabled(!insertable && last);
@@ -249,12 +250,32 @@ public class SanPhamJFrame extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tblSanPham);
 
         btnFirst.setText("<<");
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
 
         btnPrev.setText("|<");
+        btnPrev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrevActionPerformed(evt);
+            }
+        });
 
         btnNext.setText(">|");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
 
         btnLast.setText(">>");
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
 
         btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
@@ -425,12 +446,34 @@ public class SanPhamJFrame extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        fillCombobox();
         load();
-        clear();
         setStatus(true);
 
     }//GEN-LAST:event_formWindowOpened
+
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        // TODO add your handling code here:
+        this.index--;
+        this.edit();
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
+        // TODO add your handling code here:
+        this.index=0;
+        this.edit();
+    }//GEN-LAST:event_btnPrevActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        // TODO add your handling code here:
+        this.index = tblSanPham.getRowCount() -1;
+        this.edit();
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        // TODO add your handling code here:
+        this.index++;
+        this.edit();
+    }//GEN-LAST:event_btnLastActionPerformed
 
     /**
      * @param args the command line arguments
