@@ -44,15 +44,10 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         loadTabs();
         loadDonHangTheoBan();
-//        loadSanPham();
-//        setBoderForTable(jScrollPane1);
-//        setBoderForTable(jScrollPane2);
     }
 
     public static void loadTabs() {
         loadBanChung();
-//        loadBanCoKhach();
-//        loadBanChuaCoKhach();
         tabs.setSelectedIndex(0);
     }
 

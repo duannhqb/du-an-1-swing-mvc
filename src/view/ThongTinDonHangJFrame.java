@@ -20,9 +20,14 @@ import model.Ban;
 import model.HoaDon;
 import model.HoaDonChiTiet;
 import model.SanPham;
+import static view.DanhMucJFrame.banDAO;
+import static view.DanhMucJFrame.hdDAO;
+import static view.DanhMucJFrame.index;
 import static view.DanhMucJFrame.khDAO;
+import static view.DanhMucJFrame.loadTabs;
 import static view.DanhMucJFrame.lspDAO;
 import static view.DanhMucJFrame.spDAO;
+import static view.DanhMucJFrame.tblHoaDon;
 
 /**
  *
@@ -211,6 +216,66 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         }
     }
 
+    void update() {
+        if (khDAO.getSLByMaSP(spDAO.findByName((String) cboSanPham.
+                getSelectedItem()).getMaSanPham()) != 0) {
+            if (khDAO.getSLByMaSP(spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham())
+                    >= Integer.parseInt(txtSoLuong.getText())) {
+                HoaDon model = getModelHD();
+                try {
+//                      thêm mới vào bảng hóa đơn, sau đó thêm mới vào bảng hóa đơn chi tiết lấy mã hóa đơn cho bảng hóa đơn chi tiết là mã hóa đơn được thêm vào cuối cùng
+                    if (dao.update(model)) {
+
+                        HoaDonChiTiet modelChiTiet = getModelHDCT();
+                        daoCT.update(modelChiTiet);
+
+                        DialogHelper.setInfinity(lblMSG, "Cập nhật thành công!");
+
+//                      trước khi tính số lượng sản phẩm tồn kho sau khi sửa thì phải cộng vào số lượng đã thêm vào hóa đơn từ trước để đảm bảo số lượng sản phẩm trước khi thêm vào đơn hàng
+//                        khDAO.themSLByMaSP(soLuong, maSanPham);
+//                        trả về mã kho hàng đầu tiên trong danh sách, được sắp xếp tăng dần về ngày nhập hàng, sẽ bán những sản phẩm trong mã kho hàng được thêm đầu tiên, tránh hỏng hàng                       
+                        int maKhoHang = khDAO.getMaKhoHangByMaSP(maSanPham);
+                        khDAO.themSLByMaSP(soLuong, maSanPham, maKhoHang);
+
+                        maKhoHang = khDAO.getMaKhoHangByMaSP(spDAO.findByName((String) cboSanPham.
+                                getSelectedItem()).getMaSanPham());
+
+//                      cập nhật thành công thì số lượng sản phẩm trong kho bị giảm đi
+                        khDAO.updateSLByMaSP(Integer.parseInt(txtSoLuong.getText()),
+                                spDAO.findByName((String) cboSanPham.
+                                        getSelectedItem()).getMaSanPham(), maKhoHang);
+
+//                      load lại bảng đơn hàng và bảng thông tin sản phẩm ở danh mục sau khi sửa món
+                        DanhMucJFrame.loadDonHangTheoBan();
+
+//                      gọi phương thức để load lại tab bàn ở danh mục
+                        DanhMucJFrame.loadTabs();
+
+                        try {
+//                      sửa xong load bảng hóa đơn ở danh mục
+                            DanhMucJFrame.loadDonHangTheoBan();
+                        } catch (Exception e) {
+                        }
+
+                        this.loadSanPham();
+                        this.loadDonHangByBan(maBan);
+                        lblTongTien.setText("Tổng thanh toán: " + dmdao.getThanhToanTheoBan(maBan));
+
+                    }
+                } catch (Exception e) {
+                    DialogHelper.alert(this, "Thêm mới thất bại!");
+                    System.out.println(e.toString());
+                }
+            } else {
+                DialogHelper.alert(this, "Số lượng sản phẩm chỉ còn " + khDAO.getSLByMaSP(
+                        spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham()));
+            }
+        } else {
+            DialogHelper.alert(this, "Sản phẩm đã hết hàng!");
+        }
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -317,6 +382,11 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         lblGoiMon.setText("Gọi món");
 
         btnThanhToan.setText("Thanh toán");
+        btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThanhToanActionPerformed(evt);
+            }
+        });
 
         lblListSanPham.setText("Sản phẩm");
 
@@ -328,6 +398,11 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         });
 
         btnSuaMon.setText("Sửa món");
+        btnSuaMon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaMonActionPerformed(evt);
+            }
+        });
 
         btnXoaMon.setText("Xóa");
 
@@ -449,6 +524,33 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
             cboSanPham.setSelectedItem(tblSanPham.getValueAt(index, 0));
         }
     }//GEN-LAST:event_tblSanPhamMouseClicked
+
+    private void btnSuaMonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaMonActionPerformed
+        // TODO add your handling code here:
+        this.update();
+
+//        sau khi update thì lưu lại số lượng, phục vụ cho việc cập nhật
+        soLuong = Integer.parseInt(txtSoLuong.getText());
+        maSanPham = spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham();
+    }//GEN-LAST:event_btnSuaMonActionPerformed
+
+    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
+        // TODO add your handling code here:
+        if (this.index >= 0) {
+            if (DialogHelper.confirm(this, "Bạn muốn thanh toán cho bàn này")) {
+//                cập nhật trạng thái bàn: 0 là đã thanh toán và 1 là chưa thanh toán, khách vừa đặt hóa đơn thì sẽ = 1
+                banDAO.datBan(0, maBan);
+//                cập nhật trạng thái đơn hàng cho mỗi hóa đơn theo bàn
+//                1 là đã thanh toán, mặc định là 0
+                hdDAO.updateTrangThaiHD(1, XDate.now(), maBan);
+
+//                    sau khi cập nhật trạng thái cho bàn và hóa đơn => load lại thông tin ở bảng và JPanel
+                DanhMucJFrame.loadTabs();
+                DanhMucJFrame.loadDonHangTheoBan();
+            }
+        }
+        loadTabs();
+    }//GEN-LAST:event_btnThanhToanActionPerformed
 
     /**
      * @param args the command line arguments
