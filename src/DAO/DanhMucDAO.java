@@ -16,11 +16,32 @@ import java.util.List;
  */
 public class DanhMucDAO {
 
+    public int getMaHDCTByBanAndHD(int maBan, int maHD){
+      try {
+            ResultSet rs = null;
+            String sql = "select MaHoaDonCT from HoaDon join HoaDonChiTiet on "
+                    + "HoaDon.MaHoaDon = HoaDonChiTiet.MaHoaDon where "
+                    + "HoaDon.MaBan = ? and HoaDon.MaHoaDon = ?";
+            try {
+                rs = Jdbc.executeQuery(sql, maBan, maHD);
+                while (rs.next()) {
+                    return rs.getInt(1);
+                }
+
+            } finally {
+                rs.getStatement().getConnection().close();
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return 0;
+    }
+    
     public List<Object[]> getDanhSachSPTheoBan(int maBan) {
         List<Object[]> list = new ArrayList<>();
         try {
             ResultSet rs = null;
-            String sql = "select SanPham.TenSanPham, LoaiSanPham.TenLoaiSP, "
+            String sql = "select HoaDon.MaHoaDon, SanPham.TenSanPham, LoaiSanPham.TenLoaiSP, "
                     + "SanPham.GiaBan, HoaDonChiTiet.SoLuongSP, "
                     + "(SanPham.GiaBan*HoaDonChiTiet.SoLuongSP) as 'ThanhTien' "
                     + "from Ban join HoaDon on Ban.MaBan = HoaDon.MaBan "
@@ -34,11 +55,12 @@ public class DanhMucDAO {
                 rs = Jdbc.executeQuery(sql, maBan);
                 while (rs.next()) {
                     Object[] model = {
-                        rs.getString(1),
+                        rs.getInt(1),
                         rs.getString(2),
-                        rs.getFloat(3),
-                        rs.getInt(4),
-                        rs.getFloat(5),};
+                        rs.getString(3),
+                        rs.getFloat(4),
+                        rs.getInt(5),
+                        rs.getFloat(6),};
                     list.add(model);
                 }
             } finally {
