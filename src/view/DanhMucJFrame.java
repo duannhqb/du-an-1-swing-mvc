@@ -12,7 +12,6 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import model.Ban;
-import model.SanPham;
 
 /**
  *
@@ -29,6 +28,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
     public static LoaiSanPhamDAO lspDAO = new LoaiSanPhamDAO();
     public static HoaDonDAO hdDAO = new HoaDonDAO();
     public static KhuVucDAO kvDAO = new KhuVucDAO();
+    DanhMucDAO dmdao = new DanhMucDAO();
     public static JLabel ban;
     public static int index = 0;
     public static ImageIcon CafeGreen;
@@ -48,7 +48,6 @@ public class DanhMucJFrame extends javax.swing.JFrame {
 
     public static void loadTabs() {
         loadBanChung();
-        tabs.setSelectedIndex(0);
     }
 
     void setBoderForTable(JScrollPane scp) {
@@ -78,7 +77,6 @@ public class DanhMucJFrame extends javax.swing.JFrame {
                 });
                 pnlBan.add(ban);
                 pnlBan.setVisible(true);
-                tabs.setVisible(true);
             } else {
                 ban = new JLabel(CafeBlack);
                 if (list.get(i).getMaBan() < 10) {
@@ -97,7 +95,6 @@ public class DanhMucJFrame extends javax.swing.JFrame {
                 });
                 pnlBan.add(ban);
                 pnlBan.setVisible(true);
-                tabs.setVisible(true);
             }
         }
     }
@@ -138,8 +135,6 @@ public class DanhMucJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         pnlWrapper = new javax.swing.JPanel();
-        tabs = new javax.swing.JTabbedPane();
-        pnlBan = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblHoaDon = new javax.swing.JTable();
         tblDonHang = new javax.swing.JLabel();
@@ -152,18 +147,9 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         btnSanPham = new javax.swing.JButton();
         btnThongKe = new javax.swing.JButton();
         btnChiTiet = new javax.swing.JButton();
+        pnlBan = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        tabs.setTabPlacement(javax.swing.JTabbedPane.LEFT);
-        tabs.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tabsFocusGained(evt);
-            }
-        });
-
-        pnlBan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        tabs.addTab("Chung", pnlBan);
 
         tblHoaDon.setAutoCreateRowSorter(true);
         tblHoaDon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
@@ -256,6 +242,9 @@ public class DanhMucJFrame extends javax.swing.JFrame {
             }
         });
 
+        pnlBan.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnlBan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
         javax.swing.GroupLayout pnlWrapperLayout = new javax.swing.GroupLayout(pnlWrapper);
         pnlWrapper.setLayout(pnlWrapperLayout);
         pnlWrapperLayout.setHorizontalGroup(
@@ -283,8 +272,9 @@ public class DanhMucJFrame extends javax.swing.JFrame {
                         .addComponent(btnChiTiet)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(pnlWrapperLayout.createSequentialGroup()
-                        .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 649, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
+                        .addGap(11, 11, 11)
+                        .addComponent(pnlBan, javax.swing.GroupLayout.PREFERRED_SIZE, 617, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51)
                         .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(tblDonHang))
@@ -294,12 +284,12 @@ public class DanhMucJFrame extends javax.swing.JFrame {
             pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlWrapperLayout.createSequentialGroup()
                 .addGap(45, 45, 45)
-                .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(tabs)
+                .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnlWrapperLayout.createSequentialGroup()
                         .addComponent(tblDonHang)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pnlBan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(26, 26, 26)
                 .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBan)
@@ -348,6 +338,8 @@ public class DanhMucJFrame extends javax.swing.JFrame {
 //                    sau khi cập nhật trạng thái cho bàn và hóa đơn => load lại thông tin ở bảng và JPanel
                     DanhMucJFrame.loadTabs();
                     DanhMucJFrame.loadDonHangTheoBan();
+
+                    DialogHelper.confirm(this, "Tổng cộng tiền cho bàn [ " + maBan + " ] là : " + dmdao.getThanhToanTheoBan(maBan));
                 }
             }
         }
@@ -393,10 +385,6 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         new KhoHangJFrame().setVisible(true);
     }//GEN-LAST:event_btnKhoHangActionPerformed
-
-    private void tabsFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabsFocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tabsFocusGained
 
     private void btnThongKeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThongKeActionPerformed
         // TODO add your handling code here:
@@ -451,7 +439,6 @@ public class DanhMucJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JPanel pnlBan;
     public static javax.swing.JPanel pnlWrapper;
-    public static javax.swing.JTabbedPane tabs;
     private javax.swing.JLabel tblDonHang;
     public static javax.swing.JTable tblHoaDon;
     // End of variables declaration//GEN-END:variables

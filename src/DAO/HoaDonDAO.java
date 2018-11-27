@@ -55,6 +55,40 @@ public class HoaDonDAO {
         return list;
     }
     
+    public HoaDon getAllByMaHD(int maHD) {
+        List<HoaDon> list = new ArrayList<>();
+        try {
+            ResultSet rs = null;
+            String sql = "SELECT * from HoaDon JOIN HoaDonChiTiet "
+                    + "ON HoaDon.MaHoaDon = HoaDonChiTiet.MaHoaDon "
+                    + "JOIN SanPham on HoaDonChiTiet.MaSanPham = SanPham.MaSanPham where HoaDon.MaHoaDon = ?";
+            try {
+                rs = Jdbc.executeQuery(sql, maHD);
+                while (rs.next()) {
+                    HoaDon hoaDon = new HoaDon();
+                    hoaDon.setMaHoaDon(rs.getInt(1));
+                    hoaDon.setMaNhanVien(rs.getInt(2));
+                    hoaDon.setMaBan(rs.getInt(3));
+                    hoaDon.setGhiChu(rs.getString(4));
+                    hoaDon.setTrangThai(rs.getBoolean(5));
+                    hoaDon.setNgayThanhToan(rs.getDate(6));
+                    hoaDon.setThanhTien(rs.getFloat(7));
+//                    
+                    HoaDonChiTiet hdct = new HoaDonChiTiet(rs.getInt(8), rs.getInt(9), rs.getInt(10), rs.getInt(11));
+                    hoaDon.setHoaDonChiTiet(hdct);
+
+                    SanPham sanPham = new SanPham(rs.getInt(12), rs.getString(13), rs.getInt(14), rs.getFloat(15), rs.getBoolean(16), rs.getString(17));
+                    hoaDon.setSanPham(sanPham);
+                    list.add(hoaDon);
+                }
+            } finally {
+                rs.getStatement().getConnection().close();
+            }
+        } catch (Exception e) {
+        }
+        return list.get(0);
+    }
+    
     public int getIDIdentity() {
         try {
             ResultSet rs = null;
