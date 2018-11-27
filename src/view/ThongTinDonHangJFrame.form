@@ -118,11 +118,7 @@
                       <Component id="jScrollPane2" min="-2" pref="183" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-<<<<<<< HEAD
-                          <Component id="btnXoaMon" alignment="0" max="32767" attributes="0"/>
-=======
                           <Component id="btnXoaMon" alignment="1" max="32767" attributes="0"/>
->>>>>>> 98365e2f1299297575751ef42a75c390a4d0de71
                           <Component id="lblMSG" alignment="0" max="32767" attributes="0"/>
                           <Component id="lblGoiMon" min="-2" max="-2" attributes="0"/>
                       </Group>
