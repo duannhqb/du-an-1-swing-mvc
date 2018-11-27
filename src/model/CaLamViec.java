@@ -5,10 +5,7 @@
  */
 package model;
 
-/**
- *
- * @author duann
- */
+
 public class CaLamViec {
 
     private int maCaLamViec;

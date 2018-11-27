@@ -95,10 +95,10 @@
                   <Group type="102" attributes="0">
                       <Component id="jScrollPane2" min="-2" pref="183" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" max="-2" attributes="0">
-                          <Component id="lblGoiMon" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="btnXoaMon" alignment="0" max="32767" attributes="0"/>
                           <Component id="lblMSG" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lblGoiMon" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">

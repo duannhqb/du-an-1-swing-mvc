@@ -5,10 +5,7 @@
  */
 package model;
 
-/**
- *
- * @author duann
- */
+
 public class Ban {
 
     private int maBan;
