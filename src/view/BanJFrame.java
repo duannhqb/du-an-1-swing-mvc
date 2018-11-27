@@ -142,7 +142,6 @@ public class BanJFrame extends javax.swing.JFrame {
                 DialogHelper.setInfinity(lblThongBao, "Xóa thành công!");
             } catch (Exception e) {
                 DialogHelper.alert(this, "Không thể xóa được vì dữ liệu đã được liên kết!");
-                System.out.println(e.toString());
             }
         }
     }
@@ -401,12 +400,18 @@ public class BanJFrame extends javax.swing.JFrame {
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
         update();
+//        cái này duần làm
+        DanhMucJFrame.loadTabs();
+        DanhMucJFrame.loadDonHangTheoBan();
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
         delete(Integer.parseInt(txtMaBan.getText()));
         this.load();
+//        cái này duần làm
+        DanhMucJFrame.loadTabs();
+        DanhMucJFrame.loadDonHangTheoBan();
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed

@@ -131,6 +131,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
             KhoHang model = dao.findById(makh);
             if (model != null) {
                 this.setModel(model);
+                this.setStatus(false);
             }
         } catch (Exception e) {
             DialogHelper.alert(this, "Lỗi truy vấn dữ liệu");
@@ -154,7 +155,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     KhoHang getModel() {
 
         KhoHang khoHang = new KhoHang();
-        SanPham sanPham = new SanPham();
+//        SanPham sanPham = new SanPham();
         String tenSanPham = (String) cboSanPham.getSelectedItem();
         SanPham sp = spdao.findByName(tenSanPham);
         khoHang.setMaKhoHang(Integer.valueOf(txtSoLuong.getToolTipText()));
@@ -167,7 +168,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         khoHang.setNgayNhap(XDate.now());
         khoHang.setSoLuong(Integer.valueOf(txtSoLuong.getText()));
         khoHang.setGhiChu(txtGhiChu.getText());
-        khoHang.setHanSuDung(XDate.add(30)); // hạn sử dụng 1 tháng kể từ ngày thêm 
+        khoHang.setHanSuDung(XDate.addDays(XDate.now(),30)); // hạn sử dụng 1 tháng kể từ ngày thêm 
 
         return khoHang;
     }
@@ -415,25 +416,16 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     private void btnxoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnxoaActionPerformed
         // TODO add your handling code here:
         delete();
-
-//        sau khi xóa xong thì load lại bảng sản phẩm ở danh mục chính
-        DanhMucJFrame.loadSanPham();
     }//GEN-LAST:event_btnxoaActionPerformed
 
     private void btnthemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemActionPerformed
         // TODO add your handling code here:
         insert();
-
-//        sau khi thêm xong thì load lại bảng sản phẩm ở danh mục chính
-        DanhMucJFrame.loadSanPham();
     }//GEN-LAST:event_btnthemActionPerformed
 
     private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
         // TODO add your handling code here:
         update();
-
-//        sau khi sửa xong thì load lại bảng sản phẩm ở danh mục chính
-        DanhMucJFrame.loadSanPham();
     }//GEN-LAST:event_btnsuaActionPerformed
 
     private void btnmoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmoiActionPerformed

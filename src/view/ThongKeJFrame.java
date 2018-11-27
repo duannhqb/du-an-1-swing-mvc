@@ -5,6 +5,14 @@
  */
 package view;
 
+import DAO.SanPhamDAO;
+import DAO.ThongKeDAO;
+import helper.XDate;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author NgọcHải
@@ -14,9 +22,62 @@ public class ThongKeJFrame extends javax.swing.JFrame {
     /**
      * Creates new form ThongKeJFrame
      */
+    ThongKeDAO dao = new ThongKeDAO();
+    SanPhamDAO spDAO = new SanPhamDAO();
+
     public ThongKeJFrame() {
         initComponents();
         setLocationRelativeTo(null);
+        fillComboBoxThoiGian();
+        fillTableDoanhThu();
+        fillTableKhoHang();
+    }
+
+    void fillTableKhoHang() {
+        DefaultTableModel model = (DefaultTableModel) tblThongKeKhoHang.getModel();
+        model.setRowCount(0);
+        try {
+            List<Object[]> list = dao.getKhoHang();
+            for (Object[] objects : list) {
+                objects[0] = spDAO.findById((int) objects[0]).getTenSanPham();
+                model.addRow(objects);
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    void fillComboBoxThoiGian() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cboThoiGian.getModel();
+        model.removeAllElements();
+        try {
+            List<String> list = new ArrayList<>();
+            list.add("Năm");
+            list.add("Tháng");
+            for (String thoiGian : list) {
+                model.addElement(thoiGian);
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    void fillTableDoanhThu() {
+        DefaultTableModel model = (DefaultTableModel) tblThongKeTheoThang.getModel();
+        model.setRowCount(0);
+        try {
+            if (cboThoiGian.getSelectedItem().equals("Năm")) {
+                List<Object[]> list = dao.getDoanhThuNam();
+                for (Object[] objects : list) {
+                    model.addRow(objects);
+                }
+            } else {
+                List<Object[]> list = dao.getDoanhThuThang();
+                for (Object[] objects : list) {
+                    model.addRow(objects);
+                }
+            }
+        } catch (Exception e) {
+//            System.out.println(e.toString());
+        }
     }
 
     /**
@@ -42,7 +103,7 @@ public class ThongKeJFrame extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblThongKeNhanVien = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblTitle.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -53,23 +114,34 @@ public class ThongKeJFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Tên sản phẩm", "Số lượng tồn kho", "Số lượng đã bán"
+                "Tên sản phẩm", "Số lượng đã bán"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblThongKeKhoHang);
 
         javax.swing.GroupLayout pnlThongKeKhoHangLayout = new javax.swing.GroupLayout(pnlThongKeKhoHang);
         pnlThongKeKhoHang.setLayout(pnlThongKeKhoHangLayout);
         pnlThongKeKhoHangLayout.setHorizontalGroup(
             pnlThongKeKhoHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 806, Short.MAX_VALUE)
+            .addGroup(pnlThongKeKhoHangLayout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(79, Short.MAX_VALUE))
         );
         pnlThongKeKhoHangLayout.setVerticalGroup(
             pnlThongKeKhoHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlThongKeKhoHangLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlThongKeKhoHangLayout.createSequentialGroup()
+                .addContainerGap(35, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
 
         tabs.addTab("Thống kê kho hàng ", pnlThongKeKhoHang);
@@ -81,10 +153,23 @@ public class ThongKeJFrame extends javax.swing.JFrame {
             new String [] {
                 "Thời gian", "Doanh thu"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane4.setViewportView(tblThongKeTheoThang);
 
         cboThoiGian.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Năm", "Tháng" }));
+        cboThoiGian.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboThoiGianActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlThongKeDoanhThuLayout = new javax.swing.GroupLayout(pnlThongKeDoanhThu);
         pnlThongKeDoanhThu.setLayout(pnlThongKeDoanhThuLayout);
@@ -114,9 +199,17 @@ public class ThongKeJFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Mã nhân viên", "Số ngày làm việc", "Lương", "Hoa hồng"
+                "Nhân viên", "Số ngày làm việc", "Lương", "Hoa hồng"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tblThongKeNhanVien);
 
         javax.swing.GroupLayout pnlThongKeNhanVienLayout = new javax.swing.GroupLayout(pnlThongKeNhanVien);
@@ -139,9 +232,7 @@ public class ThongKeJFrame extends javax.swing.JFrame {
         pnlWallpaperLayout.setHorizontalGroup(
             pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(pnlWallpaperLayout.createSequentialGroup()
-                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 811, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+            .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 811, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         pnlWallpaperLayout.setVerticalGroup(
             pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,6 +259,11 @@ public class ThongKeJFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cboThoiGianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboThoiGianActionPerformed
+        // TODO add your handling code here:
+        fillTableDoanhThu();
+    }//GEN-LAST:event_cboThoiGianActionPerformed
 
     /**
      * @param args the command line arguments

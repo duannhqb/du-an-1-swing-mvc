@@ -23,8 +23,6 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
     public LoaiSanPhamJFrame() {
         initComponents();
         setLocationRelativeTo(null);
-        load();
-        init();
     }
     int index = 0;
     LoaiSanPhamDAO dao = new LoaiSanPhamDAO();
@@ -103,6 +101,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
 
             if (model != null) {
                 this.setModel(model);
+                this.setStatus(false);
             }
         } catch (Exception e) {
             DialogHelper.alert(this, "Lỗi truy vấn dữ liệu");
@@ -120,7 +119,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         if(txtLoaiSanPham.getToolTipText() != null){
           model.setMaLoaiSP(Integer.parseInt(txtLoaiSanPham.getToolTipText()));  
         }
-        
+
         return model;
     }
 
