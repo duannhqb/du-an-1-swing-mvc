@@ -236,7 +236,7 @@ public class SanPhamJFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Mã Sản Phẩm", "Tên Sản Phẩm", "Tên Loại Sản Phẩm", "Giá Bán", "Ghi chú"
+                "Mã Sản Phẩm", "Sản phẩm", "Sản phẩm", "Giá Bán", "Ghi chú"
             }
         ) {
             boolean[] canEdit = new boolean [] {

@@ -26,11 +26,11 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
     }
     int index = 0;
     LoaiSanPhamDAO dao = new LoaiSanPhamDAO();
-
+    
     void init() {
-
+        
     }
-
+    
     void load() {
         DefaultTableModel model = (DefaultTableModel) tblLoaiSanPham.getModel();
         model.setRowCount(0);
@@ -42,13 +42,13 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
                     lsp.getTenLoaiSP()
                 };
                 model.addRow(row);
-
+                
             }
         } catch (Exception e) {
             DialogHelper.alert(this, "Lỗi truy ván dữ liệu");
         }
     }
-
+    
     void insert() {
         LoaiSanPham model = getModel();
         try {
@@ -60,7 +60,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
             DialogHelper.alert(this, "Thêm mới thất bại");
         }
     }
-
+    
     void update() {
         LoaiSanPham model = getModel();
         try {
@@ -72,7 +72,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
             DialogHelper.alert(this, "Cập nhập thất bại");
         }
     }
-
+    
     void delete(int maLoaiSP) {
         if (DialogHelper.confirm(this, "Bạn muốn xóa hàng này")) {
             try {
@@ -85,20 +85,20 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
             }
         }
     }
-
+    
     void clear() {
         LoaiSanPham model = new LoaiSanPham();
         model.setMaLoaiSP(model.getMaLoaiSP());
         model.setTenLoaiSP(model.getTenLoaiSP());
         this.setStatus(true);
-
+        txtLoaiSanPham.setText("");
     }
-
+    
     void edit() {
         try {
             int malsp = (int) tblLoaiSanPham.getValueAt(this.index, 0);
             LoaiSanPham model = dao.findById(malsp);
-
+            
             if (model != null) {
                 this.setModel(model);
                 this.setStatus(false);
@@ -107,26 +107,22 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
             DialogHelper.alert(this, "Lỗi truy vấn dữ liệu");
         }
     }
-
+    
     void setModel(LoaiSanPham model) {
         txtLoaiSanPham.setText(model.getTenLoaiSP());
         txtLoaiSanPham.setToolTipText(String.valueOf(model.getMaLoaiSP()));
     }
-
+    
     LoaiSanPham getModel() {
         LoaiSanPham model = new LoaiSanPham();
         model.setTenLoaiSP(txtLoaiSanPham.getText());
-<<<<<<< HEAD
         model.setMaLoaiSP(Integer.parseInt(txtLoaiSanPham.getToolTipText()));
-=======
-        if(txtLoaiSanPham.getToolTipText() != null){
-          model.setMaLoaiSP(Integer.parseInt(txtLoaiSanPham.getToolTipText()));  
+        if (txtLoaiSanPham.getToolTipText() != null) {
+            model.setMaLoaiSP(Integer.parseInt(txtLoaiSanPham.getToolTipText()));            
         }
-
->>>>>>> 719a80de2566bacb93c60a168054884a5a44a72b
         return model;
     }
-
+    
     void setStatus(boolean insertable) {
         btnThem.setEnabled(insertable);
         btnSua.setEnabled(!insertable);
@@ -139,8 +135,9 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         btnLast.setEnabled(!insertable && last);
         btnFirst.setEnabled(!insertable && first);
         btnPrev.setEnabled(!insertable && first);
-
+        
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -368,13 +365,13 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
         // TODO add your handling code here:
-        this.index=0;
+        this.index = 0;
         this.edit();
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         // TODO add your handling code here:
-        this.index = tblLoaiSanPham.getRowCount() -1;
+        this.index = tblLoaiSanPham.getRowCount() - 1;
         this.edit();
     }//GEN-LAST:event_btnNextActionPerformed
 
