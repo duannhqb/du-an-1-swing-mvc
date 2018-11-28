@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -26,7 +26,6 @@ public class SanPhamJFrame extends javax.swing.JFrame {
     public SanPhamJFrame() {
         initComponents();
         setLocationRelativeTo(null);
-        load();
     }
     int index = 0;
     SanPhamDAO dao = new SanPhamDAO();
@@ -71,6 +70,58 @@ public class SanPhamJFrame extends javax.swing.JFrame {
         }
     }
 
+    void setModel(SanPham model) {
+        txtTenSanPham.setToolTipText(String.valueOf(model.getMaSanPham()));
+        txtTenSanPham.setText(model.getTenSanPham());
+        cboLoaiSanPham.setToolTipText(String.valueOf(model.getMaSanPham()));
+        LoaiSanPham lsp = lspdao.findById(model.getMaLoaiSP());
+        cboLoaiSanPham.setSelectedItem(lsp.getTenLoaiSP());
+        txtGiaBan.setText(String.valueOf(model.getGiaBan()));
+        txtGhiChu.setText(model.getGhiChu());
+
+    }
+
+    SanPham getModel() {
+        SanPham sanpham = new SanPham();
+        String tenLoaiSanPham = (String) cboLoaiSanPham.getSelectedItem();
+        LoaiSanPham lsp = lspdao.findByName(tenLoaiSanPham);
+        sanpham.setMaLoaiSP(lsp.getMaLoaiSP());
+        sanpham.setTenSanPham(txtTenSanPham.getText());
+        sanpham.setGiaBan(Float.valueOf(txtGiaBan.getText()));
+        sanpham.setGhiChu(txtGhiChu.getText());
+        
+        if(txtTenSanPham.getToolTipText()!= null){
+            sanpham.setMaSanPham(Integer.valueOf(txtTenSanPham.getToolTipText()));
+        }
+        return sanpham;
+    }
+
+    void setStatus(boolean insertTable) {
+        try {
+            btnThem.setEnabled(insertTable);
+            btnSua.setEnabled(!insertTable);
+            btnXoa.setEnabled(!insertTable);
+
+            boolean first = this.index > 0;
+            boolean last = this.index < tblSanPham.getRowCount() - 1;
+            btnFirst.setEnabled(!insertTable && first);
+            btnPrev.setEnabled(!insertTable && first);
+            btnNext.setEnabled(!insertTable && last);
+            btnLast.setEnabled(!insertTable && last);
+        } catch (Exception e) {
+        }
+    }
+
+    void clear() {
+        SanPham model = new SanPham();
+        String loaisp = (String) cboLoaiSanPham.getSelectedItem();
+        LoaiSanPham a = lspdao.findByName(loaisp);
+        model.setMaLoaiSP(a.getMaLoaiSP());
+        this.cboLoaiSanPham.setSelectedItem(0);
+        this.setModel(model);
+        txtGiaBan.setText("");
+    }
+
     void insert() {
         SanPham model = getModel();
         try {
@@ -109,63 +160,18 @@ public class SanPhamJFrame extends javax.swing.JFrame {
         }
     }
 
-    void clear() {
-        SanPham model = new SanPham();
-        String loaisp = (String) cboLoaiSanPham.getSelectedItem();
-        LoaiSanPham a = lspdao.findByName(loaisp);
-        model.setMaLoaiSP(a.getMaLoaiSP());
-        this.cboLoaiSanPham.setSelectedItem(0);
-        this.setModel(model);
-        txtGiaBan.setText("");
-    }
-
     void edit() {
         try {
             int masp = (int) tblSanPham.getValueAt(this.index, 0);
             SanPham model = dao.findById(masp);
             if (model != null) {
                 this.setModel(model);
+                this.setStatus(false);
+                
             }
         } catch (Exception e) {
             DialogHelper.alert(this, "Lỗi truy vấn dữ liệu");
         }
-    }
-
-    void setModel(SanPham model) {
-        txtTenSanPham.setToolTipText(String.valueOf(model.getMaSanPham()));
-        txtTenSanPham.setText(model.getTenSanPham());
-        cboLoaiSanPham.setToolTipText(String.valueOf(model.getMaSanPham()));
-        LoaiSanPham lsp = lspdao.findById(model.getMaLoaiSP());
-        cboLoaiSanPham.setSelectedItem(lsp.getTenLoaiSP());
-        txtGiaBan.setText(String.valueOf(model.getGiaBan()));
-        txtGhiChu.setText(model.getGhiChu());
-
-    }
-
-    SanPham getModel() {
-        SanPham sanpham = new SanPham();
-        LoaiSanPham loaisanpham = new LoaiSanPham();
-        sanpham.setMaSanPham(Integer.valueOf(txtTenSanPham.getToolTipText()));
-        String tenLoaiSanPham = (String) cboLoaiSanPham.getSelectedItem();
-        LoaiSanPham lsp = lspdao.findByName(tenLoaiSanPham);
-        sanpham.setMaLoaiSP(lsp.getMaLoaiSP());
-        sanpham.setTenSanPham(txtTenSanPham.getText());
-        sanpham.setGiaBan(Float.valueOf(txtGiaBan.getText()));
-        sanpham.setGhiChu(txtGhiChu.getText());
-        return sanpham;
-    }
-
-    void setStatus(boolean insertable) {
-        btnThem.setEnabled(insertable);
-        btnSua.setEnabled(insertable);
-        btnXoa.setEnabled(insertable);
-        btnMoi.setEnabled(insertable);
-        boolean first = this.index > 0;
-        boolean last = this.index < tblSanPham.getRowCount() - 1;
-        btnNext.setEnabled(!insertable && last);
-        btnLast.setEnabled(!insertable && last);
-        btnFirst.setEnabled(!insertable && first);
-        btnPrev.setEnabled(!insertable && first);
     }
 
     /**
@@ -249,12 +255,32 @@ public class SanPhamJFrame extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tblSanPham);
 
         btnFirst.setText("<<");
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
 
         btnPrev.setText("|<");
+        btnPrev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrevActionPerformed(evt);
+            }
+        });
 
         btnNext.setText(">|");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
 
         btnLast.setText(">>");
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
 
         btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
@@ -422,12 +448,38 @@ public class SanPhamJFrame extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        fillCombobox();
-        load();
-        clear();
-        setStatus(true);
+        try {
+            load();
+            setStatus(true);
+        } catch (Exception e) {
+        }
+
 
     }//GEN-LAST:event_formWindowOpened
+
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        // TODO add your handling code here:
+        this.index--;
+        this.edit();
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
+        // TODO add your handling code here:
+        this.index = 0;
+        this.edit();
+    }//GEN-LAST:event_btnPrevActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        // TODO add your handling code here:
+        this.index = tblSanPham.getRowCount() - 1;
+        this.edit();
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        // TODO add your handling code here:
+        this.index++;
+        this.edit();
+    }//GEN-LAST:event_btnLastActionPerformed
 
     /**
      * @param args the command line arguments
