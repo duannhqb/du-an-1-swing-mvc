@@ -7,7 +7,6 @@ package view;
 
 import DAO.SanPhamDAO;
 import DAO.ThongKeDAO;
-import helper.XDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -52,7 +51,7 @@ public class ThongKeJFrame extends javax.swing.JFrame {
         try {
             List<String> list = new ArrayList<>();
             list.add("Năm");
-            list.add("Tháng");
+            list.add("Ngày");
             for (String thoiGian : list) {
                 model.addElement(thoiGian);
             }

@@ -76,6 +76,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
                     }
                 });
                 pnlBan.add(ban);
+                pnlBan.revalidate();
                 pnlBan.setVisible(true);
             } else {
                 ban = new JLabel(CafeBlack);
@@ -94,6 +95,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
                     }
                 });
                 pnlBan.add(ban);
+                pnlBan.revalidate();
                 pnlBan.setVisible(true);
             }
         }
@@ -329,6 +331,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
             if (this.index >= 0) {
                 if (DialogHelper.confirm(this, "Bạn muốn thanh toán cho bàn này")) {
                     int maBan = (int) tblHoaDon.getValueAt(index, 0);
+                    DialogHelper.alert(this, "Tổng cộng tiền cho bàn [ " + maBan + " ] là : " + dmdao.getThanhToanTheoBan(maBan) + " vnđ");
 //                cập nhật trạng thái bàn: 0 là đã thanh toán và 1 là chưa thanh toán, khách vừa đặt hóa đơn thì sẽ = 1
                     banDAO.datBan(0, maBan);
 //                cập nhật trạng thái đơn hàng cho mỗi hóa đơn theo bàn
@@ -338,8 +341,6 @@ public class DanhMucJFrame extends javax.swing.JFrame {
 //                    sau khi cập nhật trạng thái cho bàn và hóa đơn => load lại thông tin ở bảng và JPanel
                     DanhMucJFrame.loadTabs();
                     DanhMucJFrame.loadDonHangTheoBan();
-
-                    DialogHelper.confirm(this, "Tổng cộng tiền cho bàn [ " + maBan + " ] là : " + dmdao.getThanhToanTheoBan(maBan));
                 }
             }
         }
