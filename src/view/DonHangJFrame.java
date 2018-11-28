@@ -13,38 +13,28 @@ import DAO.KhoHangDAO;
 import DAO.SanPhamDAO;
 import helper.DialogHelper;
 import helper.XDate;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import model.HoaDon;
 import model.HoaDonChiTiet;
 import model.SanPham;
-import static view.DanhMucJFrame.CafeGreen;
-import static view.DanhMucJFrame.hdDAO;
-import static view.DanhMucJFrame.loadDonHangTheoBan;
-import static view.DanhMucJFrame.loadTabs;
 import static view.DanhMucJFrame.lspDAO;
 
 /**
  *
  * @author duann
  */
-public class ThongTinDonHangJFrame extends javax.swing.JFrame {
+public class DonHangJFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form ThongTinDonHangJFrame
-     */
+     * Creates new form DonHangJFrame
+     */   
     DanhMucDAO dmdao = new DanhMucDAO();
     HoaDonDAO dao = new HoaDonDAO();
     HoaDonChiTietDAO daoCT = new HoaDonChiTietDAO();
     SanPhamDAO spDAO = new SanPhamDAO();
+    HoaDonDAO hdDAO = new HoaDonDAO();
     BanDAO banDAO = new BanDAO();
     KhoHangDAO khDAO = new KhoHangDAO();
     int index = 0;
@@ -52,15 +42,13 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
     int maSanPham;
     int maBan;
     int dem = 0;
-    int mahdct;
 
-    public ThongTinDonHangJFrame() {
+    public DonHangJFrame() {
         initComponents();
         this.setLocationRelativeTo(null);
-        loadDonHangByBan(1);
     }
 
-    public ThongTinDonHangJFrame(int id) {
+    public DonHangJFrame(int id) {
         initComponents();
         this.setLocationRelativeTo(null);
         loadSanPham();
@@ -71,6 +59,7 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         fillComboBoxSanPham();
         txtSoLuong.setText("0");
         setStatus();
+//        pnlHidden.setVisible(false);
         setHiddenPnl(false);
     }
 
@@ -83,7 +72,6 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
                 model.addRow(objects);
             }
         } catch (Exception e) {
-            System.out.println(e.toString());
         }
     }
 
@@ -139,9 +127,10 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         }
     }
 
-    void setModel(HoaDonChiTiet model) {
-        cboSanPham.setSelectedItem(spDAO.findById(model.getMaSanPham()).getTenSanPham());
-        txtSoLuong.setText(String.valueOf(model.getSoLuongSP()));
+    void setModelHD(HoaDon model) {
+        cboSanPham.setToolTipText(String.valueOf(model.getMaHoaDon()));
+        cboSanPham.setSelectedItem(model.getSanPham().getTenSanPham());
+        txtSoLuong.setText(String.valueOf(model.getHoaDonChiTiet().getSoLuongSP()));
         this.tinhTien();
     }
 
@@ -154,6 +143,95 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
                 model.addElement(sp.getTenSanPham());
             }
         } catch (Exception e) {
+        }
+    }
+
+    HoaDon getModelHD() {
+        HoaDon hoaDon = new HoaDon();
+//      mã nhân viên sau khu tạo form đăng nhập sẽ sửa lại
+        hoaDon.setMaNhanVien(1);
+        hoaDon.setGhiChu("");
+        hoaDon.setTrangThai(false);
+//        ngày thanh toán: ban đầu sản phẩm được thêm vào hóa đơn thì chưa thanh toán, nhưng, ta vẫn lấy ngày thanh toán là ngày thêm vào hóa đơn, rồi sau đó chạy phần update sửa ngày thanh toán, để tránh null dữ liệu dẫn đến bug
+        hoaDon.setNgayThanhToan(XDate.now());
+        hoaDon.setThanhTien(Float.parseFloat(txtThanhTien.getText()));
+        try {
+            hoaDon.setMaHoaDon(Integer.parseInt(cboSanPham.getToolTipText()));
+        } catch (Exception e) {
+        }
+        hoaDon.setMaBan(maBan);
+        return hoaDon;
+    }
+
+    HoaDonChiTiet getModelHDCT() {
+        HoaDonChiTiet hoaDonCT = new HoaDonChiTiet();
+        try {
+            hoaDonCT.setMaHoaDonCT(dmdao.getMaHDCTByBanAndHD(maBan, Integer.parseInt(cboSanPham.getToolTipText())));
+        } catch (Exception e) {
+        }
+        String tenSP = (String) cboSanPham.getSelectedItem();
+        hoaDonCT.setMaSanPham(spDAO.findByName(tenSP).getMaSanPham());
+        hoaDonCT.setSoLuongSP(Integer.parseInt(txtSoLuong.getText()));
+        return hoaDonCT;
+    }
+
+    private void insert() {
+        if (khDAO.getSLByMaSP(spDAO.findByName((String) cboSanPham.
+                getSelectedItem()).getMaSanPham()) != 0) {
+            if (khDAO.getSLByMaSP(spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham())
+                    >= Integer.parseInt(txtSoLuong.getText())) {
+                HoaDon model = getModelHD();
+                int soLuongTheoMaKH = 0;
+//                try {
+//                        trả về mã kho hàng đầu tiên trong danh sách, được sắp xếp tăng dần về ngày nhập hàng, sẽ bán những sản phẩm trong mã kho hàng được thêm đầu tiên, tránh hỏng hàng
+                int maKhoHang = khDAO.getMaKhoHangByMaSP(spDAO.findByName((String) cboSanPham.
+                        getSelectedItem()).getMaSanPham());
+
+//                        Kiểm tra số lượng sản phẩm theo mã kho hàng, ( ở trên cũng có kiểm tra số lượng, nhưng đó là kiểm tra GROUP BY theo mã sản phẩm )
+                soLuongTheoMaKH = khDAO.getMaSLHang(maKhoHang);
+                if (soLuongTheoMaKH >= Integer.parseInt(txtSoLuong.getText())) {
+//                      thêm mới vào bảng hóa đơn, sau đó thêm mới vào bảng hóa đơn chi tiết lấy mã hóa đơn cho bảng hóa đơn chi tiết là mã hóa đơn được thêm vào cuối cùng
+                    if (dao.insert(model)) {
+
+                        HoaDonChiTiet modelChiTiet = getModelHDCT();
+                        daoCT.insert(modelChiTiet, dao.getIDIdentity());
+
+                        DialogHelper.setInfinity(lblMSG, "Thêm mới thành công!");
+
+//                      thêm thành công thì số lượng sản phẩm trong kho bị giảm
+                        khDAO.updateSLByMaSP(Integer.parseInt(txtSoLuong.getText()),
+                                spDAO.findByName((String) cboSanPham.
+                                        getSelectedItem()).getMaSanPham(), maKhoHang);
+//                      load lại bảng đơn hàng và bảng thông tin sản phẩm ở danh mục sau khi gọi món
+                        DanhMucJFrame.loadDonHangTheoBan();
+
+//                      gọi món xong thì bàn sẽ chuyển sang màu xanh và đợi thanh toán
+                        banDAO.datBan(1, maBan);
+
+//                      gọi phương thức để load lại tab bàn ở danh mục
+                        DanhMucJFrame.loadTabs();
+
+                        try {
+//                      thêm xong load bảng hóa đơn ở danh mục
+                            DanhMucJFrame.loadDonHangTheoBan();
+                        } catch (Exception e) {
+                        }
+
+                        this.loadSanPham();
+                        this.loadDonHangByBan(maBan);
+                        lblTongTien.setText("Tổng thanh toán: " + dmdao.getThanhToanTheoBan(maBan) + " vnđ");
+                    }
+                } else {
+                    DialogHelper.alert(this, "Số lượng sản phẩm trong kho hàng cũ chỉ còn : " + soLuongTheoMaKH + ".");
+                }
+//                } catch (Exception e) {
+//                }
+            } else {
+                DialogHelper.alert(this, "Số lượng sản phẩm chỉ còn " + khDAO.getSLByMaSP(
+                        spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham()));
+            }
+        } else {
+            DialogHelper.alert(this, "Sản phẩm đã hết hàng!");
         }
     }
 
@@ -170,99 +248,64 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         }
     }
 
-    HoaDon getModelHD() {
-        HoaDon hd = new HoaDon();
-        hd.setMaBan(maBan);
-        hd.setMaNhanVien(1);
-        hd.setGhiChu("");
-        hd.setTrangThai(false); // false = 0
-        hd.setNgayThanhToan(XDate.now());
-        hd.setThanhTien(0);
-        return hd;
-    }
+    void update() {
+        if (khDAO.getSLByMaSP(spDAO.findByName((String) cboSanPham.
+                getSelectedItem()).getMaSanPham()) != 0) {
+            if (khDAO.getSLByMaSP(spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham())
+                    >= Integer.parseInt(txtSoLuong.getText())) {
+                HoaDon model = getModelHD();
+                try {
+//                      thêm mới vào bảng hóa đơn, sau đó thêm mới vào bảng hóa đơn chi tiết lấy mã hóa đơn cho bảng hóa đơn chi tiết là mã hóa đơn được thêm vào cuối cùng
+                    if (dao.update(model)) {
 
-    HoaDonChiTiet getModelHDCT() {
-        HoaDonChiTiet hdct = new HoaDonChiTiet();
-        hdct.setSoLuongSP(Integer.parseInt(txtSoLuong.getText()));
-        hdct.setMaSanPham(spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham());
-        return hdct;
-    }
+                        HoaDonChiTiet modelChiTiet = getModelHDCT();
+                        daoCT.update(modelChiTiet);
 
-    int insertHDWhenCallMon() {
-        HoaDon hd = getModelHD();
-        hdDAO.insert(hd);
-        return hdDAO.getIDIdentity();
-    }
+                        DialogHelper.setInfinity(lblMSG, "Cập nhật thành công!");
 
-    int maHD;
+//                      trước khi tính số lượng sản phẩm tồn kho sau khi sửa thì phải cộng vào số lượng đã thêm vào hóa đơn từ trước để đảm bảo số lượng sản phẩm trước khi thêm vào đơn hàng
+//                        khDAO.themSLByMaSP(soLuong, maSanPham);
+//                        trả về mã kho hàng đầu tiên trong danh sách, được sắp xếp tăng dần về ngày nhập hàng, sẽ bán những sản phẩm trong mã kho hàng được thêm đầu tiên, tránh hỏng hàng                       
+                        int maKhoHang = khDAO.getMaKhoHangByMaSP(maSanPham);
+                        khDAO.themSLByMaSP(soLuong, maSanPham, maKhoHang);
 
-    void insert() {
-        try {
-            if (Integer.parseInt(txtSoLuong.getText()) > 0) {
-                if (tblThongTin.getRowCount() == 0) {
-//                    nếu bảng rỗng thì chưa có hóa đơn => tạo mới hóa đơn rồi get mã hóa đơn vừa thêm gán vào =))
-                    maHD = insertHDWhenCallMon();
-                } else {
-//                    Tất cả những mã hóa đơn chi tiết đều map đến 1 hóa đơn
-                    maHD = daoCT.getMaHDByMaHDCT((int) tblThongTin.getValueAt(0, 0));
+                        maKhoHang = khDAO.getMaKhoHangByMaSP(spDAO.findByName((String) cboSanPham.
+                                getSelectedItem()).getMaSanPham());
+
+//                      cập nhật thành công thì số lượng sản phẩm trong kho bị giảm đi
+                        khDAO.updateSLByMaSP(Integer.parseInt(txtSoLuong.getText()),
+                                spDAO.findByName((String) cboSanPham.
+                                        getSelectedItem()).getMaSanPham(), maKhoHang);
+
+//                      load lại bảng đơn hàng và bảng thông tin sản phẩm ở danh mục sau khi sửa món
+                        DanhMucJFrame.loadDonHangTheoBan();
+
+//                      gọi phương thức để load lại tab bàn ở danh mục
+                        DanhMucJFrame.loadTabs();
+
+                        try {
+//                      sửa xong load bảng hóa đơn ở danh mục
+                            DanhMucJFrame.loadDonHangTheoBan();
+                        } catch (Exception e) {
+                        }
+
+                        this.loadSanPham();
+                        this.loadDonHangByBan(maBan);
+                        lblTongTien.setText("Tổng thanh toán: " + dmdao.getThanhToanTheoBan(maBan) + " vnđ");
+
+                    }
+                } catch (Exception e) {
                 }
-                HoaDonChiTiet model = getModelHDCT();
-                daoCT.insert(model, maHD);
-
-//                thêm thành công thì số lượng sản phẩm trong kho bị giảm
-                khDAO.updateSLByMaSP(Integer.parseInt(txtSoLuong.getText()), maHD, maBan);
-
-//                sửa lại trạng thái bàn sau khi gọi món
-//                1 : trạng thái bàn đã được đặt chỗ.
-                banDAO.datBan(1, maBan);
-
-                lblTongTien.setText("Tổng thanh toán: " + dmdao.getThanhToanTheoBan(maBan) + " vnđ");
-
-                loadDonHangByBan(maBan);
-                loadSanPham();
-                loadTabs();
-                loadDonHangTheoBan();
-
-                DialogHelper.setInfinity(lblMSG, "Thêm mới thành công!");
             } else {
-                DialogHelper.alert(this, "Bạn phải nhập số lượng.");
+                DialogHelper.alert(this, "Số lượng sản phẩm chỉ còn " + khDAO.getSLByMaSP(
+                        spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham()));
             }
-        } catch (Exception e) {
+        } else {
+            DialogHelper.alert(this, "Sản phẩm đã hết hàng!");
         }
+
     }
 
-    public void update() {
-        try {
-            if (Integer.parseInt(txtSoLuong.getText()) > 0) {
-
-                HoaDonChiTiet hdct = getModelHDCT();
-//                mã hóa đơn chi tiết lấy được khi click vào bảng
-                daoCT.update(hdct, mahdct);
-
-//                mã sản phẩm được lấy khi click vào bảng hóa đơn ở trên
-                int maKhoHang = khDAO.getMaKhoHangByMaSP(maSanPham);
-
-//                trước khi sửa thì phải cộng lại số lượng đã mua rồi mới thêm hoặc bớt sau
-                khDAO.themSLByMaSP(soLuong, maSanPham, maKhoHang);
-
-                int maKhoHangMoi = khDAO.getMaKhoHangByMaSP(spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham());
-
-//                sau khi cập nhật thì số lượng trong kho sẽ giảm đi txtSoluong lần
-                khDAO.updateSLByMaSP(Integer.parseInt(txtSoLuong.getText()), spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham(), maKhoHangMoi);
-
-                lblTongTien.setText("Tổng thanh toán: " + dmdao.getThanhToanTheoBan(maBan) + " vnđ");
-
-                loadDonHangByBan(maBan);
-                loadSanPham();
-                loadTabs();
-                loadDonHangTheoBan();
-            } else {
-                DialogHelper.alert(this, "Vui lòng nhập số lượng.");
-            }
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -273,15 +316,6 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblThongTin = new javax.swing.JTable();
-        lblTongTien = new javax.swing.JLabel();
-        cboSanPham = new javax.swing.JComboBox<>();
-        lblSanPham = new javax.swing.JLabel();
-        txtSoLuong = new javax.swing.JTextField();
-        lblSoLuong = new javax.swing.JLabel();
-        txtThanhTien = new javax.swing.JTextField();
-        lblThanhTien = new javax.swing.JLabel();
         lblThongTinCuaBan = new javax.swing.JLabel();
         lblGoiMon = new javax.swing.JLabel();
         btnThanhToan = new javax.swing.JButton();
@@ -291,64 +325,21 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         lblMSG = new javax.swing.JLabel();
         btnClear = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblThongTin = new javax.swing.JTable();
+        lblTongTien = new javax.swing.JLabel();
+        cboSanPham = new javax.swing.JComboBox<>();
+        lblSanPham = new javax.swing.JLabel();
+        txtSoLuong = new javax.swing.JTextField();
+        lblSoLuong = new javax.swing.JLabel();
+        txtThanhTien = new javax.swing.JTextField();
+        lblThanhTien = new javax.swing.JLabel();
         pnlHidden = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSanPham = new javax.swing.JTable();
         lblListSanPham = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        tblThongTin.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Mã HDCT", "Sản phẩm", "Loại hàng", "Đơn giá", "Số lượng mua", "Thành tiền", "Xóa"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tblThongTin.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblThongTinMouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(tblThongTin);
-
-        lblTongTien.setText("Tổng tiền");
-
-        cboSanPham.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboSanPhamActionPerformed(evt);
-            }
-        });
-
-        lblSanPham.setText("Sản phẩm");
-
-        txtSoLuong.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                txtSoLuongCaretUpdate(evt);
-            }
-        });
-
-        lblSoLuong.setText("Số lượng");
-
-        txtThanhTien.setEditable(false);
-
-        lblThanhTien.setText("Thành tiền");
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         lblThongTinCuaBan.setText("Thông tin của bàn 12");
 
@@ -397,6 +388,58 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
             }
         });
 
+        tblThongTin.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Hóa đơn", "Tên sản phẩm", "Loại hàng", "Đơn giá", "Số lượng mua", "Thành tiền", "Xóa"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblThongTin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblThongTinMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblThongTin);
+
+        lblTongTien.setText("Tổng tiền");
+
+        cboSanPham.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboSanPhamActionPerformed(evt);
+            }
+        });
+
+        lblSanPham.setText("Sản phẩm");
+
+        txtSoLuong.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtSoLuongCaretUpdate(evt);
+            }
+        });
+
+        lblSoLuong.setText("Số lượng");
+
+        txtThanhTien.setEditable(false);
+
+        lblThanhTien.setText("Thành tiền");
+
         tblSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -441,8 +484,8 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlHiddenLayout.createSequentialGroup()
                 .addGap(0, 24, Short.MAX_VALUE)
                 .addComponent(lblListSanPham)
-                .addGap(29, 29, 29)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -453,7 +496,7 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlHidden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -480,7 +523,7 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
                                                 .addComponent(lblThanhTien)
                                                 .addGap(35, 35, 35)
                                                 .addComponent(txtThanhTien, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(btnThanhToan))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblGoiMon)
@@ -538,7 +581,7 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
                     .addComponent(btnSuaMon)
                     .addComponent(btnThanhToan)
                     .addComponent(btnClear))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pnlHidden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -548,6 +591,26 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
+        // TODO add your handling code here:
+        if (this.index >= 0) {
+            if (DialogHelper.confirm(this, "Tổng cộng tiền cho bàn [ " + maBan + " ] là : " + dmdao.getThanhToanTheoBan(maBan) + " vnđ")) {
+
+                //                cập nhật trạng thái bàn: 0 là đã thanh toán và 1 là chưa thanh toán, khách vừa đặt hóa đơn thì sẽ = 1
+                banDAO.datBan(0, maBan);
+                //                cập nhật trạng thái đơn hàng cho mỗi hóa đơn theo bàn
+                //                1 là đã thanh toán, mặc định là 0
+                hdDAO.updateTrangThaiHD(1, XDate.now(), maBan);
+
+                //                    sau khi cập nhật trạng thái cho bàn và hóa đơn => load lại thông tin ở bảng và JPanel
+                DanhMucJFrame.loadTabs();
+                DanhMucJFrame.loadDonHangTheoBan();
+
+                this.dispose();
+            }
+        }
+    }//GEN-LAST:event_btnThanhToanActionPerformed
+
     private void btnGoiMonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoiMonActionPerformed
         // TODO add your handling code here:
         this.insert();
@@ -555,15 +618,49 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         this.clear();
     }//GEN-LAST:event_btnGoiMonActionPerformed
 
-    private void txtSoLuongCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSoLuongCaretUpdate
+    private void btnSuaMonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaMonActionPerformed
         // TODO add your handling code here:
+        this.update();
+
+        //        sau khi update thì lưu lại số lượng, phục vụ cho việc cập nhật
+        soLuong = Integer.parseInt(txtSoLuong.getText());
+        maSanPham = spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham();
+        this.clear();
+    }//GEN-LAST:event_btnSuaMonActionPerformed
+
+    private void btnXoaMonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaMonActionPerformed
+        // TODO add your handling code here:
+        this.setStatus();
+    }//GEN-LAST:event_btnXoaMonActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        // TODO add your handling code here:
+        this.clear();
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void jLabel1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseExited
+        // TODO add your handling code here:
+        hiddenSanPham();
+    }//GEN-LAST:event_jLabel1MouseExited
+
+    private void tblThongTinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblThongTinMouseClicked
+        // TODO add your handling code here:
+        this.index = tblThongTin.rowAtPoint(evt.getPoint());
+        if (this.index >= 0) {
+            setModelHD(hdDAO.getAllByMaHD((int) tblThongTin.getValueAt(index, 0)));
+        }
         this.tinhTien();
-    }//GEN-LAST:event_txtSoLuongCaretUpdate
+    }//GEN-LAST:event_tblThongTinMouseClicked
 
     private void cboSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboSanPhamActionPerformed
         // TODO add your handling code here:
         this.tinhTien();
     }//GEN-LAST:event_cboSanPhamActionPerformed
+
+    private void txtSoLuongCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSoLuongCaretUpdate
+        // TODO add your handling code here:
+        this.tinhTien();
+    }//GEN-LAST:event_txtSoLuongCaretUpdate
 
     private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
         // TODO add your handling code here:
@@ -580,60 +677,6 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tblSanPhamMouseClicked
 
-    private void btnSuaMonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaMonActionPerformed
-        // TODO add your handling code here:
-        this.update();
-    }//GEN-LAST:event_btnSuaMonActionPerformed
-
-    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
-        // TODO add your handling code here:
-        if (this.index >= 0) {
-            if (DialogHelper.confirm(this, "Tổng cộng tiền cho bàn [ " + maBan + " ] là : " + dmdao.getThanhToanTheoBan(maBan) + " vnđ")) {
-
-//                cập nhật trạng thái bàn: 0 là đã thanh toán và 1 là chưa thanh toán, khách vừa đặt hóa đơn thì sẽ = 1
-                banDAO.datBan(0, maBan);
-//                cập nhật trạng thái đơn hàng cho mỗi hóa đơn theo bàn
-//                1 là đã thanh toán, mặc định là 0
-                hdDAO.updateTrangThaiHD(1, XDate.now(), maBan);
-
-//                    sau khi cập nhật trạng thái cho bàn và hóa đơn => load lại thông tin ở bảng và JPanel
-                DanhMucJFrame.loadTabs();
-                DanhMucJFrame.loadDonHangTheoBan();
-
-                this.dispose();
-            }
-        }
-    }//GEN-LAST:event_btnThanhToanActionPerformed
-
-    private void tblThongTinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblThongTinMouseClicked
-        // TODO add your handling code here:
-        this.index = tblThongTin.rowAtPoint(evt.getPoint());
-        if (this.index >= 0) {
-            setModel(daoCT.findById((int) tblThongTin.getValueAt(index, 0)));
-            mahdct = (int) tblThongTin.getValueAt(index, 0);
-
-//            lưu lại số lượng và sản phẩm ở trên bảng để có thể update lại số lượng sản phẩm vào giỏ hàng trước khi sửa món
-            soLuong = Integer.parseInt(txtSoLuong.getText());
-            maSanPham = spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham();
-        }
-        this.tinhTien();
-    }//GEN-LAST:event_tblThongTinMouseClicked
-
-    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        // TODO add your handling code here:
-        this.clear();
-    }//GEN-LAST:event_btnClearActionPerformed
-
-    private void btnXoaMonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaMonActionPerformed
-        // TODO add your handling code here:
-        this.setStatus();
-    }//GEN-LAST:event_btnXoaMonActionPerformed
-
-    private void jLabel1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseExited
-        // TODO add your handling code here:
-        hiddenSanPham();
-    }//GEN-LAST:event_jLabel1MouseExited
-
     /**
      * @param args the command line arguments
      */
@@ -645,26 +688,26 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ThongTinDonHangJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DonHangJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ThongTinDonHangJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DonHangJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ThongTinDonHangJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DonHangJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ThongTinDonHangJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DonHangJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ThongTinDonHangJFrame().setVisible(true);
+                new DonHangJFrame().setVisible(true);
             }
         });
     }
