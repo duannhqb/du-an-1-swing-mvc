@@ -23,7 +23,7 @@ public class HoaDonChiTietJFrame extends javax.swing.JFrame {
      */
     static HoaDonDAO dao = new HoaDonDAO();
     static NhanVienDAO nvdao = new NhanVienDAO();
-    int index = 0;
+//    int index = 0;
 
     public HoaDonChiTietJFrame() {
         initComponents();
@@ -34,10 +34,10 @@ public class HoaDonChiTietJFrame extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         load();
     }
-
-    void openGoiMon(int maHD) {
-        new GoiMonJFrame(maHD).setVisible(true);
-    }
+//
+//    void openGoiMon(int maHD) {
+//        new GoiMonJFrame(maHD).setVisible(true);
+//    }
 
     public static void load() {
         DefaultTableModel model = (DefaultTableModel) tblHoaDon.getModel();
@@ -111,8 +111,8 @@ public class HoaDonChiTietJFrame extends javax.swing.JFrame {
             tblHoaDon.getColumnModel().getColumn(2).setMaxWidth(95);
             tblHoaDon.getColumnModel().getColumn(3).setMinWidth(80);
             tblHoaDon.getColumnModel().getColumn(3).setMaxWidth(80);
-            tblHoaDon.getColumnModel().getColumn(8).setMinWidth(90);
-            tblHoaDon.getColumnModel().getColumn(8).setMaxWidth(90);
+            tblHoaDon.getColumnModel().getColumn(8).setMinWidth(120);
+            tblHoaDon.getColumnModel().getColumn(8).setMaxWidth(120);
         }
 
         tblTimKiem.setText("Tìm kiếm theo bàn");
@@ -122,30 +122,27 @@ public class HoaDonChiTietJFrame extends javax.swing.JFrame {
         pnlWrapperLayout.setHorizontalGroup(
             pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlWrapperLayout.createSequentialGroup()
-                .addGap(217, 217, 217)
-                .addComponent(tblTimKiem)
-                .addGap(18, 18, 18)
-                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(248, Short.MAX_VALUE))
-            .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnlWrapperLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(22, Short.MAX_VALUE)))
+                .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlWrapperLayout.createSequentialGroup()
+                        .addGap(217, 217, 217)
+                        .addComponent(tblTimKiem)
+                        .addGap(43, 43, 43)
+                        .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlWrapperLayout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 833, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(29, 29, 29))
         );
         pnlWrapperLayout.setVerticalGroup(
             pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlWrapperLayout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addContainerGap(51, Short.MAX_VALUE)
                 .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tblTimKiem)
                     .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(332, Short.MAX_VALUE))
-            .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnlWrapperLayout.createSequentialGroup()
-                    .addGap(94, 94, 94)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(46, Short.MAX_VALUE)))
+                .addGap(31, 31, 31)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -168,13 +165,13 @@ public class HoaDonChiTietJFrame extends javax.swing.JFrame {
 
     private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
         // TODO add your handling code here:
-        if (evt.getClickCount() == 2) {
-            this.index = tblHoaDon.rowAtPoint(evt.getPoint());
-            if (this.index >= 0) {
-                int maHD = (int) tblHoaDon.getValueAt(index, 1);
-                openGoiMon(maHD);
-            }
-        }
+//        if (evt.getClickCount() == 2) {
+//            this.index = tblHoaDon.rowAtPoint(evt.getPoint());
+//            if (this.index >= 0) {
+//                int maHD = (int) tblHoaDon.getValueAt(index, 1);
+//                openGoiMon(maHD);
+//            }
+//        }
     }//GEN-LAST:event_tblHoaDonMouseClicked
 
     /**

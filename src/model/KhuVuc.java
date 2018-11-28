@@ -5,10 +5,7 @@
  */
 package model;
 
-/**
- *
- * @author duann
- */
+
 public class KhuVuc {
 
     private int maKhuVuc;

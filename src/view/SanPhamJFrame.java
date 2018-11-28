@@ -83,14 +83,13 @@ public class SanPhamJFrame extends javax.swing.JFrame {
 
     SanPham getModel() {
         SanPham sanpham = new SanPham();
-        LoaiSanPham loaisanpham = new LoaiSanPham();
-        
         String tenLoaiSanPham = (String) cboLoaiSanPham.getSelectedItem();
         LoaiSanPham lsp = lspdao.findByName(tenLoaiSanPham);
         sanpham.setMaLoaiSP(lsp.getMaLoaiSP());
         sanpham.setTenSanPham(txtTenSanPham.getText());
         sanpham.setGiaBan(Float.valueOf(txtGiaBan.getText()));
         sanpham.setGhiChu(txtGhiChu.getText());
+        
         if(txtTenSanPham.getToolTipText()!= null){
             sanpham.setMaSanPham(Integer.valueOf(txtTenSanPham.getToolTipText()));
         }

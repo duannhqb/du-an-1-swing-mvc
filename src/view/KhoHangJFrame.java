@@ -169,7 +169,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         khoHang.setSoLuong(Integer.valueOf(txtSoLuong.getText()));
         khoHang.setGhiChu(txtGhiChu.getText());
         khoHang.setHanSuDung(XDate.addDays(XDate.now(),30)); // hạn sử dụng 1 tháng kể từ ngày thêm 
-
+        
         return khoHang;
     }
 

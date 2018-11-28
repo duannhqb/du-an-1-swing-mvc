@@ -12,10 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Ban;
 
-/**
- *
- * @author duann
- */
+
 public class BanDAO {
 
     public void insert(Ban model) {
