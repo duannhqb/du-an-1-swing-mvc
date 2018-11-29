@@ -119,7 +119,6 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         try {
             List<Object[]> list = hdDAO.getHoaDonTheoBan();
             for (Object[] objects : list) {
-                objects[1] = kvDAO.findById((int) objects[1]).getTenKhuVuc();
                 model.addRow(objects);
             }
         } catch (Exception e) {
@@ -139,7 +138,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         pnlWrapper = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblHoaDon = new javax.swing.JTable();
-        tblDonHang = new javax.swing.JLabel();
+        lblBanHD = new javax.swing.JLabel();
         btnBan = new javax.swing.JButton();
         btnKhuVuc = new javax.swing.JButton();
         btnLoaiSP = new javax.swing.JButton();
@@ -160,11 +159,11 @@ public class DanhMucJFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Bàn", "Khu vực", "Thành tiền"
+                "Bàn", "Khu vực"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -179,7 +178,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblHoaDon);
 
-        tblDonHang.setText("Thông tin các bàn đang hoạt động");
+        lblBanHD.setText("Thông tin các bàn đang hoạt động");
 
         btnBan.setText("Bàn");
         btnBan.addActionListener(new java.awt.event.ActionListener() {
@@ -278,9 +277,9 @@ public class DanhMucJFrame extends javax.swing.JFrame {
                         .addComponent(pnlBan, javax.swing.GroupLayout.PREFERRED_SIZE, 617, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(51, 51, 51)
                         .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tblDonHang))
-                        .addContainerGap(36, Short.MAX_VALUE))))
+                            .addComponent(lblBanHD)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(49, Short.MAX_VALUE))))
         );
         pnlWrapperLayout.setVerticalGroup(
             pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -288,7 +287,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
                 .addGap(45, 45, 45)
                 .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnlWrapperLayout.createSequentialGroup()
-                        .addComponent(tblDonHang)
+                        .addComponent(lblBanHD)
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(pnlBan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -329,22 +328,9 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         if (evt.getClickCount() == 2) {
             this.index = tblHoaDon.rowAtPoint(evt.getPoint());
             if (this.index >= 0) {
-                if (DialogHelper.confirm(this, "Bạn muốn thanh toán cho bàn này")) {
-                    int maBan = (int) tblHoaDon.getValueAt(index, 0);
-                    DialogHelper.alert(this, "Tổng cộng tiền cho bàn [ " + maBan + " ] là : " + dmdao.getThanhToanTheoBan(maBan) + " vnđ");
-//                cập nhật trạng thái bàn: 0 là đã thanh toán và 1 là chưa thanh toán, khách vừa đặt hóa đơn thì sẽ = 1
-                    banDAO.datBan(0, maBan);
-//                cập nhật trạng thái đơn hàng cho mỗi hóa đơn theo bàn
-//                1 là đã thanh toán, mặc định là 0
-                    hdDAO.updateTrangThaiHD(1, XDate.now(), maBan);
-
-//                    sau khi cập nhật trạng thái cho bàn và hóa đơn => load lại thông tin ở bảng và JPanel
-                    DanhMucJFrame.loadTabs();
-                    DanhMucJFrame.loadDonHangTheoBan();
-                }
+                thongTinTheoBan((int) tblHoaDon.getValueAt(index, 0));
             }
         }
-        loadTabs();
     }//GEN-LAST:event_tblHoaDonMouseClicked
 
     private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
@@ -438,9 +424,9 @@ public class DanhMucJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnSanPham;
     private javax.swing.JButton btnThongKe;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblBanHD;
     public static javax.swing.JPanel pnlBan;
     public static javax.swing.JPanel pnlWrapper;
-    private javax.swing.JLabel tblDonHang;
     public static javax.swing.JTable tblHoaDon;
     // End of variables declaration//GEN-END:variables
 }

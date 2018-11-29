@@ -226,7 +226,7 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
                     DialogHelper.setInfinity(lblMSG, "Thêm mới thành công!");
                 }
             } else {
-                DialogHelper.alert(this, "Bạn phải nhập số lượng.");
+                DialogHelper.alert(this, "Vui lòng nhập số lượng.");
             }
         } catch (Exception e) {
         }
@@ -603,21 +603,28 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
 
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
         // TODO add your handling code here:
-        if (this.index >= 0) {
-            if (DialogHelper.confirm(this, "Tổng cộng tiền cho bàn [ " + maBan + " ] là : " + dmdao.getThanhToanTheoBan(maBan) + " vnđ")) {
+        try {
+            if (this.index >= 0) {
+                float tong = 0;
+                for (int i = 0; i < tblThongTin.getRowCount(); i++) {
+                    tong += Float.parseFloat(tblThongTin.getValueAt(i, 5).toString());
+                }
+                if (DialogHelper.confirm(this, "Tổng cộng tiền cho bàn [ " + maBan + " ] là : " + tong + " vnđ")) {
 
 //                cập nhật trạng thái bàn: 0 là đã thanh toán và 1 là chưa thanh toán, khách vừa đặt hóa đơn thì sẽ = 1
-                banDAO.datBan(0, maBan);
+                    banDAO.datBan(0, maBan);
 //                cập nhật trạng thái đơn hàng cho mỗi hóa đơn theo bàn
 //                1 là đã thanh toán, mặc định là 0
-                hdDAO.updateTrangThaiHD(1, XDate.now(), maBan);
+                    hdDAO.updateTrangThaiHD(1, XDate.now(), daoCT.getMaHDByMaHDCT((int) tblThongTin.getValueAt(0, 0)), tong);
 
 //                    sau khi cập nhật trạng thái cho bàn và hóa đơn => load lại thông tin ở bảng và JPanel
-                DanhMucJFrame.loadTabs();
-                DanhMucJFrame.loadDonHangTheoBan();
-
-                this.dispose();
+                    DanhMucJFrame.loadTabs();
+                    DanhMucJFrame.loadDonHangTheoBan();
+                    
+                    loadDonHangByBan(maBan);
+                }
             }
+        } catch (Exception e) {
         }
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
