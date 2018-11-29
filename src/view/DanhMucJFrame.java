@@ -44,7 +44,11 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         loadTabs();
         loadDonHangTheoBan();
+<<<<<<< HEAD
         setIconImage(ShareHelper.APP_ICON);
+=======
+        setBoderForTable(jScrollPane1);
+>>>>>>> 7f29c5b5fddd9955163995aa22801c49d3e04862
     }
 
     public static void loadTabs() {
@@ -137,21 +141,25 @@ public class DanhMucJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         pnlWrapper = new javax.swing.JPanel();
+        lblIcon = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblHoaDon = new javax.swing.JTable();
         lblBanHD = new javax.swing.JLabel();
-        btnBan = new javax.swing.JButton();
-        btnKhuVuc = new javax.swing.JButton();
-        btnLoaiSP = new javax.swing.JButton();
-        btnNhanVien = new javax.swing.JButton();
-        btnCaLamViec = new javax.swing.JButton();
-        btnKhoHang = new javax.swing.JButton();
-        btnSanPham = new javax.swing.JButton();
-        btnThongKe = new javax.swing.JButton();
-        btnChiTiet = new javax.swing.JButton();
         pnlBan = new javax.swing.JPanel();
+        mnu = new javax.swing.JMenuBar();
+        mniBan = new javax.swing.JMenu();
+        mniKhuVuc = new javax.swing.JMenu();
+        mniSanPham = new javax.swing.JMenu();
+        mniLoaiSanPham = new javax.swing.JMenu();
+        mniNhanVien = new javax.swing.JMenu();
+        mniCaLamViec = new javax.swing.JMenu();
+        mniKhoHang = new javax.swing.JMenu();
+        mniThongKe = new javax.swing.JMenu();
+        mniChiTiet = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Ie9liJ.jpg"))); // NOI18N
 
         tblHoaDon.setAutoCreateRowSorter(true);
         tblHoaDon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
@@ -179,70 +187,9 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblHoaDon);
 
+        lblBanHD.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        lblBanHD.setForeground(new java.awt.Color(255, 255, 255));
         lblBanHD.setText("Thông tin các bàn đang hoạt động");
-
-        btnBan.setText("Bàn");
-        btnBan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBanActionPerformed(evt);
-            }
-        });
-
-        btnKhuVuc.setText("Khu vực");
-        btnKhuVuc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnKhuVucActionPerformed(evt);
-            }
-        });
-
-        btnLoaiSP.setText("Loại sản phẩm");
-        btnLoaiSP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoaiSPActionPerformed(evt);
-            }
-        });
-
-        btnNhanVien.setText("Nhân viên");
-        btnNhanVien.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNhanVienActionPerformed(evt);
-            }
-        });
-
-        btnCaLamViec.setText("Ca làm việc");
-        btnCaLamViec.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCaLamViecActionPerformed(evt);
-            }
-        });
-
-        btnKhoHang.setText("Kho hàng");
-        btnKhoHang.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnKhoHangActionPerformed(evt);
-            }
-        });
-
-        btnSanPham.setText("Sản phẩm");
-        btnSanPham.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSanPhamActionPerformed(evt);
-            }
-        });
-
-        btnThongKe.setText("Thống kê");
-        btnThongKe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThongKeActionPerformed(evt);
-            }
-        });
-
-        btnChiTiet.setText("Chi tiết");
-        btnChiTiet.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnChiTietActionPerformed(evt);
-            }
-        });
 
         pnlBan.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         pnlBan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -252,35 +199,17 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         pnlWrapperLayout.setHorizontalGroup(
             pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlWrapperLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addGap(52, 52, 52)
+                .addComponent(pnlBan, javax.swing.GroupLayout.PREFERRED_SIZE, 723, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlWrapperLayout.createSequentialGroup()
-                        .addComponent(btnBan)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnKhuVuc)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSanPham)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnLoaiSP)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnNhanVien)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCaLamViec)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnKhoHang)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnThongKe)
-                        .addGap(26, 26, 26)
-                        .addComponent(btnChiTiet)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(pnlWrapperLayout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(pnlBan, javax.swing.GroupLayout.PREFERRED_SIZE, 617, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51)
-                        .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblBanHD)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(49, Short.MAX_VALUE))))
+                    .addComponent(lblBanHD)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(61, 61, 61))
+            .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlWrapperLayout.createSequentialGroup()
+                    .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 1186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         pnlWrapperLayout.setVerticalGroup(
             pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -292,27 +221,92 @@ public class DanhMucJFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(pnlBan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(26, 26, 26)
-                .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBan)
-                    .addComponent(btnKhuVuc)
-                    .addComponent(btnLoaiSP)
-                    .addComponent(btnNhanVien)
-                    .addComponent(btnCaLamViec)
-                    .addComponent(btnKhoHang)
-                    .addComponent(btnSanPham)
-                    .addComponent(btnThongKe)
-                    .addComponent(btnChiTiet))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
+            .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlWrapperLayout.createSequentialGroup()
+                    .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
+
+        mniBan.setText("Bàn");
+        mniBan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mniBanMouseClicked(evt);
+            }
+        });
+        mnu.add(mniBan);
+
+        mniKhuVuc.setText("Khu vực");
+        mniKhuVuc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mniKhuVucMouseClicked(evt);
+            }
+        });
+        mnu.add(mniKhuVuc);
+
+        mniSanPham.setText("Sản phẩm");
+        mniSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mniSanPhamMouseClicked(evt);
+            }
+        });
+        mnu.add(mniSanPham);
+
+        mniLoaiSanPham.setText("Loại sản phẩm");
+        mniLoaiSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mniLoaiSanPhamMouseClicked(evt);
+            }
+        });
+        mnu.add(mniLoaiSanPham);
+
+        mniNhanVien.setText("Nhân viên");
+        mniNhanVien.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mniNhanVienMouseClicked(evt);
+            }
+        });
+        mnu.add(mniNhanVien);
+
+        mniCaLamViec.setText("Ca làm việc");
+        mniCaLamViec.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mniCaLamViecMouseClicked(evt);
+            }
+        });
+        mnu.add(mniCaLamViec);
+
+        mniKhoHang.setText("Kho hàng");
+        mniKhoHang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mniKhoHangMouseClicked(evt);
+            }
+        });
+        mnu.add(mniKhoHang);
+
+        mniThongKe.setText("Thống kê");
+        mniThongKe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mniThongKeMouseClicked(evt);
+            }
+        });
+        mnu.add(mniThongKe);
+
+        mniChiTiet.setText("Chi tiết");
+        mniChiTiet.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mniChiTietMouseClicked(evt);
+            }
+        });
+        mnu.add(mniChiTiet);
+
+        setJMenuBar(mnu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(pnlWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+            .addComponent(pnlWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, 1184, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -334,50 +328,50 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tblHoaDonMouseClicked
 
-    private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
-        // TODO add your handling code here:
-        xemThongTinChiTiet();
-    }//GEN-LAST:event_btnChiTietActionPerformed
-
-    private void btnBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBanActionPerformed
+    private void mniBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mniBanMouseClicked
         // TODO add your handling code here:
         new BanJFrame().setVisible(true);
-    }//GEN-LAST:event_btnBanActionPerformed
+    }//GEN-LAST:event_mniBanMouseClicked
 
-    private void btnKhuVucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhuVucActionPerformed
+    private void mniKhuVucMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mniKhuVucMouseClicked
         // TODO add your handling code here:
         new KhuVucJFrame().setVisible(true);
-    }//GEN-LAST:event_btnKhuVucActionPerformed
+    }//GEN-LAST:event_mniKhuVucMouseClicked
 
-    private void btnSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSanPhamActionPerformed
+    private void mniSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mniSanPhamMouseClicked
         // TODO add your handling code here:
         new SanPhamJFrame().setVisible(true);
-    }//GEN-LAST:event_btnSanPhamActionPerformed
+    }//GEN-LAST:event_mniSanPhamMouseClicked
 
-    private void btnLoaiSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoaiSPActionPerformed
+    private void mniLoaiSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mniLoaiSanPhamMouseClicked
         // TODO add your handling code here:
         new LoaiSanPhamJFrame().setVisible(true);
-    }//GEN-LAST:event_btnLoaiSPActionPerformed
+    }//GEN-LAST:event_mniLoaiSanPhamMouseClicked
 
-    private void btnNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhanVienActionPerformed
+    private void mniNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mniNhanVienMouseClicked
         // TODO add your handling code here:
         new NhanVienJFrame().setVisible(true);
-    }//GEN-LAST:event_btnNhanVienActionPerformed
+    }//GEN-LAST:event_mniNhanVienMouseClicked
 
-    private void btnCaLamViecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCaLamViecActionPerformed
+    private void mniCaLamViecMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mniCaLamViecMouseClicked
         // TODO add your handling code here:
         new CaLamViecJFrame().setVisible(true);
-    }//GEN-LAST:event_btnCaLamViecActionPerformed
+    }//GEN-LAST:event_mniCaLamViecMouseClicked
 
-    private void btnKhoHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhoHangActionPerformed
+    private void mniKhoHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mniKhoHangMouseClicked
         // TODO add your handling code here:
         new KhoHangJFrame().setVisible(true);
-    }//GEN-LAST:event_btnKhoHangActionPerformed
+    }//GEN-LAST:event_mniKhoHangMouseClicked
 
-    private void btnThongKeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThongKeActionPerformed
+    private void mniThongKeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mniThongKeMouseClicked
         // TODO add your handling code here:
         new ThongKeJFrame().setVisible(true);
-    }//GEN-LAST:event_btnThongKeActionPerformed
+    }//GEN-LAST:event_mniThongKeMouseClicked
+
+    private void mniChiTietMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mniChiTietMouseClicked
+        // TODO add your handling code here:
+        this.xemThongTinChiTiet();
+    }//GEN-LAST:event_mniChiTietMouseClicked
 
     /**
      * @param args the command line arguments
@@ -415,17 +409,19 @@ public class DanhMucJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBan;
-    private javax.swing.JButton btnCaLamViec;
-    private javax.swing.JButton btnChiTiet;
-    private javax.swing.JButton btnKhoHang;
-    private javax.swing.JButton btnKhuVuc;
-    private javax.swing.JButton btnLoaiSP;
-    private javax.swing.JButton btnNhanVien;
-    private javax.swing.JButton btnSanPham;
-    private javax.swing.JButton btnThongKe;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBanHD;
+    private javax.swing.JLabel lblIcon;
+    private javax.swing.JMenu mniBan;
+    private javax.swing.JMenu mniCaLamViec;
+    private javax.swing.JMenu mniChiTiet;
+    private javax.swing.JMenu mniKhoHang;
+    private javax.swing.JMenu mniKhuVuc;
+    private javax.swing.JMenu mniLoaiSanPham;
+    private javax.swing.JMenu mniNhanVien;
+    private javax.swing.JMenu mniSanPham;
+    private javax.swing.JMenu mniThongKe;
+    private javax.swing.JMenuBar mnu;
     public static javax.swing.JPanel pnlBan;
     public static javax.swing.JPanel pnlWrapper;
     public static javax.swing.JTable tblHoaDon;
