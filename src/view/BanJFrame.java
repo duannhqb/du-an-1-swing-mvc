@@ -39,6 +39,8 @@ public class BanJFrame extends javax.swing.JFrame {
         load();
         this.fillComboBox();
         this.setStatus(true);
+        this.setTitle("Hệ thống quản lý quán coffee");
+        ShareHelper.setBoderForTable(jScrollPane1);
     }
 
     void load() {
@@ -188,6 +190,7 @@ public class BanJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         pnlWallpaper = new javax.swing.JPanel();
+        lblIcon = new javax.swing.JLabel();
         lblTitle = new javax.swing.JLabel();
         lblMaKhuVuc = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -213,10 +216,15 @@ public class BanJFrame extends javax.swing.JFrame {
             }
         });
 
+        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/red-grey-wallpapers-25292-6318392.jpg"))); // NOI18N
+
         lblTitle.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        lblTitle.setForeground(new java.awt.Color(255, 255, 255));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("Quản Lý Bàn");
 
+        lblMaKhuVuc.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        lblMaKhuVuc.setForeground(new java.awt.Color(255, 255, 255));
         lblMaKhuVuc.setText("Khu vực");
 
         tblBan.setAutoCreateRowSorter(true);
@@ -236,6 +244,7 @@ public class BanJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblBan.setGridColor(new java.awt.Color(255, 255, 255));
         tblBan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblBanMouseClicked(evt);
@@ -243,9 +252,12 @@ public class BanJFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblBan);
 
+        lblMaBan.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        lblMaBan.setForeground(new java.awt.Color(255, 255, 255));
         lblMaBan.setText("Mã bàn");
 
         btnXoa.setText("Xóa");
+        btnXoa.setBorderPainted(false);
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoaActionPerformed(evt);
@@ -253,6 +265,7 @@ public class BanJFrame extends javax.swing.JFrame {
         });
 
         btnMoi.setText("Mới");
+        btnMoi.setBorderPainted(false);
         btnMoi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMoiActionPerformed(evt);
@@ -260,6 +273,7 @@ public class BanJFrame extends javax.swing.JFrame {
         });
 
         btnSua.setText("Sửa");
+        btnSua.setBorderPainted(false);
         btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSuaActionPerformed(evt);
@@ -267,6 +281,7 @@ public class BanJFrame extends javax.swing.JFrame {
         });
 
         btnThem.setText("Thêm");
+        btnThem.setBorderPainted(false);
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemActionPerformed(evt);
@@ -274,6 +289,7 @@ public class BanJFrame extends javax.swing.JFrame {
         });
 
         btnLast.setText(">>");
+        btnLast.setBorderPainted(false);
         btnLast.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLastActionPerformed(evt);
@@ -281,6 +297,7 @@ public class BanJFrame extends javax.swing.JFrame {
         });
 
         btnNext.setText(">|");
+        btnNext.setBorderPainted(false);
         btnNext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNextActionPerformed(evt);
@@ -288,6 +305,7 @@ public class BanJFrame extends javax.swing.JFrame {
         });
 
         btnPrev.setText("|<");
+        btnPrev.setBorderPainted(false);
         btnPrev.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPrevActionPerformed(evt);
@@ -295,6 +313,7 @@ public class BanJFrame extends javax.swing.JFrame {
         });
 
         btnFirst.setText("<<");
+        btnFirst.setBorderPainted(false);
         btnFirst.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFirstActionPerformed(evt);
@@ -307,7 +326,11 @@ public class BanJFrame extends javax.swing.JFrame {
             pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(pnlWallpaperLayout.createSequentialGroup()
-                .addContainerGap(50, Short.MAX_VALUE)
+                .addGap(405, 405, 405)
+                .addComponent(lblThongBao)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlWallpaperLayout.createSequentialGroup()
+                .addContainerGap(102, Short.MAX_VALUE)
                 .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlWallpaperLayout.createSequentialGroup()
                         .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -338,17 +361,15 @@ public class BanJFrame extends javax.swing.JFrame {
                         .addGap(77, 77, 77)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45))
-            .addGroup(pnlWallpaperLayout.createSequentialGroup()
-                .addGap(405, 405, 405)
-                .addComponent(lblThongBao)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 963, Short.MAX_VALUE))
         );
         pnlWallpaperLayout.setVerticalGroup(
             pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlWallpaperLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addGap(38, 38, 38)
                 .addComponent(lblTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(28, 28, 28)
                 .addComponent(lblThongBao)
                 .addGap(20, 20, 20)
                 .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -373,8 +394,12 @@ public class BanJFrame extends javax.swing.JFrame {
                             .addComponent(btnSua)
                             .addComponent(btnXoa)
                             .addComponent(btnMoi)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(59, Short.MAX_VALUE))
+            .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlWallpaperLayout.createSequentialGroup()
+                    .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -507,6 +532,7 @@ public class BanJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnXoa;
     private javax.swing.JComboBox<String> cboKhuVuc;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblIcon;
     private javax.swing.JLabel lblMaBan;
     private javax.swing.JLabel lblMaKhuVuc;
     private javax.swing.JLabel lblThongBao;
