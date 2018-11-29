@@ -16,8 +16,8 @@ import java.util.List;
  */
 public class DanhMucDAO {
 
-    public int getMaHDCTByBanAndHD(int maBan, int maHD){
-      try {
+    public int getMaHDCTByBanAndHD(int maBan, int maHD) {
+        try {
             ResultSet rs = null;
             String sql = "select MaHoaDonCT from HoaDon join HoaDonChiTiet on "
                     + "HoaDon.MaHoaDon = HoaDonChiTiet.MaHoaDon where "
@@ -36,21 +36,16 @@ public class DanhMucDAO {
         }
         return 0;
     }
-    
+
     public List<Object[]> getDanhSachSPTheoBan(int maBan) {
         List<Object[]> list = new ArrayList<>();
         try {
             ResultSet rs = null;
-            String sql = "select HoaDon.MaHoaDon, SanPham.TenSanPham, LoaiSanPham.TenLoaiSP, "
-                    + "SanPham.GiaBan, HoaDonChiTiet.SoLuongSP, "
-                    + "(SanPham.GiaBan*HoaDonChiTiet.SoLuongSP) as 'ThanhTien' "
-                    + "from Ban join HoaDon on Ban.MaBan = HoaDon.MaBan "
-                    + "join HoaDonChiTiet on HoaDon.MaHoaDon = "
-                    + "HoaDonChiTiet.MaHoaDon join SanPham on "
-                    + "HoaDonChiTiet.MaSanPham = SanPham.MaSanPham "
-                    + "join LoaiSanPham on SanPham.MaLoaiSP = "
-                    + "LoaiSanPham.MaLoaiSP where Ban.MaBan = ? "
-                    + "and Ban.TrangThai = 1 and HoaDon.TrangThai = 0";
+            String sql = "select HoaDonChiTiet.MaHoaDonCT, SanPham.TenSanPham, LoaiSanPham.TenLoaiSP, SanPham.GiaBan, HoaDonChiTiet.SoLuongSP, \n"
+                    + "(SanPham.GiaBan*HoaDonChiTiet.SoLuongSP) as 'ThanhTien' from Ban join HoaDon on Ban.MaBan = \n"
+                    + "HoaDon.MaBan join HoaDonChiTiet on HoaDon.MaHoaDon = HoaDonChiTiet.MaHoaDon join SanPham on \n"
+                    + "HoaDonChiTiet.MaSanPham = SanPham.MaSanPham join LoaiSanPham on SanPham.MaLoaiSP = \n"
+                    + "LoaiSanPham.MaLoaiSP where Ban.MaBan = ? and Ban.TrangThai = 1 and HoaDon.TrangThai = 0";
             try {
                 rs = Jdbc.executeQuery(sql, maBan);
                 while (rs.next()) {
@@ -67,7 +62,6 @@ public class DanhMucDAO {
                 rs.getStatement().getConnection().close();
             }
         } catch (Exception e) {
-            System.out.println(e.toString());
         }
         return list;
     }

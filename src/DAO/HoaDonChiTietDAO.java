@@ -18,6 +18,25 @@ import model.HoaDonChiTiet;
  */
 public class HoaDonChiTietDAO {
 
+    public int getMaHDByMaHDCT(int id) {
+        try {
+            ResultSet rs = null;
+            String sql = "select MaHoaDon from HoaDonChiTiet where MaHoaDonCT = ?";
+            try {
+                rs = Jdbc.executeQuery(sql, id);
+                while (rs.next()) {
+                    return rs.getInt(1);
+                }
+
+            } finally {
+                rs.getStatement().getConnection().close();
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return -1;
+    }
+
     public void insert(HoaDonChiTiet model, int maHoaDon) {
         String sql = "INSERT INTO HoaDonChiTiet (MaHoaDon, SoLuongSP, MaSanPham) VALUES (?,?,?)";
         Jdbc.executeUpdate(sql,
@@ -27,12 +46,12 @@ public class HoaDonChiTietDAO {
         );
     }
 
-    public void update(HoaDonChiTiet model) {
+    public void update(HoaDonChiTiet model, int id) {
         String sql = "UPDATE HoaDonChiTiet SET SoLuongSP=?, MaSanPham= ? WHERE MaHoaDonCT=?";
         Jdbc.executeUpdate(sql,
                 model.getSoLuongSP(),
                 model.getMaSanPham(),
-                model.getMaHoaDonCT()
+                id
         );
     }
 
@@ -73,9 +92,9 @@ public class HoaDonChiTietDAO {
         return select(sql);
     }
 
-    public HoaDonChiTiet findById() {
+    public HoaDonChiTiet findById(int id) {
         String sql = "SELECT * FROM HoaDonChiTiet WHERE MaHoaDonCT=?";
-        List<HoaDonChiTiet> list = select(sql);
+        List<HoaDonChiTiet> list = select(sql, id);
         return list.size() > 0 ? list.get(0) : null;
     }
 }
