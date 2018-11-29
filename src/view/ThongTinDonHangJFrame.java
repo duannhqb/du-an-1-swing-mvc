@@ -13,20 +13,12 @@ import DAO.KhoHangDAO;
 import DAO.SanPhamDAO;
 import helper.DialogHelper;
 import helper.XDate;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import model.HoaDon;
 import model.HoaDonChiTiet;
 import model.SanPham;
-import static view.DanhMucJFrame.CafeGreen;
 import static view.DanhMucJFrame.hdDAO;
 import static view.DanhMucJFrame.loadDonHangTheoBan;
 import static view.DanhMucJFrame.loadTabs;
@@ -67,7 +59,7 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         loadDonHangByBan(id);
         this.maBan = id;
         lblThongTinCuaBan.setText("Thông tin của bàn: " + id);
-        lblTongTien.setText("Tổng thanh toán: " + dmdao.getThanhToanTheoBan(id) + " vnđ");
+        tongTien();
         fillComboBoxSanPham();
         txtSoLuong.setText("0");
         setStatus();
@@ -192,8 +184,11 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
                 HoaDonChiTiet model = getModelHDCT();
                 daoCT.insert(model, maHD);
 
+//                mã kho hàng lấy từ ngày thêm hàng sớm nhất
+                int maKhoHangMoi = khDAO.getMaKhoHangByMaSP(spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham());
+
 //                thêm thành công thì số lượng sản phẩm trong kho bị giảm
-                khDAO.updateSLByMaSP(Integer.parseInt(txtSoLuong.getText()), maHD, maBan);
+                khDAO.updateSLByMaSP(Integer.parseInt(txtSoLuong.getText()), spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham(), maKhoHangMoi);
 
 //                sửa lại trạng thái bàn sau khi gọi món
 //                1 : trạng thái bàn đã được đặt chỗ.
@@ -239,12 +234,20 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
                 loadSanPham();
                 loadTabs();
                 loadDonHangTheoBan();
+                this.clear();
             } else {
                 DialogHelper.alert(this, "Vui lòng nhập số lượng.");
             }
         } catch (Exception e) {
-            System.out.println(e.toString());
         }
+    }
+
+    void tongTien() {
+        float tong = 0;
+        for (int i = 0; i < tblThongTin.getRowCount(); i++) {
+            tong += Float.parseFloat(tblThongTin.getValueAt(i, 5).toString());
+        }
+        lblTongTien.setText("Tổng thanh toán: " + tong + " vnđ");
     }
 
     /**
@@ -472,15 +475,17 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
                         .addGap(30, 30, 30))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(lblThongTinCuaBan)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(50, 50, 50))
+                            .addGap(492, 492, 492)
+                            .addComponent(btnXoaMon)
+                            .addGap(40, 40, 40))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(btnXoaMon)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 543, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(40, 40, 40)))))
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(lblThongTinCuaBan)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGap(26, 26, 26)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -612,7 +617,7 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
 
     private void txtFindCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtFindCaretUpdate
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_txtFindCaretUpdate
 
     /**
