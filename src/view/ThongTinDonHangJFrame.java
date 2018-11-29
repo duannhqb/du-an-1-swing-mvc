@@ -71,7 +71,6 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         fillComboBoxSanPham();
         txtSoLuong.setText("0");
         setStatus();
-        setHiddenPnl(false);
     }
 
     public void loadDonHangByBan(int id) {
@@ -84,22 +83,6 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             System.out.println(e.toString());
-        }
-    }
-
-    boolean iii = false;
-
-    boolean setHiddenPnl(boolean check) {
-        pnlHidden.setVisible(check);
-        iii = !check;
-        return iii;
-    }
-
-    void hiddenSanPham() {
-        if (iii == false) {
-            setHiddenPnl(false);
-        } else {
-            setHiddenPnl(true);
         }
     }
 
@@ -290,11 +273,11 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         btnXoaMon = new javax.swing.JButton();
         lblMSG = new javax.swing.JLabel();
         btnClear = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         pnlHidden = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSanPham = new javax.swing.JTable();
         lblListSanPham = new javax.swing.JLabel();
+        txtFind = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -391,12 +374,6 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabel1MouseExited(evt);
-            }
-        });
-
         tblSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -423,25 +400,31 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
 
         lblListSanPham.setText("Sản phẩm");
 
+        txtFind.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtFindCaretUpdate(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlHiddenLayout = new javax.swing.GroupLayout(pnlHidden);
         pnlHidden.setLayout(pnlHiddenLayout);
         pnlHiddenLayout.setHorizontalGroup(
             pnlHiddenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlHiddenLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(pnlHiddenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
-                    .addGroup(pnlHiddenLayout.createSequentialGroup()
-                        .addComponent(lblListSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addComponent(lblListSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(64, 64, 64)
+                .addComponent(txtFind))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
         );
         pnlHiddenLayout.setVerticalGroup(
             pnlHiddenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlHiddenLayout.createSequentialGroup()
                 .addGap(0, 24, Short.MAX_VALUE)
-                .addComponent(lblListSanPham)
-                .addGap(29, 29, 29)
+                .addGroup(pnlHiddenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblListSanPham)
+                    .addComponent(txtFind, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -450,8 +433,7 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(35, 35, 35)
                 .addComponent(pnlHidden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -539,7 +521,6 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
                     .addComponent(btnThanhToan)
                     .addComponent(btnClear))
                 .addContainerGap(23, Short.MAX_VALUE))
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pnlHidden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -629,10 +610,10 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         this.setStatus();
     }//GEN-LAST:event_btnXoaMonActionPerformed
 
-    private void jLabel1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseExited
+    private void txtFindCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtFindCaretUpdate
         // TODO add your handling code here:
-        hiddenSanPham();
-    }//GEN-LAST:event_jLabel1MouseExited
+        
+    }//GEN-LAST:event_txtFindCaretUpdate
 
     /**
      * @param args the command line arguments
@@ -676,7 +657,6 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnThanhToan;
     private javax.swing.JButton btnXoaMon;
     private javax.swing.JComboBox<String> cboSanPham;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblGoiMon;
@@ -690,6 +670,7 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel pnlHidden;
     private javax.swing.JTable tblSanPham;
     private javax.swing.JTable tblThongTin;
+    private javax.swing.JTextField txtFind;
     private javax.swing.JTextField txtSoLuong;
     private javax.swing.JTextField txtThanhTien;
     // End of variables declaration//GEN-END:variables

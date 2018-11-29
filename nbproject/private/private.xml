@@ -1,39 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-            <file>file:/C:/Users/Ngoc%20Hai/Documents/NetBeansProjects/DuAn/du-an-1-swing-mvc/src/view/DanhMucJFrame.java</file>
-=======
-<<<<<<< HEAD
-            <file>file:/G:/javaproject/DuAn1/du-an-1-swing-mvc/src/view/SanPhamJFrame.java</file>
-            <file>file:/G:/javaproject/DuAn1/du-an-1-swing-mvc/src/view/DanhMucJFrame.java</file>
-            <file>file:/G:/javaproject/DuAn1/du-an-1-swing-mvc/src/view/LoaiSanPhamJFrame.java</file>
-            <file>file:/G:/javaproject/DuAn1/du-an-1-swing-mvc/src/view/KhoHangJFrame.java</file>
-            <file>file:/G:/javaproject/DuAn1/du-an-1-swing-mvc/src/view/NhanVienJFrame.java</file>
-=======
-<<<<<<< HEAD
-            <file>file:/C:/Users/Ngoc%20Hai/Documents/NetBeansProjects/DuAn/du-an-1-swing-mvc/src/DAO/DanhMucDAO.java</file>
-            <file>file:/C:/Users/Ngoc%20Hai/Documents/NetBeansProjects/DuAn/du-an-1-swing-mvc/src/view/ThongTinDonHangJFrame.java</file>
-            <file>file:/C:/Users/Ngoc%20Hai/Documents/NetBeansProjects/DuAn/du-an-1-swing-mvc/src/DAO/HoaDonDAO.java</file>
-            <file>file:/C:/Users/Ngoc%20Hai/Documents/NetBeansProjects/DuAn/du-an-1-swing-mvc/src/view/DanhMucJFrame.java</file>
-=======
->>>>>>> a625c8ff870fd5e30e2cdfde5f11190c4115b05a
-            <file>file:/C:/Users/duann/Documents/NetBeansProjects/DuAnSwing/du-an-1-swing-mvc/src/view/ThongTinDonHangJFrame.java</file>
-            <file>file:/C:/Users/duann/Documents/NetBeansProjects/DuAnSwing/du-an-1-swing-mvc/src/view/DanhMucJFrame.java</file>
-            <file>file:/C:/Users/duann/Documents/NetBeansProjects/DuAnSwing/du-an-1-swing-mvc/src/DAO/HoaDonDAO.java</file>
-            <file>file:/C:/Users/duann/Documents/NetBeansProjects/DuAnSwing/du-an-1-swing-mvc/src/DAO/DanhMucDAO.java</file>
-            <file>file:/C:/Users/duann/Documents/NetBeansProjects/DuAnSwing/du-an-1-swing-mvc/src/DAO/HoaDonChiTietDAO.java</file>
-<<<<<<< HEAD
-=======
-            <file>file:/C:/Users/duann/Documents/NetBeansProjects/DuAnSwing/du-an-1-swing-mvc/src/view/GoiMonJFrame.java</file>
->>>>>>> 98365e2f1299297575751ef42a75c390a4d0de71
->>>>>>> 1c2f7f2a6c3baf4b1dfcda2fbf3782aba22493b0
->>>>>>> 719a80de2566bacb93c60a168054884a5a44a72b
->>>>>>> a625c8ff870fd5e30e2cdfde5f11190c4115b05a
-        </group>
-    </open-files>
 </project-private>
