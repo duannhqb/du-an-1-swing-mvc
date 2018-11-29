@@ -171,7 +171,7 @@ public class HoaDonDAO {
         Jdbc.executeUpdate(sql, trangThai, ngayThanhToan, ThanhTien, maHD);
     }
 
-    public void delect(String maHoaDon) {
+    public void delect(int maHoaDon) {
         String sql = "DELETE FROM HoaDon WHERE MaHoaDon= ?";
         Jdbc.executeUpdate(sql, maHoaDon);
     }

@@ -55,7 +55,7 @@ public class HoaDonChiTietDAO {
         );
     }
 
-    public void delete(String maHoaDonCT) {
+    public void delete(int maHoaDonCT) {
         String sql = "DELETE FROM HoaDonChiTiet WHERE MaHoaDonCT=?";
         Jdbc.executeUpdate(sql, maHoaDonCT);
     }
@@ -96,5 +96,11 @@ public class HoaDonChiTietDAO {
         String sql = "SELECT * FROM HoaDonChiTiet WHERE MaHoaDonCT=?";
         List<HoaDonChiTiet> list = select(sql, id);
         return list.size() > 0 ? list.get(0) : null;
+    }
+
+    public List<HoaDonChiTiet> selectByKeyword(int id) {
+        String sql = "SELECT * FROM HoaDonChiTiet WHERE MaHoaDonCT=?";
+        List<HoaDonChiTiet> list = select(sql, "%" + id + "%");
+        return list;
     }
 }

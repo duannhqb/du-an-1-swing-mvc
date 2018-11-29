@@ -90,8 +90,11 @@ public class SanPhamDAO {
         String sql = "SELECT * FROM SanPham WHERE TenSanPham like ?";
         List<SanPham> list = select(sql, sanpham);
         return list.size() > 0 ? list.get(0) : null;
-        
     }
 
+    public List<SanPham> selectByKeyword(String keyword) {
+        String sql = "SELECT * FROM SanPham WHERE TenSanPham LIKE ?";
+        return select(sql, "%" + keyword + "%");
+    }
 
 }
