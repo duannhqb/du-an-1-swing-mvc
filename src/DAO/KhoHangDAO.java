@@ -109,6 +109,7 @@ public class KhoHangDAO {
         return 0;
     }
 
+//    lấy mã kho hàng treo ngày nhập và lấy mã kho cũ nhất để dùng hết hàng cũ
     public int getMaKhoHangByMaSP(int maSanPham) {
         try {
             ResultSet rs = null;
