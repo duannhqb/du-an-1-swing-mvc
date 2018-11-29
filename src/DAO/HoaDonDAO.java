@@ -54,7 +54,7 @@ public class HoaDonDAO {
         }
         return list;
     }
-    
+
     public HoaDon getAllByMaHD(int maHD) {
         List<HoaDon> list = new ArrayList<>();
         try {
@@ -88,7 +88,7 @@ public class HoaDonDAO {
         }
         return list.get(0);
     }
-    
+
     public int getIDIdentity() {
         try {
             ResultSet rs = null;
@@ -110,21 +110,13 @@ public class HoaDonDAO {
         List<Object[]> list = new ArrayList<>();
         try {
             ResultSet rs = null;
-            String sql = "SELECT ban.MaBan ,sum(ban.MaKhuVuc)/count(Ban.MaKhuVuc), "
-                    + "Sum(HoaDon.ThanhTien) from HoaDon JOIN Ban ON HoaDon.MaBan = "
-                    + "Ban.MaBan JOIN KhuVuc ON Ban.MaKhuVuc = KhuVuc.MaKhuVuc where ban.TrangThai = 1 and HoaDon.TrangThai = 0 "
-                    + "group by Ban.MaBan";
-//            String sql = "SELECT ban.MaBan ,sum(ban.MaKhuVuc)/count(Ban.MaKhuVuc), "
-//                    + "Sum(HoaDon.ThanhTien) from HoaDon JOIN Ban ON HoaDon.MaBan = "
-//                    + "Ban.MaBan JOIN KhuVuc ON Ban.MaKhuVuc = KhuVuc.MaKhuVuc where ban.TrangThai = 1 and HoaDon.TrangThai = 0 "
-//                    + "group by Ban.MaBan";
+            String sql = "SELECT ban.MaBan, KhuVuc.TenKhuVuc from HoaDon JOIN Ban ON HoaDon.MaBan = Ban.MaBan JOIN KhuVuc ON Ban.MaKhuVuc = KhuVuc.MaKhuVuc where ban.TrangThai = 1 and HoaDon.TrangThai = 0";
             try {
                 rs = Jdbc.executeQuery(sql);
                 while (rs.next()) {
                     Object[] model = {
                         rs.getInt(1),
-                        rs.getInt(2),
-                        rs.getFloat(3),};
+                        rs.getString(2),};
                     list.add(model);
                 }
             } finally {
@@ -174,9 +166,9 @@ public class HoaDonDAO {
         return false;
     }
 
-    public void updateTrangThaiHD(int trangThai, Date ngayThanhToan, int maBan) {
-        String sql = "UPDATE HoaDon SET TrangThai= ?, NgayThanhToan= ? WHERE MaBan= ? AND TrangThai = 0";
-        Jdbc.executeUpdate(sql, trangThai, ngayThanhToan, maBan);
+    public void updateTrangThaiHD(int trangThai, Date ngayThanhToan, int maHD, float ThanhTien) {
+        String sql = "UPDATE HoaDon SET TrangThai= ?, NgayThanhToan= ?, ThanhTien = ? WHERE MaHoaDon= ?";
+        Jdbc.executeUpdate(sql, trangThai, ngayThanhToan, ThanhTien, maHD);
     }
 
     public void delect(String maHoaDon) {

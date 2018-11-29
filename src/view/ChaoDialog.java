@@ -5,6 +5,8 @@
  */
 package view;
 
+import helper.ShareHelper;
+
 /**
  *
  * @author NgọcHải
@@ -17,6 +19,11 @@ public class ChaoDialog extends javax.swing.JDialog {
     public ChaoDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        init();
+    }
+
+    void init() {
+        setIconImage(ShareHelper.APP_ICON);
         setLocationRelativeTo(null);
     }
 

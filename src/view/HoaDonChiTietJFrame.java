@@ -7,6 +7,7 @@ package view;
 
 import DAO.HoaDonDAO;
 import DAO.NhanVienDAO;
+import helper.ShareHelper;
 import helper.XDate;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -33,6 +34,8 @@ public class HoaDonChiTietJFrame extends javax.swing.JFrame {
     void init() {
         this.setLocationRelativeTo(null);
         load();
+        setIconImage(ShareHelper.APP_ICON);
+
     }
 //
 //    void openGoiMon(int maHD) {
@@ -54,8 +57,7 @@ public class HoaDonChiTietJFrame extends javax.swing.JFrame {
                     hoaDon.getThanhTien(),
                     hoaDon.isTrangThai() ? "Đã thanh toán" : "Chưa thanh toán",
                     nvdao.findById(hoaDon.getMaNhanVien()).getHoTen(),
-                    hoaDon.isTrangThai() ? XDate.toString(hoaDon.getNgayThanhToan()) : "",
-                };
+                    hoaDon.isTrangThai() ? XDate.toString(hoaDon.getNgayThanhToan()) : "",};
                 model.addRow(row);
             }
         } catch (Exception e) {

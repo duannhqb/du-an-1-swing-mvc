@@ -7,6 +7,7 @@ package view;
 
 import DAO.KhuVucDAO;
 import helper.DialogHelper;
+import helper.ShareHelper;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import model.KhuVuc;
@@ -25,7 +26,14 @@ public class KhuVucJFrame extends javax.swing.JFrame {
      */
     public KhuVucJFrame() {
         initComponents();
+        init();
+    }
+
+    void init() {
+        setIconImage(ShareHelper.APP_ICON);
         setLocationRelativeTo(null);
+        this.load();
+        this.setStatus(true);
     }
 
     void load() {
@@ -60,9 +68,9 @@ public class KhuVucJFrame extends javax.swing.JFrame {
         model.setTenKhuVuc(txtTenKhuVuc.getText());
         model.setViTri(txtViTri.getText());
         model.setGhiChu(txtGhiChu.getText());
-        if(txtTenKhuVuc.getToolTipText()!=null){
-            
-        model.setMaKhuVuc(Integer.parseInt(txtTenKhuVuc.getToolTipText()));
+        if (txtTenKhuVuc.getToolTipText() != null) {
+
+            model.setMaKhuVuc(Integer.parseInt(txtTenKhuVuc.getToolTipText()));
         }
         return model;
     }
@@ -133,6 +141,22 @@ public class KhuVucJFrame extends javax.swing.JFrame {
         } catch (Exception e) {
             DialogHelper.alert(this, "Lỗi truy vấn dữ liệu!");
         }
+    }
+
+    public boolean checkten() {
+        if (txtTenKhuVuc.getText().isEmpty()) {
+            DialogHelper.alert(this, "Tên khu vực không được để trống!");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkvitri() {
+        if (txtViTri.getText().isEmpty()) {
+            DialogHelper.alert(this, "Vị trí không được để trống!");
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -391,8 +415,7 @@ public class KhuVucJFrame extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        this.load();
-        this.setStatus(true);
+
     }//GEN-LAST:event_formWindowOpened
 
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
@@ -415,7 +438,11 @@ public class KhuVucJFrame extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        insert();
+        if (checkten()) {
+            if (checkvitri()) {
+                insert();
+            }
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed

@@ -12,6 +12,7 @@ import DAO.HoaDonDAO;
 import DAO.KhoHangDAO;
 import DAO.SanPhamDAO;
 import helper.DialogHelper;
+import helper.ShareHelper;
 import helper.XDate;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -45,13 +46,17 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
     int maBan;
     int dem = 0;
     int mahdct;
+    int maHD;
 
     public ThongTinDonHangJFrame() {
         initComponents();
+        init();
+    }
+    void init(){
+        setIconImage(ShareHelper.APP_ICON);
         this.setLocationRelativeTo(null);
         loadDonHangByBan(1);
     }
-
     public ThongTinDonHangJFrame(int id) {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -169,41 +174,63 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         return hdDAO.getIDIdentity();
     }
 
-    int maHD;
+    boolean checkHang(int maKHmoi) {
+        int slspkho = khDAO.getSLByMaSP(spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham());
+        if (slspkho > 0) {
+            if (slspkho >= Integer.parseInt(txtSoLuong.getText())) {
+                if (khDAO.getMaSLHang(maKHmoi) >= Integer.parseInt(txtSoLuong.getText())) {
+                    return true;
+                } else {
+                    DialogHelper.alert(this, "Số lượng sản phẩm trong kho hàng cũ chỉ còn : " + khDAO.getMaSLHang(maKHmoi) + ".");
+                    return false;
+                }
+            } else {
+                DialogHelper.alert(this, "Số lượng trong kho chỉ còn : " + slspkho + ".");
+                return false;
+            }
+        } else {
+            DialogHelper.alert(this, "Sản phẩm tạm hết hàng!");
+            return false;
+        }
+    }
 
     void insert() {
         try {
-            if (Integer.parseInt(txtSoLuong.getText()) > 0) {
-                if (tblThongTin.getRowCount() == 0) {
-//                    nếu bảng rỗng thì chưa có hóa đơn => tạo mới hóa đơn rồi get mã hóa đơn vừa thêm gán vào =))
-                    maHD = insertHDWhenCallMon();
-                } else {
-//                    Tất cả những mã hóa đơn chi tiết đều map đến 1 hóa đơn
-                    maHD = daoCT.getMaHDByMaHDCT((int) tblThongTin.getValueAt(0, 0));
-                }
-                HoaDonChiTiet model = getModelHDCT();
-                daoCT.insert(model, maHD);
 
 //                mã kho hàng lấy từ ngày thêm hàng sớm nhất
-                int maKhoHangMoi = khDAO.getMaKhoHangByMaSP(spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham());
+            int maKhoHangMoi = khDAO.getMaKhoHangByMaSP(spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham());
+
+            if (Integer.parseInt(txtSoLuong.getText()) > 0) {
+                if (checkHang(maKhoHangMoi)) {
+
+                    if (tblThongTin.getRowCount() == 0) {
+//                    nếu bảng rỗng thì chưa có hóa đơn => tạo mới hóa đơn rồi get mã hóa đơn vừa thêm gán vào =))
+                        maHD = insertHDWhenCallMon();
+                    } else {
+//                    Tất cả những mã hóa đơn chi tiết đều map đến 1 hóa đơn
+                        maHD = daoCT.getMaHDByMaHDCT((int) tblThongTin.getValueAt(0, 0));
+                    }
+                    HoaDonChiTiet model = getModelHDCT();
+                    daoCT.insert(model, maHD);
 
 //                thêm thành công thì số lượng sản phẩm trong kho bị giảm
-                khDAO.updateSLByMaSP(Integer.parseInt(txtSoLuong.getText()), spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham(), maKhoHangMoi);
+                    khDAO.updateSLByMaSP(Integer.parseInt(txtSoLuong.getText()), spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham(), maKhoHangMoi);
 
 //                sửa lại trạng thái bàn sau khi gọi món
 //                1 : trạng thái bàn đã được đặt chỗ.
-                banDAO.datBan(1, maBan);
+                    banDAO.datBan(1, maBan);
 
-                lblTongTien.setText("Tổng thanh toán: " + dmdao.getThanhToanTheoBan(maBan) + " vnđ");
+                    lblTongTien.setText("Tổng thanh toán: " + dmdao.getThanhToanTheoBan(maBan) + " vnđ");
 
-                loadDonHangByBan(maBan);
-                loadSanPham();
-                loadTabs();
-                loadDonHangTheoBan();
+                    loadDonHangByBan(maBan);
+                    loadSanPham();
+                    loadTabs();
+                    loadDonHangTheoBan();
 
-                DialogHelper.setInfinity(lblMSG, "Thêm mới thành công!");
+                    DialogHelper.setInfinity(lblMSG, "Thêm mới thành công!");
+                }
             } else {
-                DialogHelper.alert(this, "Bạn phải nhập số lượng.");
+                DialogHelper.alert(this, "Vui lòng nhập số lượng.");
             }
         } catch (Exception e) {
         }
@@ -211,30 +238,35 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
 
     public void update() {
         try {
-            if (Integer.parseInt(txtSoLuong.getText()) > 0) {
 
-                HoaDonChiTiet hdct = getModelHDCT();
+            int maKhoHangMoi = khDAO.getMaKhoHangByMaSP(spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham());
+
+            if (Integer.parseInt(txtSoLuong.getText()) > 0) {
+                if (checkHang(maKhoHangMoi)) {
+
+                    HoaDonChiTiet hdct = getModelHDCT();
 //                mã hóa đơn chi tiết lấy được khi click vào bảng
-                daoCT.update(hdct, mahdct);
+                    daoCT.update(hdct, mahdct);
 
 //                mã sản phẩm được lấy khi click vào bảng hóa đơn ở trên
-                int maKhoHang = khDAO.getMaKhoHangByMaSP(maSanPham);
+                    int maKhoHang = khDAO.getMaKhoHangByMaSP(maSanPham);
 
 //                trước khi sửa thì phải cộng lại số lượng đã mua rồi mới thêm hoặc bớt sau
-                khDAO.themSLByMaSP(soLuong, maSanPham, maKhoHang);
-
-                int maKhoHangMoi = khDAO.getMaKhoHangByMaSP(spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham());
+                    khDAO.themSLByMaSP(soLuong, maSanPham, maKhoHang);
 
 //                sau khi cập nhật thì số lượng trong kho sẽ giảm đi txtSoluong lần
-                khDAO.updateSLByMaSP(Integer.parseInt(txtSoLuong.getText()), spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham(), maKhoHangMoi);
+                    khDAO.updateSLByMaSP(Integer.parseInt(txtSoLuong.getText()), spDAO.findByName((String) cboSanPham.getSelectedItem()).getMaSanPham(), maKhoHangMoi);
 
-                lblTongTien.setText("Tổng thanh toán: " + dmdao.getThanhToanTheoBan(maBan) + " vnđ");
+                    lblTongTien.setText("Tổng thanh toán: " + dmdao.getThanhToanTheoBan(maBan) + " vnđ");
 
-                loadDonHangByBan(maBan);
-                loadSanPham();
-                loadTabs();
-                loadDonHangTheoBan();
-                this.clear();
+                    loadDonHangByBan(maBan);
+                    loadSanPham();
+                    loadTabs();
+                    loadDonHangTheoBan();
+                    this.clear();
+
+                    DialogHelper.setInfinity(lblMSG, "Sửa thành công!");
+                }
             } else {
                 DialogHelper.alert(this, "Vui lòng nhập số lượng.");
             }
@@ -539,6 +571,7 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         this.insert();
         this.setStatus();
         this.clear();
+        this.tongTien();
     }//GEN-LAST:event_btnGoiMonActionPerformed
 
     private void txtSoLuongCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSoLuongCaretUpdate
@@ -569,25 +602,33 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
     private void btnSuaMonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaMonActionPerformed
         // TODO add your handling code here:
         this.update();
+        this.tongTien();
     }//GEN-LAST:event_btnSuaMonActionPerformed
 
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
         // TODO add your handling code here:
-        if (this.index >= 0) {
-            if (DialogHelper.confirm(this, "Tổng cộng tiền cho bàn [ " + maBan + " ] là : " + dmdao.getThanhToanTheoBan(maBan) + " vnđ")) {
+        try {
+            if (this.index >= 0) {
+                float tong = 0;
+                for (int i = 0; i < tblThongTin.getRowCount(); i++) {
+                    tong += Float.parseFloat(tblThongTin.getValueAt(i, 5).toString());
+                }
+                if (DialogHelper.confirm(this, "Tổng cộng tiền cho bàn [ " + maBan + " ] là : " + tong + " vnđ")) {
 
 //                cập nhật trạng thái bàn: 0 là đã thanh toán và 1 là chưa thanh toán, khách vừa đặt hóa đơn thì sẽ = 1
-                banDAO.datBan(0, maBan);
+                    banDAO.datBan(0, maBan);
 //                cập nhật trạng thái đơn hàng cho mỗi hóa đơn theo bàn
 //                1 là đã thanh toán, mặc định là 0
-                hdDAO.updateTrangThaiHD(1, XDate.now(), maBan);
+                    hdDAO.updateTrangThaiHD(1, XDate.now(), daoCT.getMaHDByMaHDCT((int) tblThongTin.getValueAt(0, 0)), tong);
 
 //                    sau khi cập nhật trạng thái cho bàn và hóa đơn => load lại thông tin ở bảng và JPanel
-                DanhMucJFrame.loadTabs();
-                DanhMucJFrame.loadDonHangTheoBan();
-
-                this.dispose();
+                    DanhMucJFrame.loadTabs();
+                    DanhMucJFrame.loadDonHangTheoBan();
+                    
+                    loadDonHangByBan(maBan);
+                }
             }
+        } catch (Exception e) {
         }
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
@@ -608,11 +649,13 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         // TODO add your handling code here:
         this.clear();
+        this.tongTien();
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnXoaMonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaMonActionPerformed
         // TODO add your handling code here:
         this.setStatus();
+        this.tongTien();
     }//GEN-LAST:event_btnXoaMonActionPerformed
 
     private void txtFindCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtFindCaretUpdate

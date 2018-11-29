@@ -5,6 +5,8 @@
  */
 package view;
 
+import helper.ShareHelper;
+
 /**
  *
  * @author NgọcHải
@@ -17,12 +19,14 @@ public class GioiThieuDialog extends javax.swing.JDialog {
     public GioiThieuDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
-        setLocationRelativeTo(null);
+        init();
         sp.setViewportBorder(null);
         sp.setBorder(null);
     }
-
+    void init() {
+        setIconImage(ShareHelper.APP_ICON);
+        setLocationRelativeTo(null);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

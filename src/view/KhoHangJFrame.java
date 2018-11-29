@@ -28,6 +28,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     public KhoHangJFrame() {
         initComponents();
         setLocationRelativeTo(null);
+        init();
         load();
     }
     int index = 0;

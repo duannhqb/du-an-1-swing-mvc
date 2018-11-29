@@ -7,6 +7,7 @@ package view;
 
 import DAO.LoaiSanPhamDAO;
 import helper.DialogHelper;
+import helper.ShareHelper;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import model.LoaiSanPham;
@@ -22,13 +23,16 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
      */
     public LoaiSanPhamJFrame() {
         initComponents();
-        setLocationRelativeTo(null);
+        init();
     }
     int index = 0;
     LoaiSanPhamDAO dao = new LoaiSanPhamDAO();
     
-    void init() {
-        
+    void init(){
+        setIconImage(ShareHelper.APP_ICON);
+        setLocationRelativeTo(null);
+        this.load();
+        this.setStatus(true);
     }
     
     void load() {
@@ -116,7 +120,6 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
     LoaiSanPham getModel() {
         LoaiSanPham model = new LoaiSanPham();
         model.setTenLoaiSP(txtLoaiSanPham.getText());
-        model.setMaLoaiSP(Integer.parseInt(txtLoaiSanPham.getToolTipText()));
         if (txtLoaiSanPham.getToolTipText() != null) {
             model.setMaLoaiSP(Integer.parseInt(txtLoaiSanPham.getToolTipText()));            
         }
@@ -163,6 +166,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         txtLoaiSanPham = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Quản lý loại sản phẩm");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -383,8 +387,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        this.load();
-        this.setStatus(true);
+       
     }//GEN-LAST:event_formWindowOpened
 
     /**
