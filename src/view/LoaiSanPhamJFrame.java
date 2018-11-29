@@ -116,7 +116,6 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
     LoaiSanPham getModel() {
         LoaiSanPham model = new LoaiSanPham();
         model.setTenLoaiSP(txtLoaiSanPham.getText());
-        model.setMaLoaiSP(Integer.parseInt(txtLoaiSanPham.getToolTipText()));
         if (txtLoaiSanPham.getToolTipText() != null) {
             model.setMaLoaiSP(Integer.parseInt(txtLoaiSanPham.getToolTipText()));            
         }

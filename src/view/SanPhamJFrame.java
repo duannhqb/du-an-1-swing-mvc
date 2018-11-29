@@ -25,11 +25,13 @@ public class SanPhamJFrame extends javax.swing.JFrame {
      */
     public SanPhamJFrame() {
         initComponents();
+        init();
         setLocationRelativeTo(null);
     }
     int index = 0;
     SanPhamDAO dao = new SanPhamDAO();
     LoaiSanPhamDAO lspdao = new LoaiSanPhamDAO();
+    
 
     void init() {
         fillCombobox();
