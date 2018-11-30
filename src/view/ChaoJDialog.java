@@ -6,27 +6,37 @@
 package view;
 
 import helper.ShareHelper;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
 
 /**
  *
  * @author NgọcHải
  */
-public class GioiThieuDialog extends javax.swing.JDialog {
+public class ChaoJDialog extends javax.swing.JDialog {
 
     /**
-     * Creates new form GioiThieuDialog
+     * Creates new form ChaoDialog
      */
-    public GioiThieuDialog(java.awt.Frame parent, boolean modal) {
+    public ChaoJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         init();
-        sp.setViewportBorder(null);
-        sp.setBorder(null);
     }
+
     void init() {
         setIconImage(ShareHelper.APP_ICON);
         setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
+        new Timer(5000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ChaoJDialog.this.dispose();
+            }
+        }).start();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,42 +46,25 @@ public class GioiThieuDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblHinh = new javax.swing.JLabel();
-        sp = new javax.swing.JScrollPane();
-        txtGioiThieu = new javax.swing.JTextPane();
+        lblLogo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
 
-        lblHinh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Actions-help-about-icon.png"))); // NOI18N
-
-        txtGioiThieu.setEditable(false);
-        txtGioiThieu.setBackground(new java.awt.Color(240, 240, 240));
-        txtGioiThieu.setText("Yêu cầu hệ thống:\n1. Hệ điều hành bất kỳ\n2.JDK 1.8 trở lên \n2.SQL server 2008 trở lên");
-        sp.setViewportView(txtGioiThieu);
+        lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/c2145ba06862c3e19669ed71bcf14ae4.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(133, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblHinh)
-                        .addGap(134, 134, 134))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(sp, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43))))
+            .addComponent(lblLogo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addComponent(lblHinh, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
-                .addComponent(sp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
+                .addComponent(lblLogo)
+                .addGap(0, 40, Short.MAX_VALUE))
         );
 
         pack();
@@ -88,26 +81,27 @@ public class GioiThieuDialog extends javax.swing.JDialog {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GioiThieuDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChaoJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GioiThieuDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChaoJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GioiThieuDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChaoJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GioiThieuDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChaoJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                GioiThieuDialog dialog = new GioiThieuDialog(new javax.swing.JFrame(), true);
+                ChaoJDialog dialog = new ChaoJDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -120,8 +114,6 @@ public class GioiThieuDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lblHinh;
-    private javax.swing.JScrollPane sp;
-    private javax.swing.JTextPane txtGioiThieu;
+    private javax.swing.JLabel lblLogo;
     // End of variables declaration//GEN-END:variables
 }

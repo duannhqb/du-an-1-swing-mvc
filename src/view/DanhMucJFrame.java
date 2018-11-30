@@ -41,12 +41,26 @@ public class DanhMucJFrame extends javax.swing.JFrame {
 
     public DanhMucJFrame() {
         initComponents();
+        init();
+    }
+
+    void init() {
+        setIconImage(ShareHelper.APP_ICON);
         this.setLocationRelativeTo(null);
+        this.setTitle("Hệ thống quản lý quán coffee");
+        this.openWelcome();
+        this.openLogin();
         loadTabs();
         loadDonHangTheoBan();
-        setIconImage(ShareHelper.APP_ICON);
         setBoderForTable(jScrollPane1);
-        this.setTitle("Hệ thống quản lý quán coffee");
+    }
+
+    void openWelcome() {
+        new ChaoJDialog(this, true).setVisible(true);
+    }
+
+    void openLogin() {
+        new DangNhapJDialog(this, true).setVisible(true);
     }
 
     public static void loadTabs() {
@@ -144,7 +158,6 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         tblHoaDon = new javax.swing.JTable();
         lblBanHD = new javax.swing.JLabel();
         pnlBan = new javax.swing.JPanel();
-        lblIcon1 = new javax.swing.JLabel();
         mnu = new javax.swing.JMenuBar();
         mniBan = new javax.swing.JMenu();
         mniKhuVuc = new javax.swing.JMenu();
@@ -192,10 +205,6 @@ public class DanhMucJFrame extends javax.swing.JFrame {
 
         pnlBan.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         pnlBan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        lblIcon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/login_icon.png"))); // NOI18N
-        pnlBan.add(lblIcon1);
 
         javax.swing.GroupLayout pnlWrapperLayout = new javax.swing.GroupLayout(pnlWrapper);
         pnlWrapper.setLayout(pnlWrapperLayout);
@@ -413,7 +422,6 @@ public class DanhMucJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBanHD;
     private javax.swing.JLabel lblIcon;
-    private javax.swing.JLabel lblIcon1;
     private javax.swing.JMenu mniBan;
     private javax.swing.JMenu mniCaLamViec;
     private javax.swing.JMenu mniChiTiet;
