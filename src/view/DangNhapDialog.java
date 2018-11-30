@@ -24,9 +24,12 @@ public class DangNhapDialog extends javax.swing.JDialog {
     public DangNhapDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        init();
+    }
+    void init() {
+        setIconImage(ShareHelper.APP_ICON);
         setLocationRelativeTo(null);
     }
-
     void login() {
         String email= txtTenDangNhap.getText();
         String matKhau = new String(txtMatKhau.getPassword());

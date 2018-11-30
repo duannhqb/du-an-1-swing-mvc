@@ -12,6 +12,7 @@ import DAO.HoaDonDAO;
 import DAO.KhoHangDAO;
 import DAO.SanPhamDAO;
 import helper.DialogHelper;
+import helper.ShareHelper;
 import helper.XDate;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -50,10 +51,13 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
 
     public ThongTinDonHangJFrame() {
         initComponents();
+        init();
+    }
+    void init(){
+        setIconImage(ShareHelper.APP_ICON);
         this.setLocationRelativeTo(null);
         loadDonHangByBan(1);
     }
-
     public ThongTinDonHangJFrame(int id) {
         initComponents();
         this.setLocationRelativeTo(null);

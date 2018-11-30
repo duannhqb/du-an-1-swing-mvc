@@ -159,9 +159,11 @@ public class KhoHangJFrame extends javax.swing.JFrame {
 //        SanPham sanPham = new SanPham();
         String tenSanPham = (String) cboSanPham.getSelectedItem();
         SanPham sp = spdao.findByName(tenSanPham);
+        if (txtSoLuong.getToolTipText()!=null){
         khoHang.setMaKhoHang(Integer.valueOf(txtSoLuong.getToolTipText()));
         khoHang.setMaSanPham(Integer.valueOf(txtSoLuong.getToolTipText()));
         khoHang.setMaNhanVien(Integer.valueOf(txtSoLuong.getToolTipText()));
+        }
         khoHang.setMaKhoHang(khoHang.getMaKhoHang());
         khoHang.setMaSanPham(sp.getMaSanPham());
         khoHang.setMaNhanVien(4);
@@ -186,6 +188,27 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         btnLast.setEnabled(!insertable && last);
         btnNext.setEnabled(!insertable && last);
     }
+    
+    public boolean check(){
+        boolean check = true;
+        if (txtSoLuong.getText().isEmpty()){
+            DialogHelper.alert(this, "Số lượng không được rỗng");
+            return false;
+        }
+        return true;
+    }
+    private boolean checksoluong(){
+        if (Integer.parseInt(txtSoLuong.getText())<=50){
+            DialogHelper.alert(this, "Số lượng phải lớn hơn 50");
+            return false;
+        }
+        if (Integer.parseInt(txtSoLuong.getText())>=100){
+            DialogHelper.alert(this, "Số lượng tối đa là 100");
+            return false;
+        }
+        return true;
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -421,12 +444,16 @@ public class KhoHangJFrame extends javax.swing.JFrame {
 
     private void btnthemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemActionPerformed
         // TODO add your handling code here:
-        insert();
+        if(check()&&checksoluong()){
+            insert();
+        }
     }//GEN-LAST:event_btnthemActionPerformed
 
     private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
         // TODO add your handling code here:
-        update();
+        if(check()){
+            update();
+        }
     }//GEN-LAST:event_btnsuaActionPerformed
 
     private void btnmoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmoiActionPerformed

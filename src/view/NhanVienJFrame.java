@@ -8,6 +8,7 @@ package view;
 import DAO.CaLamViecDAO;
 import DAO.NhanVienDAO;
 import helper.DialogHelper;
+import helper.ShareHelper;
 import helper.XDate;
 import java.util.List;
 import javax.swing.ButtonGroup;
@@ -38,7 +39,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
 
     void init() {
         this.setLocationRelativeTo(null);
-
+        setIconImage(ShareHelper.APP_ICON);
         grGioiTinh = new ButtonGroup();
         grGioiTinh.add(rdoNam);
         grGioiTinh.add(rdoNu);

@@ -8,6 +8,7 @@ package view;
 import DAO.LoaiSanPhamDAO;
 import DAO.SanPhamDAO;
 import helper.DialogHelper;
+import helper.ShareHelper;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
@@ -26,15 +27,19 @@ public class SanPhamJFrame extends javax.swing.JFrame {
     public SanPhamJFrame() {
         initComponents();
         init();
-        setLocationRelativeTo(null);
+
     }
     int index = 0;
     SanPhamDAO dao = new SanPhamDAO();
     LoaiSanPhamDAO lspdao = new LoaiSanPhamDAO();
-    
 
     void init() {
         fillCombobox();
+        setIconImage(ShareHelper.APP_ICON);
+        setLocationRelativeTo(null);
+        this.load();
+        this.setStatus(true);
+
     }
 
     void fillCombobox() {
@@ -91,8 +96,8 @@ public class SanPhamJFrame extends javax.swing.JFrame {
         sanpham.setTenSanPham(txtTenSanPham.getText());
         sanpham.setGiaBan(Float.valueOf(txtGiaBan.getText()));
         sanpham.setGhiChu(txtGhiChu.getText());
-        
-        if(txtTenSanPham.getToolTipText()!= null){
+
+        if (txtTenSanPham.getToolTipText() != null) {
             sanpham.setMaSanPham(Integer.valueOf(txtTenSanPham.getToolTipText()));
         }
         return sanpham;
@@ -169,12 +174,34 @@ public class SanPhamJFrame extends javax.swing.JFrame {
             if (model != null) {
                 this.setModel(model);
                 this.setStatus(false);
-                
+
             }
         } catch (Exception e) {
             DialogHelper.alert(this, "Lỗi truy vấn dữ liệu");
         }
     }
+    
+    public boolean check(){
+        if (txtTenSanPham.getText().isEmpty()){
+            DialogHelper.alert(this, "Tên sản phẩm không được để rỗng");
+            return false;
+        }
+        if (txtGiaBan.getText().isEmpty()){
+            DialogHelper.alert(this, "Giá bán không được để rỗng");
+            return false;
+        }
+        return true;
+    }
+    private boolean checkGiaban(){
+        if(txtGiaBan.getText().length()<0){
+            DialogHelper.alert(this, "Giá bán phải lớn hơn 0");
+            return false;
+        }
+        return true;
+    }
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -419,7 +446,9 @@ public class SanPhamJFrame extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        insert();
+        if(check()){
+            insert();
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
@@ -450,12 +479,6 @@ public class SanPhamJFrame extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        try {
-            load();
-            setStatus(true);
-        } catch (Exception e) {
-        }
-
 
     }//GEN-LAST:event_formWindowOpened
 

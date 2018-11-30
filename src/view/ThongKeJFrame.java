@@ -7,6 +7,7 @@ package view;
 
 import DAO.SanPhamDAO;
 import DAO.ThongKeDAO;
+import helper.ShareHelper;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -26,6 +27,11 @@ public class ThongKeJFrame extends javax.swing.JFrame {
 
     public ThongKeJFrame() {
         initComponents();
+        init();
+    }
+
+    void init() {
+        setIconImage(ShareHelper.APP_ICON);
         setLocationRelativeTo(null);
         fillComboBoxThoiGian();
         fillTableDoanhThu();
@@ -103,6 +109,8 @@ public class ThongKeJFrame extends javax.swing.JFrame {
         tblThongKeNhanVien = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Tổng hợp thông kê");
+        setAlwaysOnTop(true);
 
         lblTitle.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

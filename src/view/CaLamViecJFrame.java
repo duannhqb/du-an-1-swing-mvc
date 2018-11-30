@@ -7,6 +7,7 @@ package view;
 
 import DAO.CaLamViecDAO;
 import helper.DialogHelper;
+import helper.ShareHelper;
 import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,7 +29,14 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
      */
     public CaLamViecJFrame() {
         initComponents();
+        init();
+    }
+
+    void init() {
+        setIconImage(ShareHelper.APP_ICON);
         this.setLocationRelativeTo(null);
+        this.load();
+        this.setStatus(true);
     }
 
     void load() {
@@ -63,8 +71,10 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
         model.setTenCaLamViec(txtTenCaLV.getText());
         model.setBatDau((String) txtBatDau.getText());
         model.setKetThuc((String) txtKetThuc.getText());
-        model.setGhiChu(txtGhiChu.getText());
-        model.setMaCaLamViec(Integer.parseInt(txtTenCaLV.getToolTipText()));
+        model.setGhiChu((String) txtGhiChu.getText());
+        if (txtTenCaLV.getToolTipText() != null) {
+            model.setMaCaLamViec(Integer.parseInt(txtTenCaLV.getToolTipText()));
+        }
         return model;
     }
 
@@ -134,6 +144,30 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
             System.out.println(e.toString());
             DialogHelper.alert(this, "Lỗi truy vấn dữ liệu!");
         }
+    }
+
+    public boolean checkten() {
+        if (txtTenCaLV.getText().isEmpty()) {
+            DialogHelper.alert(this, "Tên ca làm việc không được để trống!");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkbt() {
+        if (txtBatDau.getText().isEmpty()) {
+            DialogHelper.alert(this, "Thời gian bắt đầu không được để trống!");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkkt() {
+        if (txtKetThuc.getText().isEmpty()) {
+            DialogHelper.alert(this, "Thời gian kết thúc không được để trống!");
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -379,7 +413,13 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        insert();
+        if(checkten()){
+            if(checkbt()){
+                if(checkkt()){
+                    insert();
+                }
+            }
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void tblCaLamViecMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCaLamViecMouseClicked
@@ -418,8 +458,7 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        this.load();
-        this.setStatus(true);
+
     }//GEN-LAST:event_formWindowOpened
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed

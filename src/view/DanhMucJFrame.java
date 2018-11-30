@@ -44,7 +44,11 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         loadTabs();
         loadDonHangTheoBan();
+<<<<<<< HEAD
+        setIconImage(ShareHelper.APP_ICON);
+=======
         setBoderForTable(jScrollPane1);
+>>>>>>> 7f29c5b5fddd9955163995aa22801c49d3e04862
     }
 
     public static void loadTabs() {

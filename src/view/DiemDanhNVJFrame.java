@@ -27,9 +27,13 @@ public class DiemDanhNVJFrame extends javax.swing.JFrame {
     public DiemDanhNVJFrame() {
         this.setTitle("Thông tin điểm danh ngày : " + XDate.toString(XDate.now()));
         initComponents();
-        setLocationRelativeTo(null);
         load();
         checkDiemDanh();
+        init();
+    }
+    void init() {
+        setIconImage(ShareHelper.APP_ICON);
+        setLocationRelativeTo(null);
     }
 
     void load() {

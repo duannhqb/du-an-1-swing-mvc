@@ -8,6 +8,7 @@ package view;
 import DAO.BanDAO;
 import DAO.KhuVucDAO;
 import helper.DialogHelper;
+import helper.ShareHelper;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
@@ -29,8 +30,15 @@ public class BanJFrame extends javax.swing.JFrame {
      */
     public BanJFrame() {
         initComponents();
+        init();
+    }
+
+    void init() {
+        setIconImage(ShareHelper.APP_ICON);
         setLocationRelativeTo(null);
         load();
+        this.fillComboBox();
+        this.setStatus(true);
     }
 
     void load() {
@@ -41,9 +49,7 @@ public class BanJFrame extends javax.swing.JFrame {
             for (Ban ban : list) {
                 Object[] row = {
                     ban.getMaBan(),
-                    ban.getMaKhuvuc(),
-                    ban.isTrangThai()
-                };
+                    ban.getMaKhuvuc(),};
                 model.addRow(row);
             }
         } catch (Exception e) {
@@ -159,6 +165,19 @@ public class BanJFrame extends javax.swing.JFrame {
         }
     }
 
+    public boolean check() {
+        if (txtMaBan.getText().length() != 0) {
+            if (dao.check(txtMaBan.getText())) {
+                return true;
+            } else {
+                DialogHelper.alert(this, "Mã bàn trùng!");
+            }
+        } else {
+            DialogHelper.alert(this, "Mã bàn không được để trống!");
+        }
+        return false;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -206,11 +225,11 @@ public class BanJFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Mã bàn", "Mã khu vực", "Trạng thái"
+                "Mã bàn", "Mã khu vực"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -374,10 +393,11 @@ public class BanJFrame extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        insert();
-//        cái này duần làm
-        DanhMucJFrame.loadTabs();
-        DanhMucJFrame.loadDonHangTheoBan();
+        if (check()) {
+            insert();
+            DanhMucJFrame.loadTabs();
+            DanhMucJFrame.loadDonHangTheoBan();
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void tblBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBanMouseClicked
@@ -392,9 +412,7 @@ public class BanJFrame extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        this.fillComboBox();
-        this.load();
-        this.setStatus(true);
+
     }//GEN-LAST:event_formWindowOpened
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed

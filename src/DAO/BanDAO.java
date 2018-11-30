@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Ban;
 
-
 public class BanDAO {
 
     public void insert(Ban model) {
@@ -81,4 +80,9 @@ public class BanDAO {
         return list.size() > 0 ? list.get(0) : null;
     }
 
+    public boolean check(String maBan) {
+        String sql = "SELECT * FROM Ban WHERE MaBan LIKE ?";
+        List<Ban> list = select(sql, maBan);
+        return list.size() == 0;
+    }
 }
