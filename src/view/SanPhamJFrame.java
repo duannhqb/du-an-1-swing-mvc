@@ -32,7 +32,7 @@ public class SanPhamJFrame extends javax.swing.JFrame {
         initComponents();
         init();
     }
-    
+
     void init() {
         fillCombobox();
         setIconImage(ShareHelper.APP_ICON);
@@ -181,6 +181,28 @@ public class SanPhamJFrame extends javax.swing.JFrame {
         } catch (Exception e) {
             DialogHelper.alert(this, "Lỗi truy vấn dữ liệu");
         }
+    }
+
+    public boolean check() {
+
+        boolean check = true;
+        if (txtTenSanPham.getText().isEmpty()) {
+            DialogHelper.alert(this, "Tên sản phẩm không được để rỗng");
+            check = false;
+        }
+        if (txtGiaBan.getText().isEmpty()) {
+            DialogHelper.alert(this, "Giá bán không được để rỗng");
+            check = false;
+        }
+        if (txtGiaBan.getText().isEmpty()) {
+
+        } else {
+            if (Float.parseFloat(txtGiaBan.getText())<1) {
+                DialogHelper.alert(this, "Giá bán phải lớn hơn 0");
+                check = false;
+            }
+        }
+        return check;
     }
 
     /**
@@ -442,12 +464,16 @@ public class SanPhamJFrame extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        insert();
+        if (check()) {
+            insert();
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-        update();
+        if (check()) {
+            update();
+        }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed

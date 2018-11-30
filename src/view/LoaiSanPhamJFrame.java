@@ -142,6 +142,13 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         btnPrev.setEnabled(!insertable && first);
         
     }
+    public boolean check(){
+        if (txtLoaiSanPham.getText().isEmpty()){
+            DialogHelper.alert(this, "Loại sản phẩm rỗng");
+        }
+        return false;
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -349,7 +356,9 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        insert();
+        if(check()){
+            insert();
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
