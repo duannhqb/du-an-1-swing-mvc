@@ -13,7 +13,6 @@ import helper.XDate;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import model.HoaDon;
-import model.HoaDonChiTiet;
 
 /**
  *
@@ -27,7 +26,6 @@ public class HoaDonChiTietJFrame extends javax.swing.JFrame {
     static HoaDonDAO dao = new HoaDonDAO();
     static HoaDonChiTietDAO daoCT = new HoaDonChiTietDAO();
     static NhanVienDAO nvdao = new NhanVienDAO();
-//    int index = 0;
 
     public HoaDonChiTietJFrame() {
         initComponents();
@@ -38,7 +36,8 @@ public class HoaDonChiTietJFrame extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         load();
         setIconImage(ShareHelper.APP_ICON);
-
+        this.setTitle("Hệ thống quản lý quán coffee");
+        ShareHelper.setBoderForTable(jScrollPane2);
     }
 
     public static void load() {
@@ -79,6 +78,7 @@ public class HoaDonChiTietJFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Thông tin chi tiết");
 
+        tblHoaDon.setAutoCreateRowSorter(true);
         tblHoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -95,6 +95,7 @@ public class HoaDonChiTietJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblHoaDon.setGridColor(new java.awt.Color(255, 255, 255));
         tblHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblHoaDonMouseClicked(evt);
@@ -161,13 +162,6 @@ public class HoaDonChiTietJFrame extends javax.swing.JFrame {
 
     private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
         // TODO add your handling code here:
-//        if (evt.getClickCount() == 2) {
-//            this.index = tblHoaDon.rowAtPoint(evt.getPoint());
-//            if (this.index >= 0) {
-//                int maHD = (int) tblHoaDon.getValueAt(index, 1);
-//                openGoiMon(maHD);
-//            }
-//        }
     }//GEN-LAST:event_tblHoaDonMouseClicked
 
     /**

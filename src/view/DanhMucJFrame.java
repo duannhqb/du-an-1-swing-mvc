@@ -44,11 +44,9 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         loadTabs();
         loadDonHangTheoBan();
-<<<<<<< HEAD
         setIconImage(ShareHelper.APP_ICON);
-=======
         setBoderForTable(jScrollPane1);
->>>>>>> 7f29c5b5fddd9955163995aa22801c49d3e04862
+        this.setTitle("Hệ thống quản lý quán coffee");
     }
 
     public static void loadTabs() {
@@ -146,6 +144,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         tblHoaDon = new javax.swing.JTable();
         lblBanHD = new javax.swing.JLabel();
         pnlBan = new javax.swing.JPanel();
+        lblIcon1 = new javax.swing.JLabel();
         mnu = new javax.swing.JMenuBar();
         mniBan = new javax.swing.JMenu();
         mniKhuVuc = new javax.swing.JMenu();
@@ -194,13 +193,17 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         pnlBan.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         pnlBan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
+        lblIcon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/login_icon.png"))); // NOI18N
+        pnlBan.add(lblIcon1);
+
         javax.swing.GroupLayout pnlWrapperLayout = new javax.swing.GroupLayout(pnlWrapper);
         pnlWrapper.setLayout(pnlWrapperLayout);
         pnlWrapperLayout.setHorizontalGroup(
             pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlWrapperLayout.createSequentialGroup()
                 .addGap(52, 52, 52)
-                .addComponent(pnlBan, javax.swing.GroupLayout.PREFERRED_SIZE, 723, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlBan, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblBanHD)
@@ -216,11 +219,11 @@ public class DanhMucJFrame extends javax.swing.JFrame {
             .addGroup(pnlWrapperLayout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pnlBan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnlWrapperLayout.createSequentialGroup()
                         .addComponent(lblBanHD)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(pnlBan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(35, Short.MAX_VALUE))
             .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlWrapperLayout.createSequentialGroup()
@@ -310,9 +313,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(pnlWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(pnlWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -412,6 +413,7 @@ public class DanhMucJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBanHD;
     private javax.swing.JLabel lblIcon;
+    private javax.swing.JLabel lblIcon1;
     private javax.swing.JMenu mniBan;
     private javax.swing.JMenu mniCaLamViec;
     private javax.swing.JMenu mniChiTiet;

@@ -24,14 +24,14 @@ public class SanPhamJFrame extends javax.swing.JFrame {
     /**
      * Creates new form SanPhamJFrame
      */
-    public SanPhamJFrame() {
-        initComponents();
-        init();
-
-    }
     int index = 0;
     SanPhamDAO dao = new SanPhamDAO();
     LoaiSanPhamDAO lspdao = new LoaiSanPhamDAO();
+
+    public SanPhamJFrame() {
+        initComponents();
+        init();
+    }
 
     void init() {
         fillCombobox();
@@ -39,6 +39,8 @@ public class SanPhamJFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         this.load();
         this.setStatus(true);
+        this.setTitle("Hệ thống quản lý quán coffee");
+        ShareHelper.setBoderForTable(jScrollPane2);
 
     }
 
@@ -180,28 +182,28 @@ public class SanPhamJFrame extends javax.swing.JFrame {
             DialogHelper.alert(this, "Lỗi truy vấn dữ liệu");
         }
     }
-    
-    public boolean check(){
-        if (txtTenSanPham.getText().isEmpty()){
+
+    public boolean check() {
+
+        boolean check = true;
+        if (txtTenSanPham.getText().isEmpty()) {
             DialogHelper.alert(this, "Tên sản phẩm không được để rỗng");
-            return false;
+            check = false;
         }
-        if (txtGiaBan.getText().isEmpty()){
+        if (txtGiaBan.getText().isEmpty()) {
             DialogHelper.alert(this, "Giá bán không được để rỗng");
-            return false;
+            check = false;
         }
-        return true;
-    }
-    private boolean checkGiaban(){
-        if(txtGiaBan.getText().length()<0){
-            DialogHelper.alert(this, "Giá bán phải lớn hơn 0");
-            return false;
+        if (txtGiaBan.getText().isEmpty()) {
+
+        } else {
+            if (Float.parseFloat(txtGiaBan.getText())<1) {
+                DialogHelper.alert(this, "Giá bán phải lớn hơn 0");
+                check = false;
+            }
         }
-        return true;
+        return check;
     }
-    
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -233,6 +235,7 @@ public class SanPhamJFrame extends javax.swing.JFrame {
         btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
         btnMoi = new javax.swing.JButton();
+        lblIcon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Quản lý sản phẩm");
@@ -244,15 +247,24 @@ public class SanPhamJFrame extends javax.swing.JFrame {
         });
 
         lblTieuDe.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        lblTieuDe.setForeground(new java.awt.Color(255, 255, 255));
         lblTieuDe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTieuDe.setText("Sản Phẩm");
 
+        lblTenSanPham.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        lblTenSanPham.setForeground(new java.awt.Color(255, 255, 255));
         lblTenSanPham.setText("Tên Sản Phẩm:");
 
+        lblLoaiSanPham.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        lblLoaiSanPham.setForeground(new java.awt.Color(255, 255, 255));
         lblLoaiSanPham.setText("Loại Sản Phẩm:");
 
+        lblGhiChu.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        lblGhiChu.setForeground(new java.awt.Color(255, 255, 255));
         lblGhiChu.setText("Ghi Chú:");
 
+        lblGiaBan.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        lblGiaBan.setForeground(new java.awt.Color(255, 255, 255));
         lblGiaBan.setText("Giá Bán:");
 
         txtGhiChu.setColumns(20);
@@ -339,6 +351,8 @@ public class SanPhamJFrame extends javax.swing.JFrame {
             }
         });
 
+        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Ie9liJ.jpg"))); // NOI18N
+
         javax.swing.GroupLayout pnlWrapperLayout = new javax.swing.GroupLayout(pnlWrapper);
         pnlWrapper.setLayout(pnlWrapperLayout);
         pnlWrapperLayout.setHorizontalGroup(
@@ -371,7 +385,7 @@ public class SanPhamJFrame extends javax.swing.JFrame {
                     .addGroup(pnlWrapperLayout.createSequentialGroup()
                         .addGap(53, 53, 53)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 578, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(49, Short.MAX_VALUE))
+                        .addContainerGap(89, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlWrapperLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnFirst)
@@ -383,6 +397,8 @@ public class SanPhamJFrame extends javax.swing.JFrame {
                         .addComponent(btnLast)
                         .addGap(210, 210, 210))))
             .addComponent(lblTieuDe, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 1161, Short.MAX_VALUE))
         );
         pnlWrapperLayout.setVerticalGroup(
             pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -423,6 +439,8 @@ public class SanPhamJFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(42, Short.MAX_VALUE))
+            .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 425, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -446,14 +464,16 @@ public class SanPhamJFrame extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        if(check()){
+        if (check()) {
             insert();
         }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-        update();
+        if (check()) {
+            update();
+        }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
@@ -555,6 +575,7 @@ public class SanPhamJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblGhiChu;
     private javax.swing.JLabel lblGiaBan;
+    private javax.swing.JLabel lblIcon;
     private javax.swing.JLabel lblLoaiSanPham;
     private javax.swing.JLabel lblTenSanPham;
     private javax.swing.JLabel lblTieuDe;

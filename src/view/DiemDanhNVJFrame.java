@@ -25,15 +25,17 @@ public class DiemDanhNVJFrame extends javax.swing.JFrame {
     NhanVienDAO nvdao = new NhanVienDAO();
 
     public DiemDanhNVJFrame() {
-        this.setTitle("Thông tin điểm danh ngày : " + XDate.toString(XDate.now()));
         initComponents();
-        load();
-        checkDiemDanh();
         init();
     }
+
     void init() {
         setIconImage(ShareHelper.APP_ICON);
         setLocationRelativeTo(null);
+        ShareHelper.setBoderForTable(jScrollPane1);
+        this.setTitle("Thông tin điểm danh ngày : " + XDate.toString(XDate.now()));
+        load();
+        checkDiemDanh();
     }
 
     void load() {
@@ -86,7 +88,6 @@ public class DiemDanhNVJFrame extends javax.swing.JFrame {
                         model.setSoNgayLamViec(nv.getSoNgayLamViec());
                     }
                     nvdao.diemDanh(model);
-                    System.out.println(model.getSoNgayLamViec());
                 }
             } catch (Exception e) {
                 System.out.println(e.toString());
@@ -104,10 +105,12 @@ public class DiemDanhNVJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnlWrapper = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblNhanVien = new javax.swing.JTable();
+        lblStatus = new javax.swing.JLabel();
         btnDiemDanh = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        lblIcon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -127,7 +130,12 @@ public class DiemDanhNVJFrame extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        tblNhanVien.setGridColor(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(tblNhanVien);
+
+        lblStatus.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        lblStatus.setForeground(new java.awt.Color(255, 255, 255));
+        lblStatus.setText("Xem tổng hợp điểm danh trong tháng ở bảng thống kê nhân viên");
 
         btnDiemDanh.setText("Lưu");
         btnDiemDanh.addActionListener(new java.awt.event.ActionListener() {
@@ -136,32 +144,51 @@ public class DiemDanhNVJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Xem tổng hợp điểm danh trong tháng ở bảng thống kê nhân viên");
+        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/red-grey-wallpapers-25292-6318392.jpg"))); // NOI18N
+
+        javax.swing.GroupLayout pnlWrapperLayout = new javax.swing.GroupLayout(pnlWrapper);
+        pnlWrapper.setLayout(pnlWrapperLayout);
+        pnlWrapperLayout.setHorizontalGroup(
+            pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlWrapperLayout.createSequentialGroup()
+                .addGap(65, 65, 65)
+                .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(pnlWrapperLayout.createSequentialGroup()
+                        .addComponent(lblStatus)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDiemDanh))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlWrapperLayout.createSequentialGroup()
+                    .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 737, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        pnlWrapperLayout.setVerticalGroup(
+            pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlWrapperLayout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnDiemDanh)
+                    .addComponent(lblStatus))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlWrapperLayout.createSequentialGroup()
+                    .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 11, Short.MAX_VALUE)))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnDiemDanh))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(60, 60, 60))
+            .addComponent(pnlWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, 716, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(40, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnDiemDanh)
-                    .addComponent(jLabel2))
-                .addGap(32, 32, 32))
+            .addComponent(pnlWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -217,8 +244,10 @@ public class DiemDanhNVJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDiemDanh;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblIcon;
+    private javax.swing.JLabel lblStatus;
+    private javax.swing.JPanel pnlWrapper;
     private javax.swing.JTable tblNhanVien;
     // End of variables declaration//GEN-END:variables
 }
