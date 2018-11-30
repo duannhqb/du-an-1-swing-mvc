@@ -148,29 +148,24 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
         }
     }
 
-    public boolean checkten() {
+    public boolean check() {
+        boolean check = true;
         if (txtTenCaLV.getText().isEmpty()) {
             DialogHelper.alert(this, "Tên ca làm việc không được để trống!");
             return false;
         }
-        return true;
-    }
-
-    public boolean checkbt() {
-        if (txtBatDau.getText().isEmpty()) {
+         if (txtBatDau.getText().isEmpty()) {
             DialogHelper.alert(this, "Thời gian bắt đầu không được để trống!");
-            return false;
+            check= false;
         }
-        return true;
+         if (txtKetThuc.getText().isEmpty()) {
+            DialogHelper.alert(this, "Thời gian kết thúc không được để trống!");
+            check= false;
+        }
+        return check;
     }
 
-    public boolean checkkt() {
-        if (txtKetThuc.getText().isEmpty()) {
-            DialogHelper.alert(this, "Thời gian kết thúc không được để trống!");
-            return false;
-        }
-        return true;
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -444,13 +439,10 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        if(checkten()){
-            if(checkbt()){
-                if(checkkt()){
-                    insert();
-                }
-            }
+        if(check()){
+            insert();
         }
+        
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void tblCaLamViecMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCaLamViecMouseClicked
@@ -494,7 +486,9 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-        update();
+        if(check()){
+            update();
+        }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
