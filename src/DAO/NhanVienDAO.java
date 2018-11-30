@@ -126,9 +126,33 @@ public class NhanVienDAO {
     }
 
     public NhanVien findByEmail(String email) {
-        String sql = "SELECT * FROM NhanVien Where Email=?  and MatKhau=?";
-        List<NhanVien> list = select(sql, email);
-        return list.size() > 0 ? list.get(0) : null;
+        String sql = "SELECT * FROM NhanVien Where Email like ?";
+        try {
+            ResultSet rs = null;
+            try {
+                rs = Jdbc.executeQuery(sql, email);
+                while (rs.next()) {
+                    NhanVien nhanVien = new NhanVien();
+                    nhanVien.setMaNhanVien(rs.getInt(1));
+                    nhanVien.setHoTen(rs.getString(2));
+                    nhanVien.setMatKhau(rs.getString(3));
+                    nhanVien.setVaiTro(rs.getBoolean(4));
+                    nhanVien.setNgaySinh(rs.getDate(5));
+                    nhanVien.setGioiTinh(rs.getBoolean(6));
+                    nhanVien.setEmail(rs.getString(7));
+                    nhanVien.setDienThoai(rs.getString(8));
+                    nhanVien.setGhiChu(rs.getString(9));
+                    nhanVien.setMaCaLamViec(rs.getInt(10));
+                    nhanVien.setSoNgayLamViec(rs.getInt(11));
+                    return nhanVien;
+                }
+            } finally {
+                rs.getStatement().getConnection().close();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
 }
