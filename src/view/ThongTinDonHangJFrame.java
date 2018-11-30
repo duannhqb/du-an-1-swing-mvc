@@ -56,14 +56,12 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
     void init() {
         setIconImage(ShareHelper.APP_ICON);
         this.setLocationRelativeTo(null);
-        loadDonHangByBan(1);
     }
 
     public ThongTinDonHangJFrame(int id) {
         initComponents();
-        this.setLocationRelativeTo(null);
-        loadSanPham();
         loadDonHangByBan(id);
+        loadSanPham();
         this.maBan = id;
         lblThongTinCuaBan.setText("Thông tin của bàn: " + id);
         tongTien();
@@ -72,12 +70,8 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         setStatus();
         setBoderForTable(jScrollPane1);
         setBoderForTable(jScrollPane2);
-<<<<<<< HEAD
         init();
-
-=======
         this.setTitle("Hệ thống quản lý quán coffee");
->>>>>>> 77fa328f7114bc5fcd02b0e9fe7860dd737b1482
     }
 
     void setBoderForTable(JScrollPane scp) {

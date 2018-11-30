@@ -26,15 +26,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     /**
      * Creates new form quanlykhohang
      */
-<<<<<<< HEAD
-    public KhoHangJFrame() {
-        initComponents();
 
-        init();
-
-    }
-=======
->>>>>>> 77fa328f7114bc5fcd02b0e9fe7860dd737b1482
     int index = 0;
     KhoHangDAO dao = new KhoHangDAO();
     SanPhamDAO spdao = new SanPhamDAO();
