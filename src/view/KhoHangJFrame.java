@@ -26,7 +26,6 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     /**
      * Creates new form quanlykhohang
      */
-
     int index = 0;
     KhoHangDAO dao = new KhoHangDAO();
     SanPhamDAO spdao = new SanPhamDAO();
@@ -149,7 +148,6 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     }
 
     void setModel(KhoHang model) {
-        txtSoLuong.setToolTipText(String.valueOf(model.getMaKhoHang()));
         cboSanPham.setToolTipText(String.valueOf(model.getMaKhoHang()));
         SanPham sp = spdao.findById(model.getMaSanPham());
 
@@ -163,20 +161,14 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     }
 
     KhoHang getModel() {
-
         KhoHang khoHang = new KhoHang();
-//        SanPham sanPham = new SanPham();
         String tenSanPham = (String) cboSanPham.getSelectedItem();
         SanPham sp = spdao.findByName(tenSanPham);
-        if (txtSoLuong.getToolTipText()!=null){
-        khoHang.setMaKhoHang(Integer.valueOf(txtSoLuong.getToolTipText()));
-        khoHang.setMaSanPham(Integer.valueOf(txtSoLuong.getToolTipText()));
-        khoHang.setMaNhanVien(Integer.valueOf(txtSoLuong.getToolTipText()));
+        if (txtSoLuong.getToolTipText() != null) {
+            khoHang.setMaKhoHang(Integer.valueOf(cboSanPham.getToolTipText()));
         }
-        khoHang.setMaKhoHang(khoHang.getMaKhoHang());
         khoHang.setMaSanPham(sp.getMaSanPham());
-        khoHang.setMaNhanVien(4);
-//        khoHang.setMaNhanVien(ShareHelper.USER.getMaNhanVien());
+        khoHang.setMaNhanVien(ShareHelper.USER.getMaNhanVien());
         khoHang.setNgayNhap(XDate.now());
         khoHang.setSoLuong(Integer.valueOf(txtSoLuong.getText()));
         khoHang.setGhiChu(txtGhiChu.getText());
@@ -197,27 +189,27 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         btnLast.setEnabled(!insertable && last);
         btnNext.setEnabled(!insertable && last);
     }
-    
-    public boolean check(){
+
+    public boolean check() {
         boolean check = true;
-        if (txtSoLuong.getText().isEmpty()){
+        if (txtSoLuong.getText().isEmpty()) {
             DialogHelper.alert(this, "Số lượng không được rỗng");
             return false;
         }
         return true;
     }
-    private boolean checksoluong(){
-        if (Integer.parseInt(txtSoLuong.getText())<50){
+
+    private boolean checksoluong() {
+        if (Integer.parseInt(txtSoLuong.getText()) < 50) {
             DialogHelper.alert(this, "Số lượng phải lớn hơn 50");
             return false;
         }
-        if (Integer.parseInt(txtSoLuong.getText())>100){
+        if (Integer.parseInt(txtSoLuong.getText()) > 100) {
             DialogHelper.alert(this, "Số lượng tối đa là 100");
             return false;
         }
         return true;
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -472,14 +464,14 @@ public class KhoHangJFrame extends javax.swing.JFrame {
 
     private void btnthemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemActionPerformed
         // TODO add your handling code here:
-        if(check()&&checksoluong()){
+        if (check() && checksoluong()) {
             insert();
         }
     }//GEN-LAST:event_btnthemActionPerformed
 
     private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
         // TODO add your handling code here:
-        if(check()){
+        if (check()) {
             update();
         }
     }//GEN-LAST:event_btnsuaActionPerformed
