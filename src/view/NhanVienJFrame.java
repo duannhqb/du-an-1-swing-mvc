@@ -10,6 +10,7 @@ import DAO.NhanVienDAO;
 import helper.DialogHelper;
 import helper.ShareHelper;
 import helper.XDate;
+import java.util.Date;
 import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -208,6 +209,43 @@ public class NhanVienJFrame extends javax.swing.JFrame {
                 System.out.println(e.toString());
             }
         }
+    }
+
+    private boolean check() {
+        boolean check = true;
+
+        if (txtHoTen.getText().isEmpty()) {
+            DialogHelper.alert(this, "Tên nhân viên không được để trống!");
+            check = false;
+        }
+
+        Date ngaysinh = null;
+        try {
+            ngaysinh = XDate.toDate(txtNgaySinh.getText());
+        } catch (RuntimeException ex) {
+            DialogHelper.alert(this, "Nhập sai định dạng ngày!");
+            check = false;
+        }
+        String phone = "0/d{9,10}";
+        if (txtDienThoai.getText().matches(phone)) {
+            DialogHelper.alert(this, "Số điện thoại không đúng định dạng!");
+            check = false;
+
+        }
+        if (txtDienThoai.getText().length() < 10 || txtDienThoai.getText().length() > 11) {
+            DialogHelper.alert(this, "Số điện thoại sai!");
+            check = false;
+
+        }
+        if (!txtEmail.getText().matches("\\w+@\\w+(\\.\\w{2,5})")) {
+            DialogHelper.alert(this, "Email không đúng định dạng email!");
+            check = false;
+        }
+        if (txtMatKhau.getPassword().length < 3) {
+            DialogHelper.alert(this, "Mật khẩu ít nhất 3 ký tự!");
+            return false;
+        }
+        return check;
     }
 
     /**
@@ -647,7 +685,9 @@ public class NhanVienJFrame extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        this.insert();
+        if (check()) {
+       insert();
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
@@ -657,7 +697,9 @@ public class NhanVienJFrame extends javax.swing.JFrame {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-        this.update();
+        if(check()){
+            update();
+        }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed

@@ -51,13 +51,14 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
 
     public ThongTinDonHangJFrame() {
         initComponents();
-        init();
     }
-    void init(){
+
+    void init() {
         setIconImage(ShareHelper.APP_ICON);
         this.setLocationRelativeTo(null);
         loadDonHangByBan(1);
     }
+
     public ThongTinDonHangJFrame(int id) {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -71,6 +72,8 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         setStatus();
         setBoderForTable(jScrollPane1);
         setBoderForTable(jScrollPane2);
+        init();
+
     }
 
     void setBoderForTable(JScrollPane scp) {
@@ -293,38 +296,38 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
     void delete() {
         try {
 //          Mã hóa đơn lấy trước khi bị xóa để đảm bảo đủ dữ liệu
-        int mahd = daoCT.getMaHDByMaHDCT((int) tblThongTin.getValueAt(0, 0));
+            int mahd = daoCT.getMaHDByMaHDCT((int) tblThongTin.getValueAt(0, 0));
 
-        for (int i = 0; i < tblThongTin.getRowCount(); i++) {
-            Integer id = (Integer) tblThongTin.getValueAt(i, 0);
-            Integer masp = spDAO.findByName(tblThongTin.getValueAt(i, 1).toString()).getMaSanPham();
-            Integer sl = (Integer) tblThongTin.getValueAt(i, 4);
-            Boolean isDelete = (Boolean) tblThongTin.getValueAt(i, 6);
+            for (int i = 0; i < tblThongTin.getRowCount(); i++) {
+                Integer id = (Integer) tblThongTin.getValueAt(i, 0);
+                Integer masp = spDAO.findByName(tblThongTin.getValueAt(i, 1).toString()).getMaSanPham();
+                Integer sl = (Integer) tblThongTin.getValueAt(i, 4);
+                Boolean isDelete = (Boolean) tblThongTin.getValueAt(i, 6);
 
-            try {
-                if (isDelete) {
+                try {
+                    if (isDelete) {
 //                  Mã kho hàng lấy theo mã sản phẩm sắp xếp theo thời gian được thêm sản phẩm sớm nhất => để lấy hết sản phẩm cũ
-                    int maKhoHang = khDAO.getMaKhoHangByMaSP(masp);
+                        int maKhoHang = khDAO.getMaKhoHangByMaSP(masp);
 //                  Cộng lại số lượng hàng đã gọi trước khi xóa
-                    khDAO.themSLByMaSP(sl, masp, maKhoHang);
-                    daoCT.delete(id);
+                        khDAO.themSLByMaSP(sl, masp, maKhoHang);
+                        daoCT.delete(id);
+                    }
+                } catch (Exception e) {
                 }
-            } catch (Exception e) {
             }
-        }
-        loadDonHangByBan(maBan);
+            loadDonHangByBan(maBan);
 
 //          Nếu xóa hết sản phẩm ở bảng thì bàn đó sẽ ở trạng thái chưa gọi hóa đơn và hóa đơn sẽ bị xóa         
-        if (tblThongTin.getRowCount() == 0) {
-            hdDAO.delect(mahd);
-            banDAO.datBan(0, maBan);
-        }
+            if (tblThongTin.getRowCount() == 0) {
+                hdDAO.delect(mahd);
+                banDAO.datBan(0, maBan);
+            }
 
-        loadDonHangTheoBan();
-        loadSanPham();
-        loadTabs();
-        tongTien();
-        clear();
+            loadDonHangTheoBan();
+            loadSanPham();
+            loadTabs();
+            tongTien();
+            clear();
         } catch (Exception e) {
         }
     }

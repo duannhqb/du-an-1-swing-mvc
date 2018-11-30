@@ -9,6 +9,7 @@ import DAO.KhoHangDAO;
 import DAO.NhanVienDAO;
 import DAO.SanPhamDAO;
 import helper.DialogHelper;
+import helper.ShareHelper;
 import helper.XDate;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -27,9 +28,9 @@ public class KhoHangJFrame extends javax.swing.JFrame {
      */
     public KhoHangJFrame() {
         initComponents();
-        setLocationRelativeTo(null);
+
         init();
-        load();
+
     }
     int index = 0;
     KhoHangDAO dao = new KhoHangDAO();
@@ -38,6 +39,9 @@ public class KhoHangJFrame extends javax.swing.JFrame {
 
     void init() {
         fillCombobox();
+        load();
+        setLocationRelativeTo(null);
+        setIconImage(ShareHelper.APP_ICON);
     }
 
     void fillCombobox() {
@@ -169,8 +173,8 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         khoHang.setNgayNhap(XDate.now());
         khoHang.setSoLuong(Integer.valueOf(txtSoLuong.getText()));
         khoHang.setGhiChu(txtGhiChu.getText());
-        khoHang.setHanSuDung(XDate.addDays(XDate.now(),30)); // hạn sử dụng 1 tháng kể từ ngày thêm 
-        
+        khoHang.setHanSuDung(XDate.addDays(XDate.now(), 30)); // hạn sử dụng 1 tháng kể từ ngày thêm 
+
         return khoHang;
     }
 
@@ -178,7 +182,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         btnthem.setEnabled(insertable);
         btnsua.setEnabled(!insertable);
         btnxoa.setEnabled(!insertable);
-        
+
         boolean first = this.index > 0;
         boolean last = this.index < tblQuanLyKhoHang.getRowCount() - 1;
         btnFirst.setEnabled(!insertable && first);
@@ -446,7 +450,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:    
-        this.load();   
+        this.load();
         this.setStatus(true);
     }//GEN-LAST:event_formWindowOpened
 
@@ -458,19 +462,19 @@ public class KhoHangJFrame extends javax.swing.JFrame {
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
         // TODO add your handling code here:
-        this.index=0;
+        this.index = 0;
         this.edit();
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         // TODO add your handling code here:
-        this.index = tblQuanLyKhoHang.getRowCount() -1 ;
+        this.index = tblQuanLyKhoHang.getRowCount() - 1;
         this.edit();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
         // TODO add your handling code here:
-        this.index ++;
+        this.index++;
         this.edit();
     }//GEN-LAST:event_btnLastActionPerformed
 

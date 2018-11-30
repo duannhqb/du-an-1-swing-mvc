@@ -143,21 +143,19 @@ public class KhuVucJFrame extends javax.swing.JFrame {
         }
     }
 
-    public boolean checkten() {
+    public boolean check() {
+        boolean check = true;
         if (txtTenKhuVuc.getText().isEmpty()) {
             DialogHelper.alert(this, "Tên khu vực không được để trống!");
-            return false;
+            check= false;
         }
-        return true;
-    }
-
-    public boolean checkvitri() {
         if (txtViTri.getText().isEmpty()) {
             DialogHelper.alert(this, "Vị trí không được để trống!");
-            return false;
+            check= false;
         }
-        return true;
+        return check;
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -393,7 +391,9 @@ public class KhuVucJFrame extends javax.swing.JFrame {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-        update();
+        if(check()){
+            update();
+        }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
@@ -438,10 +438,8 @@ public class KhuVucJFrame extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        if (checkten()) {
-            if (checkvitri()) {
-                insert();
-            }
+        if(check()){
+            insert();
         }
     }//GEN-LAST:event_btnThemActionPerformed
 
