@@ -16,43 +16,61 @@ import model.NhanVien;
  */
 public class DangNhapDialog extends javax.swing.JDialog {
 
-    NhanVienDAO dao = new NhanVienDAO();
-
     /**
      * Creates new form DangNhapDialog
      */
+    NhanVienDAO dao = new NhanVienDAO();
+
     public DangNhapDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         init();
     }
+
     void init() {
         setIconImage(ShareHelper.APP_ICON);
         setLocationRelativeTo(null);
     }
+
+    boolean checkLogin() {
+        boolean check = true;
+        if (txtTenDangNhap.getText().isEmpty()) {
+            DialogHelper.alert(this, "Bạn phải nhập email để đăng nhập.");
+            check = false;
+        }
+
+        if (txtMatKhau.getText().isEmpty()) {
+            DialogHelper.alert(this, "Bạn phải nhập mật khẩu để đăng nhập.");
+            check = false;
+        }
+
+        return check;
+    }
+
     void login() {
-        String email= txtTenDangNhap.getText();
-        String matKhau = new String(txtMatKhau.getPassword());
-        try {
-            NhanVien model = dao.findByEmail(email);
-            if (model != null) {
-                String matKhau2 = model.getMatKhau();
-                if (matKhau.equals(matKhau2)) {
-                    try {
-                        ShareHelper.USER = model;
-                    } catch (Exception e) {
-                        System.out.println(e.toString());
+        if (checkLogin()) {
+            String email = txtTenDangNhap.getText();
+            String matKhau = new String(txtMatKhau.getPassword());
+            try {
+                NhanVien model = dao.findByEmail(email);
+                if (model != null) {
+                    String matKhau2 = model.getMatKhau();
+                    if (matKhau.equals(matKhau2)) {
+                        try {
+                            ShareHelper.USER = model;
+                        } catch (Exception e) {
+                        }
+                        DialogHelper.alert(this, "Đăng nhập thành công!");
+                        this.dispose();
+                    } else {
+                        DialogHelper.alert(this, "Sai mật khẩu!");
                     }
-                    DialogHelper.alert(this, "Đăng nhập thành công!");
-                    this.dispose();
                 } else {
-                    DialogHelper.alert(this, "Sai mật khẩu!");
+                    DialogHelper.alert(this, "Sai email đăng nhập!");
                 }
-            } else {
-                DialogHelper.alert(this, "Sai tên đăng nhập!");
+            } catch (Exception e) {
+                DialogHelper.alert(this, "Đăng nhập thất bại, vui lòng kiểm tra lại kết nối.");
             }
-        } catch (Exception e) {
-            DialogHelper.alert(this, "Lỗi truy vấn dữ liệu");
         }
     }
 
@@ -84,6 +102,7 @@ public class DangNhapDialog extends javax.swing.JDialog {
         jLabel2.setText("jLabel2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
         setUndecorated(true);
 
         lblDangNhap.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
