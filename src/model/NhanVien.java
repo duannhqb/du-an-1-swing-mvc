@@ -34,18 +34,6 @@ public class NhanVien {
         this.caLamViec = caLamViec;
     }
 
-    public NhanVien(int maNhanVien, String hoTen, String matKhau, Date ngaySinh, boolean gioiTinh, String email, String dienThoai, String ghiChu, int maCaLamViec) {
-        this.maNhanVien = maNhanVien;
-        this.hoTen = hoTen;
-        this.matKhau = matKhau;
-        this.ngaySinh = ngaySinh;
-        this.gioiTinh = gioiTinh;
-        this.email = email;
-        this.dienThoai = dienThoai;
-        this.ghiChu = ghiChu;
-        this.maCaLamViec = maCaLamViec;
-    }
-
     public NhanVien() {
     }
 
