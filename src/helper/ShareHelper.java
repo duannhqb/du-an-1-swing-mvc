@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import model.NhanVien;
 
@@ -52,5 +53,12 @@ public class ShareHelper {
         // Row Height
         tblGridView.setRowHeight(20);
     }
+    
+    
+    public static void setBoderForTable(JScrollPane scp) {
+        scp.setViewportBorder(null);
+        scp.setBorder(null);
+    }
+
     
 }

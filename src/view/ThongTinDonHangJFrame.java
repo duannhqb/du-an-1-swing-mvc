@@ -72,8 +72,12 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
         setStatus();
         setBoderForTable(jScrollPane1);
         setBoderForTable(jScrollPane2);
+<<<<<<< HEAD
         init();
 
+=======
+        this.setTitle("Hệ thống quản lý quán coffee");
+>>>>>>> 77fa328f7114bc5fcd02b0e9fe7860dd737b1482
     }
 
     void setBoderForTable(JScrollPane scp) {

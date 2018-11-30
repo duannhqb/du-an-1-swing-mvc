@@ -34,6 +34,8 @@ public class KhuVucJFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         this.load();
         this.setStatus(true);
+        this.setTitle("Hệ thống quản lý quán coffee");
+        ShareHelper.setBoderForTable(jScrollPane2);
     }
 
     void load() {
@@ -186,6 +188,7 @@ public class KhuVucJFrame extends javax.swing.JFrame {
         txtTenKhuVuc = new javax.swing.JTextField();
         txtViTri = new javax.swing.JTextField();
         lblThongBao = new javax.swing.JLabel();
+        lblIcon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Quản lý khu vực");
@@ -196,13 +199,20 @@ public class KhuVucJFrame extends javax.swing.JFrame {
         });
 
         lblTitle.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        lblTitle.setForeground(new java.awt.Color(255, 255, 255));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("Quản Lý Khu Vực");
 
+        lblTenKhuVuc.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        lblTenKhuVuc.setForeground(new java.awt.Color(255, 255, 255));
         lblTenKhuVuc.setText("Tên khu vực");
 
+        lblViTri.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        lblViTri.setForeground(new java.awt.Color(255, 255, 255));
         lblViTri.setText("Vị trí");
 
+        lblGhiChu.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        lblGhiChu.setForeground(new java.awt.Color(255, 255, 255));
         lblGhiChu.setText("Ghi chú");
 
         txtGhiChu.setColumns(20);
@@ -226,6 +236,7 @@ public class KhuVucJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblKhuVuc.setGridColor(new java.awt.Color(255, 255, 255));
         tblKhuVuc.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblKhuVucMouseClicked(evt);
@@ -289,13 +300,12 @@ public class KhuVucJFrame extends javax.swing.JFrame {
             }
         });
 
+        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Ie9liJ.jpg"))); // NOI18N
+
         javax.swing.GroupLayout pnlWallpaperLayout = new javax.swing.GroupLayout(pnlWallpaper);
         pnlWallpaper.setLayout(pnlWallpaperLayout);
         pnlWallpaperLayout.setHorizontalGroup(
             pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlWallpaperLayout.createSequentialGroup()
-                .addGap(86, 86, 86)
-                .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(pnlWallpaperLayout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -320,13 +330,12 @@ public class KhuVucJFrame extends javax.swing.JFrame {
                             .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txtTenKhuVuc, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(txtViTri, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlWallpaperLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlWallpaperLayout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(42, 42, 42))
-                    .addGroup(pnlWallpaperLayout.createSequentialGroup()
-                        .addGap(168, 168, 168)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlWallpaperLayout.createSequentialGroup()
                         .addComponent(btnPrev, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -334,18 +343,21 @@ public class KhuVucJFrame extends javax.swing.JFrame {
                         .addComponent(btnLast, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnNext)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(173, 173, 173))))
             .addGroup(pnlWallpaperLayout.createSequentialGroup()
                 .addGap(467, 467, 467)
                 .addComponent(lblThongBao)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(lblTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 994, Short.MAX_VALUE))
         );
         pnlWallpaperLayout.setVerticalGroup(
             pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlWallpaperLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(lblTitle)
-                .addGap(14, 14, 14)
+                .addGap(28, 28, 28)
                 .addComponent(lblThongBao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -372,7 +384,11 @@ public class KhuVucJFrame extends javax.swing.JFrame {
                             .addComponent(btnXoa)
                             .addComponent(btnMoi)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
+            .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlWallpaperLayout.createSequentialGroup()
+                    .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -383,7 +399,7 @@ public class KhuVucJFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlWallpaper, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlWallpaper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -500,6 +516,7 @@ public class KhuVucJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblGhiChu;
+    private javax.swing.JLabel lblIcon;
     private javax.swing.JLabel lblTenKhuVuc;
     private javax.swing.JLabel lblThongBao;
     private javax.swing.JLabel lblTitle;

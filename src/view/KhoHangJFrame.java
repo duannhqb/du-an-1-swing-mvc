@@ -26,18 +26,31 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     /**
      * Creates new form quanlykhohang
      */
+<<<<<<< HEAD
     public KhoHangJFrame() {
         initComponents();
 
         init();
 
     }
+=======
+>>>>>>> 77fa328f7114bc5fcd02b0e9fe7860dd737b1482
     int index = 0;
     KhoHangDAO dao = new KhoHangDAO();
     SanPhamDAO spdao = new SanPhamDAO();
     NhanVienDAO nvdao = new NhanVienDAO();
 
+    public KhoHangJFrame() {
+        initComponents();
+        init();
+    }
+
     void init() {
+        setIconImage(ShareHelper.APP_ICON);
+        setLocationRelativeTo(null);
+        ShareHelper.setBoderForTable(jScrollPane2);
+        this.setTitle("Hệ thống quản lý quán coffee");
+        load();
         fillCombobox();
         load();
         setLocationRelativeTo(null);
@@ -219,6 +232,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         btnLast = new javax.swing.JButton();
         cboSanPham = new javax.swing.JComboBox<>();
         txtSoLuong = new javax.swing.JTextField();
+        lblIcon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Quản lý kho hàng");
@@ -229,14 +243,25 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         });
 
         lblTieuDe.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        lblTieuDe.setForeground(new java.awt.Color(255, 255, 255));
         lblTieuDe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTieuDe.setText("Quản Lý Kho Hàng");
+        lblTieuDe.setToolTipText("");
 
+        lblsanpham.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        lblsanpham.setForeground(new java.awt.Color(255, 255, 255));
         lblsanpham.setText("Sản Phẩm:");
+        lblsanpham.setToolTipText("");
 
+        lblghichu.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        lblghichu.setForeground(new java.awt.Color(255, 255, 255));
         lblghichu.setText("Ghi Chú:");
+        lblghichu.setToolTipText("");
 
+        lblsoluong.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        lblsoluong.setForeground(new java.awt.Color(255, 255, 255));
         lblsoluong.setText("Số Lượng:");
+        lblsoluong.setToolTipText("");
 
         txtGhiChu.setColumns(20);
         txtGhiChu.setRows(5);
@@ -258,6 +283,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblQuanLyKhoHang.setGridColor(new java.awt.Color(255, 255, 255));
         tblQuanLyKhoHang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblQuanLyKhoHangMouseClicked(evt);
@@ -321,6 +347,8 @@ public class KhoHangJFrame extends javax.swing.JFrame {
             }
         });
 
+        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Ie9liJ.jpg"))); // NOI18N
+
         javax.swing.GroupLayout pnlWrapperLayout = new javax.swing.GroupLayout(pnlWrapper);
         pnlWrapper.setLayout(pnlWrapperLayout);
         pnlWrapperLayout.setHorizontalGroup(
@@ -350,7 +378,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
                     .addGroup(pnlWrapperLayout.createSequentialGroup()
                         .addGap(53, 53, 53)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(28, Short.MAX_VALUE))
+                        .addContainerGap(48, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlWrapperLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -362,6 +390,8 @@ public class KhoHangJFrame extends javax.swing.JFrame {
                         .addComponent(btnLast, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(163, 163, 163))))
             .addComponent(lblTieuDe, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 1126, Short.MAX_VALUE))
         );
         pnlWrapperLayout.setVerticalGroup(
             pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -397,7 +427,9 @@ public class KhoHangJFrame extends javax.swing.JFrame {
                             .addComponent(btnxoa)
                             .addComponent(btnmoi)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
+            .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 410, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -526,6 +558,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cboSanPham;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblIcon;
     private javax.swing.JLabel lblTieuDe;
     private javax.swing.JLabel lblghichu;
     private javax.swing.JLabel lblsanpham;

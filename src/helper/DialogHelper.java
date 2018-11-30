@@ -22,18 +22,18 @@ public class DialogHelper {
 
 //    hiển thị thông báo cho người dùng
     public static void alert(Component parent, String messager) {
-        JOptionPane.showMessageDialog(parent, messager, "Hệ thống quản lý đào tạo", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(parent, messager, "Hệ thống quản lý quán coffee", JOptionPane.INFORMATION_MESSAGE);
     }
 
 //    Hiển thị thông báo và yêu cầu người dùng xác nhận
     public static boolean confirm(Component parent, String messager) {
-        int result = JOptionPane.showConfirmDialog(parent, messager, "Hệ thống quản lý đào tạo", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int result = JOptionPane.showConfirmDialog(parent, messager, "Hệ thống quản lý quán coffee", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         return result == JOptionPane.YES_OPTION;
     }
 
 //    hiển thị thông báo yêu cầu nhập dữ liệu;
     public static String prompt(Component parent, String messager) {
-        return JOptionPane.showInputDialog(parent, messager, "Hệ thống quản lý đào tạo", JOptionPane.INFORMATION_MESSAGE);
+        return JOptionPane.showInputDialog(parent, messager, "Hệ thống quản lý quán coffee", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public static void setInfinity(JLabel label, String text) {
