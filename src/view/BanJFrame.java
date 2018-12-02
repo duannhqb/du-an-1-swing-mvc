@@ -126,7 +126,6 @@ public class BanJFrame extends javax.swing.JFrame {
             DialogHelper.setInfinity(lblThongBao, "Thêm mới thành công!");
         } catch (Exception e) {
             DialogHelper.alert(this, "Thêm mới thất bại!");
-            System.out.println(e.toString());
         }
     }
 
@@ -135,9 +134,9 @@ public class BanJFrame extends javax.swing.JFrame {
         try {
             dao.update(model);
             this.load();
-            DialogHelper.setInfinity(lblThongBao, "Thêm mới thành công!");
+            DialogHelper.setInfinity(lblThongBao, "Cập nhật thành công!");
         } catch (Exception e) {
-            DialogHelper.alert(this, "Thêm mới thất bại!");
+            DialogHelper.alert(this, "Cập nhật thất bại!");
         }
     }
 

@@ -468,9 +468,9 @@ public class KhoHangJFrame extends javax.swing.JFrame {
 
     private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
         // TODO add your handling code here:
-            if (check()) {
-                update();
-            }
+        if (check()) {
+            update();
+        }
     }//GEN-LAST:event_btnsuaActionPerformed
 
     private void btnmoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmoiActionPerformed
@@ -496,25 +496,25 @@ public class KhoHangJFrame extends javax.swing.JFrame {
 
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
         // TODO add your handling code here:
-        this.index--;
+        this.index = 0;
         this.edit();
     }//GEN-LAST:event_btnFirstActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
         // TODO add your handling code here:
-        this.index = 0;
+        this.index--;
         this.edit();
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         // TODO add your handling code here:
-        this.index = tblQuanLyKhoHang.getRowCount() - 1;
+        this.index++;
         this.edit();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
         // TODO add your handling code here:
-        this.index++;
+        this.index = tblQuanLyKhoHang.getRowCount() - 1;
         this.edit();
     }//GEN-LAST:event_btnLastActionPerformed
 

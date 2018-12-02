@@ -81,7 +81,6 @@ public class ThongKeJFrame extends javax.swing.JFrame {
                 }
             }
         } catch (Exception e) {
-//            System.out.println(e.toString());
         }
     }
 
@@ -104,9 +103,6 @@ public class ThongKeJFrame extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         tblThongKeTheoThang = new javax.swing.JTable();
         cboThoiGian = new javax.swing.JComboBox<>();
-        pnlThongKeNhanVien = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblThongKeNhanVien = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tổng hợp thông kê");
@@ -201,39 +197,6 @@ public class ThongKeJFrame extends javax.swing.JFrame {
 
         tabs.addTab("Thống kê doanh thu", pnlThongKeDoanhThu);
 
-        tblThongKeNhanVien.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nhân viên", "Số ngày làm việc", "Lương", "Hoa hồng"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(tblThongKeNhanVien);
-
-        javax.swing.GroupLayout pnlThongKeNhanVienLayout = new javax.swing.GroupLayout(pnlThongKeNhanVien);
-        pnlThongKeNhanVien.setLayout(pnlThongKeNhanVienLayout);
-        pnlThongKeNhanVienLayout.setHorizontalGroup(
-            pnlThongKeNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 806, Short.MAX_VALUE)
-        );
-        pnlThongKeNhanVienLayout.setVerticalGroup(
-            pnlThongKeNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlThongKeNhanVienLayout.createSequentialGroup()
-                .addGap(0, 37, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        tabs.addTab("Thống kê nhân viên", pnlThongKeNhanVien);
-
         javax.swing.GroupLayout pnlWallpaperLayout = new javax.swing.GroupLayout(pnlWallpaper);
         pnlWallpaper.setLayout(pnlWallpaperLayout);
         pnlWallpaperLayout.setHorizontalGroup(
@@ -310,16 +273,13 @@ public class ThongKeJFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cboThoiGian;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JPanel pnlThongKeDoanhThu;
     private javax.swing.JPanel pnlThongKeKhoHang;
-    private javax.swing.JPanel pnlThongKeNhanVien;
     private javax.swing.JPanel pnlWallpaper;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JTable tblThongKeKhoHang;
-    private javax.swing.JTable tblThongKeNhanVien;
     private javax.swing.JTable tblThongKeTheoThang;
     // End of variables declaration//GEN-END:variables
 }
