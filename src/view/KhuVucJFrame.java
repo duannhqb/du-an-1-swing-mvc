@@ -71,7 +71,6 @@ public class KhuVucJFrame extends javax.swing.JFrame {
         model.setViTri(txtViTri.getText());
         model.setGhiChu(txtGhiChu.getText());
         if (txtTenKhuVuc.getToolTipText() != null) {
-
             model.setMaKhuVuc(Integer.parseInt(txtTenKhuVuc.getToolTipText()));
         }
         return model;
@@ -81,7 +80,6 @@ public class KhuVucJFrame extends javax.swing.JFrame {
         btnThem.setEnabled(insertable);
         btnSua.setEnabled(!insertable);
         btnXoa.setEnabled(!insertable);
-
         boolean first = this.index > 0;
         boolean last = this.index < tblKhuVuc.getRowCount() - 1;
         btnFirst.setEnabled(!insertable && first);
@@ -149,15 +147,14 @@ public class KhuVucJFrame extends javax.swing.JFrame {
         boolean check = true;
         if (txtTenKhuVuc.getText().isEmpty()) {
             DialogHelper.alert(this, "Tên khu vực không được để trống!");
-            check= false;
+            check = false;
         }
         if (txtViTri.getText().isEmpty()) {
             DialogHelper.alert(this, "Vị trí không được để trống!");
-            check= false;
+            check = false;
         }
         return check;
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -317,19 +314,16 @@ public class KhuVucJFrame extends javax.swing.JFrame {
                         .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(pnlWallpaperLayout.createSequentialGroup()
-                            .addComponent(lblGhiChu)
-                            .addGap(46, 46, 46)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(pnlWallpaperLayout.createSequentialGroup()
-                            .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblViTri)
-                                .addComponent(lblTenKhuVuc))
-                            .addGap(22, 22, 22)
-                            .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtTenKhuVuc, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtViTri, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(pnlWallpaperLayout.createSequentialGroup()
+                        .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblViTri)
+                            .addComponent(lblTenKhuVuc)
+                            .addComponent(lblGhiChu))
+                        .addGap(22, 22, 22)
+                        .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTenKhuVuc, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtViTri, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addGroup(pnlWallpaperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlWallpaperLayout.createSequentialGroup()
@@ -407,7 +401,7 @@ public class KhuVucJFrame extends javax.swing.JFrame {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-        if(check()){
+        if (check()) {
             update();
         }
     }//GEN-LAST:event_btnSuaActionPerformed
@@ -454,7 +448,7 @@ public class KhuVucJFrame extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        if(check()){
+        if (check()) {
             insert();
         }
     }//GEN-LAST:event_btnThemActionPerformed

@@ -140,8 +140,8 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         btnLast.setEnabled(!insertable && last);
         btnFirst.setEnabled(!insertable && first);
         btnPrev.setEnabled(!insertable && first);
-        
     }
+    
     public boolean check(){
         if (txtLoaiSanPham.getText().isEmpty()){
             DialogHelper.alert(this, "Loại sản phẩm rỗng");
