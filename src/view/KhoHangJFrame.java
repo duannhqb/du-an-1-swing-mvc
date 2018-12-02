@@ -26,7 +26,6 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     /**
      * Creates new form quanlykhohang
      */
-
     int index = 0;
     KhoHangDAO dao = new KhoHangDAO();
     SanPhamDAO spdao = new SanPhamDAO();
@@ -149,47 +148,38 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     }
 
     void setModel(KhoHang model) {
-        txtSoLuong.setToolTipText(String.valueOf(model.getMaKhoHang()));
         cboSanPham.setToolTipText(String.valueOf(model.getMaKhoHang()));
         SanPham sp = spdao.findById(model.getMaSanPham());
-
         try {
             cboSanPham.setSelectedItem(sp.getTenSanPham());
         } catch (Exception e) {
         }
-
         txtSoLuong.setText(String.valueOf(model.getSoLuong()));
         txtGhiChu.setText(model.getGhiChu());
     }
-
+    
     KhoHang getModel() {
-
         KhoHang khoHang = new KhoHang();
-//        SanPham sanPham = new SanPham();
         String tenSanPham = (String) cboSanPham.getSelectedItem();
         SanPham sp = spdao.findByName(tenSanPham);
-        if (txtSoLuong.getToolTipText()!=null){
-        khoHang.setMaKhoHang(Integer.valueOf(txtSoLuong.getToolTipText()));
-        khoHang.setMaSanPham(Integer.valueOf(txtSoLuong.getToolTipText()));
-        khoHang.setMaNhanVien(Integer.valueOf(txtSoLuong.getToolTipText()));
+        if (cboSanPham.getToolTipText() != null) {
+            khoHang.setMaKhoHang(Integer.valueOf(cboSanPham.getToolTipText()));
         }
-        khoHang.setMaKhoHang(khoHang.getMaKhoHang());
         khoHang.setMaSanPham(sp.getMaSanPham());
-        khoHang.setMaNhanVien(4);
-//        khoHang.setMaNhanVien(ShareHelper.USER.getMaNhanVien());
+        khoHang.setMaNhanVien(ShareHelper.USER.getMaNhanVien());
         khoHang.setNgayNhap(XDate.now());
         khoHang.setSoLuong(Integer.valueOf(txtSoLuong.getText()));
         khoHang.setGhiChu(txtGhiChu.getText());
-        khoHang.setHanSuDung(XDate.addDays(XDate.now(), 30)); // hạn sử dụng 1 tháng kể từ ngày thêm 
-
+        khoHang.setHanSuDung(XDate.addDays(XDate.now(), 30));  // hạn sử dụng 1 tháng kể từ ngày thêm 
         return khoHang;
     }
 
+    
+    
     void setStatus(boolean insertable) {
         btnthem.setEnabled(insertable);
         btnsua.setEnabled(!insertable);
         btnxoa.setEnabled(!insertable);
-
         boolean first = this.index > 0;
         boolean last = this.index < tblQuanLyKhoHang.getRowCount() - 1;
         btnFirst.setEnabled(!insertable && first);
@@ -198,26 +188,28 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         btnNext.setEnabled(!insertable && last);
     }
     
-    public boolean check(){
+
+    public boolean check() {
         boolean check = true;
-        if (txtSoLuong.getText().isEmpty()){
+        if (txtSoLuong.getText().isEmpty()) {
             DialogHelper.alert(this, "Số lượng không được rỗng");
-            return false;
+            check = false;
         }
-        return true;
+        return check;
     }
-    private boolean checksoluong(){
-        if (Integer.parseInt(txtSoLuong.getText())<50){
-            DialogHelper.alert(this, "Số lượng phải lớn hơn 50");
-            return false;
+
+    private boolean checksoluong() {
+        boolean check = true;
+        if (Integer.parseInt(txtSoLuong.getText())< 50) {
+            DialogHelper.alert(this, "Số lượng phải lớn hơn hoặc bằng 50");
+            check = false;
         }
-        if (Integer.parseInt(txtSoLuong.getText())>100){
-            DialogHelper.alert(this, "Số lượng tối đa là 100");
-            return false;
+        if (Integer.parseInt(txtSoLuong.getText())> 100) {
+            DialogHelper.alert(this, "Số lượng bé hơn hoặc bằng 100");
+            check = false;
         }
-        return true;
+        return check;
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -472,14 +464,14 @@ public class KhoHangJFrame extends javax.swing.JFrame {
 
     private void btnthemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemActionPerformed
         // TODO add your handling code here:
-        if(check()&&checksoluong()){
+        if (check() && checksoluong()) {
             insert();
         }
     }//GEN-LAST:event_btnthemActionPerformed
 
     private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
         // TODO add your handling code here:
-        if(check()){
+        if (check() && checksoluong()) {
             update();
         }
     }//GEN-LAST:event_btnsuaActionPerformed

@@ -21,7 +21,6 @@ public class KhoHang {
     private int soLuong;
     private String ghiChu;
     private Date hanSuDung = XDate.now();
-
     public KhoHang() {
     }
 

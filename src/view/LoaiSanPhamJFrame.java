@@ -145,8 +145,9 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
     public boolean check(){
         if (txtLoaiSanPham.getText().isEmpty()){
             DialogHelper.alert(this, "Loại sản phẩm rỗng");
+            return false;
         }
-        return false;
+        return true;
     }
     
 
@@ -363,7 +364,9 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-        update();
+        if(check()){
+            update();
+        }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
@@ -407,6 +410,9 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
+        this.load();
+        this.setStatus(true);
+        
        
     }//GEN-LAST:event_formWindowOpened
 
