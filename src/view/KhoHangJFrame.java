@@ -157,16 +157,12 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         txtSoLuong.setText(String.valueOf(model.getSoLuong()));
         txtGhiChu.setText(model.getGhiChu());
     }
-    
+
     KhoHang getModel() {
         KhoHang khoHang = new KhoHang();
         String tenSanPham = (String) cboSanPham.getSelectedItem();
         SanPham sp = spdao.findByName(tenSanPham);
-<<<<<<< HEAD
         if (cboSanPham.getToolTipText() != null) {
-=======
-        if (txtSoLuong.getToolTipText() != null) {
->>>>>>> f52a0e9918f69c41936726e27ef9fa6f206e16ce
             khoHang.setMaKhoHang(Integer.valueOf(cboSanPham.getToolTipText()));
         }
         khoHang.setMaSanPham(sp.getMaSanPham());
@@ -178,8 +174,6 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         return khoHang;
     }
 
-    
-    
     void setStatus(boolean insertable) {
         btnthem.setEnabled(insertable);
         btnsua.setEnabled(!insertable);
@@ -191,10 +185,6 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         btnLast.setEnabled(!insertable && last);
         btnNext.setEnabled(!insertable && last);
     }
-<<<<<<< HEAD
-    
-=======
->>>>>>> f52a0e9918f69c41936726e27ef9fa6f206e16ce
 
     public boolean check() {
         boolean check = true;
@@ -206,24 +196,14 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     }
 
     private boolean checksoluong() {
-<<<<<<< HEAD
         boolean check = true;
-        if (Integer.parseInt(txtSoLuong.getText())< 50) {
+        if (Integer.parseInt(txtSoLuong.getText()) < 50) {
             DialogHelper.alert(this, "Số lượng phải lớn hơn hoặc bằng 50");
             check = false;
         }
-        if (Integer.parseInt(txtSoLuong.getText())> 100) {
+        if (Integer.parseInt(txtSoLuong.getText()) > 100) {
             DialogHelper.alert(this, "Số lượng bé hơn hoặc bằng 100");
             check = false;
-=======
-        if (Integer.parseInt(txtSoLuong.getText()) < 50) {
-            DialogHelper.alert(this, "Số lượng phải lớn hơn 50");
-            return false;
-        }
-        if (Integer.parseInt(txtSoLuong.getText()) > 100) {
-            DialogHelper.alert(this, "Số lượng tối đa là 100");
-            return false;
->>>>>>> f52a0e9918f69c41936726e27ef9fa6f206e16ce
         }
         return check;
     }
@@ -488,13 +468,9 @@ public class KhoHangJFrame extends javax.swing.JFrame {
 
     private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
         // TODO add your handling code here:
-<<<<<<< HEAD
-        if (check() && checksoluong()) {
-=======
-        if (check()) {
->>>>>>> f52a0e9918f69c41936726e27ef9fa6f206e16ce
-            update();
-        }
+            if (check()) {
+                update();
+            }
     }//GEN-LAST:event_btnsuaActionPerformed
 
     private void btnmoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmoiActionPerformed
