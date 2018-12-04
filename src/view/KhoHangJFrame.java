@@ -191,19 +191,16 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         if (txtSoLuong.getText().isEmpty()) {
             DialogHelper.alert(this, "Số lượng không được rỗng");
             check = false;
-        }
-        return check;
-    }
-
-    private boolean checksoluong() {
-        boolean check = true;
-        if (Integer.parseInt(txtSoLuong.getText()) < 50) {
-            DialogHelper.alert(this, "Số lượng phải lớn hơn hoặc bằng 50");
-            check = false;
-        }
-        if (Integer.parseInt(txtSoLuong.getText()) > 100) {
-            DialogHelper.alert(this, "Số lượng bé hơn hoặc bằng 100");
-            check = false;
+        } else {
+            try {
+                if (Integer.parseInt(txtSoLuong.getText()) < 50 || Integer.parseInt(txtSoLuong.getText()) > 100) {
+                    DialogHelper.alert(this, "Số lượng phải từ 50 đến 100.");
+                    check = false;
+                }
+            } catch (Exception e) {
+                DialogHelper.alert(this, "Số lượng phải là số.");
+                check = false;
+            }
         }
         return check;
     }
@@ -461,7 +458,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
 
     private void btnthemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemActionPerformed
         // TODO add your handling code here:
-        if (check() && checksoluong()) {
+        if (check()) {
             insert();
         }
     }//GEN-LAST:event_btnthemActionPerformed

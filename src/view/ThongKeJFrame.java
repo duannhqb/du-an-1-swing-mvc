@@ -36,6 +36,8 @@ public class ThongKeJFrame extends javax.swing.JFrame {
         fillComboBoxThoiGian();
         fillTableDoanhThu();
         fillTableKhoHang();
+        ShareHelper.setBoderForTable(jScrollPane1);
+        ShareHelper.setBoderForTable(jScrollPane4);
     }
 
     void fillTableKhoHang() {
@@ -128,6 +130,7 @@ public class ThongKeJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblThongKeKhoHang.setGridColor(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(tblThongKeKhoHang);
 
         javax.swing.GroupLayout pnlThongKeKhoHangLayout = new javax.swing.GroupLayout(pnlThongKeKhoHang);
@@ -165,6 +168,7 @@ public class ThongKeJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblThongKeTheoThang.setGridColor(new java.awt.Color(255, 255, 255));
         jScrollPane4.setViewportView(tblThongKeTheoThang);
 
         cboThoiGian.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Năm", "Tháng" }));

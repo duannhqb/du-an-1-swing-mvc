@@ -18,7 +18,7 @@ import model.NhanVien;
  * @author duann
  */
 public class ShareHelper {
-    
+
 //    ảnh biểu tượng ứng dụng xuất hiện trên mọi cửa sổ
     public static final Image APP_ICON;
 
@@ -53,12 +53,18 @@ public class ShareHelper {
         // Row Height
         tblGridView.setRowHeight(20);
     }
-    
-    
+
     public static void setBoderForTable(JScrollPane scp) {
         scp.setViewportBorder(null);
         scp.setBorder(null);
     }
 
-    
+//    quản lý là false
+    public static boolean getQuyenTruyCap() {
+        if (USER.isVaiTro() == false) {
+            return true;
+        }
+        return false;
+    }
+
 }

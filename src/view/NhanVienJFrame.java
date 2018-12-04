@@ -66,7 +66,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
                     nhanVien.getDienThoai(),
                     nhanVien.isGioiTinh() ? "Nữ" : "Nam",
                     nhanVien.getEmail(),
-                    nhanVien.getMatKhau().length() > 0 ? "*****" : "*****",
+                    nhanVien.getMatKhau(),
                     nhanVien.isVaiTro() ? "Nhân viên" : "Quản lý",
                     nhanVien.getCaLamViec().getTenCaLamViec()
                 };
@@ -602,6 +602,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblNhanVien.setGridColor(new java.awt.Color(255, 255, 255));
         tblNhanVien.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblNhanVienMouseClicked(evt);

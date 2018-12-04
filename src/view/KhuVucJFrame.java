@@ -455,7 +455,11 @@ public class KhuVucJFrame extends javax.swing.JFrame {
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
-        delete(Integer.parseInt(txtTenKhuVuc.getToolTipText()));
+        if (ShareHelper.getQuyenTruyCap()) {
+            delete(Integer.parseInt(txtTenKhuVuc.getToolTipText()));
+        } else {
+            DialogHelper.alert(this, "Bạn không đủ quyền để thực hiện chức năng này.");
+        }
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed

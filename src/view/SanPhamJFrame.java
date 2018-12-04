@@ -107,17 +107,17 @@ public class SanPhamJFrame extends javax.swing.JFrame {
 
     void setStatus(boolean insertTable) {
 
-            btnThem.setEnabled(insertTable);
-            btnSua.setEnabled(!insertTable);
-            btnXoa.setEnabled(!insertTable);
+        btnThem.setEnabled(insertTable);
+        btnSua.setEnabled(!insertTable);
+        btnXoa.setEnabled(!insertTable);
 
-            boolean first = this.index > 0;
-            boolean last = this.index < tblSanPham.getRowCount() - 1;
-            btnFirst.setEnabled(!insertTable && first);
-            btnPrev.setEnabled(!insertTable && first);
-            btnNext.setEnabled(!insertTable && last);
-            btnLast.setEnabled(!insertTable && last);
-        
+        boolean first = this.index > 0;
+        boolean last = this.index < tblSanPham.getRowCount() - 1;
+        btnFirst.setEnabled(!insertTable && first);
+        btnPrev.setEnabled(!insertTable && first);
+        btnNext.setEnabled(!insertTable && last);
+        btnLast.setEnabled(!insertTable && last);
+
     }
 
     void clear() {
@@ -183,37 +183,26 @@ public class SanPhamJFrame extends javax.swing.JFrame {
     }
 
     public boolean check() {
-
         boolean check = true;
         if (txtTenSanPham.getText().isEmpty()) {
             DialogHelper.alert(this, "Tên sản phẩm không được để rỗng");
             check = false;
         }
+
         if (txtGiaBan.getText().isEmpty()) {
             DialogHelper.alert(this, "Giá bán không được để rỗng");
             check = false;
-        }
-//        if (txtGiaBan.getText().isEmpty()) {
-//            DialogHelper.alert(this, "null");
-//            check = false;
-//            
-//            
-//
-//        } else {
-//            if (Float.parseFloat(txtGiaBan.getText())<=0) {
-//                DialogHelper.alert(this, "Giá bán phải lớn hơn 0");
-//                check = false;
-//            }
-//        }
-        return check;
-    }
-    
-    private boolean checkGiaBan(){
-        boolean check = true;
-        if(Float.parseFloat(txtGiaBan.getText())<=0) {
-                DialogHelper.alert(this, "Giá bán phải lớn hơn 0");
+        } else {
+            try {
+                if (Float.parseFloat(txtGiaBan.getText()) <= 0) {
+                    DialogHelper.alert(this, "Giá bán phải lớn hơn 0");
+                    check = false;
+                }
+            } catch (Exception e) {
+                DialogHelper.alert(this, "Giá bán phải là số.");
                 check = false;
             }
+        }
         return check;
     }
 
@@ -476,21 +465,25 @@ public class SanPhamJFrame extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        if (check()&& checkGiaBan()) {
+        if (check()) {
             insert();
         }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-        if (check() && checkGiaBan()) {
+        if (check()) {
             update();
         }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
-        delete();
+        if (ShareHelper.getQuyenTruyCap()) {
+            delete();
+        } else {
+            DialogHelper.alert(this, "Bạn không đủ quyền để thực hiện chức năng này.");
+        }
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
