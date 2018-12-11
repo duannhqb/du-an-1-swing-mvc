@@ -41,57 +41,6 @@ public class ThongKeDAO {
         return list;
     }
    
-   
-    public List<Object[]> getNhanVien() {
-        List<Object[]> list = new ArrayList<>();
-        try {
-            ResultSet rs = null;
-            try {
-                String sql = "{call sp_ThongKeNhanVien}";
-                rs = Jdbc.executeQuery(sql);
-                while (rs.next()) {
-                    Object[] model = {
-                        rs.getString(1),
-                        rs.getInt(2),
-                        rs.getBoolean(3),
-                        rs.getInt(4),
-                    };
-                    list.add(model);
-                }
-            } finally {
-                rs.getStatement().getConnection().close();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return list;
-    }
-   
-    public List<Object[]> getThongKeNhanVien() {
-        List<Object[]> list = new ArrayList<>();
-        try {
-            ResultSet rs = null;
-            try {
-                String sql = "{call sp_ThongKeNhanVien}";
-                rs = Jdbc.executeQuery(sql);
-                while (rs.next()) {
-                    Object[] model = {
-                        rs.getString(1),
-                        rs.getInt(2),
-                        rs.getDate(3),
-                        rs.getDate(4)
-                    };
-                    list.add(model);
-                }
-            } finally {
-                rs.getStatement().getConnection().close();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return list;
-    }
-
     public List<Object[]> getDoanhThuNam() {
         List<Object[]> list = new ArrayList<>();
         try {

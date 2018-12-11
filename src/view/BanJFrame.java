@@ -126,7 +126,6 @@ public class BanJFrame extends javax.swing.JFrame {
             DialogHelper.setInfinity(lblThongBao, "Thêm mới thành công!");
         } catch (Exception e) {
             DialogHelper.alert(this, "Thêm mới thất bại!");
-            System.out.println(e.toString());
         }
     }
 
@@ -135,9 +134,9 @@ public class BanJFrame extends javax.swing.JFrame {
         try {
             dao.update(model);
             this.load();
-            DialogHelper.setInfinity(lblThongBao, "Thêm mới thành công!");
+            DialogHelper.setInfinity(lblThongBao, "Cập nhật thành công!");
         } catch (Exception e) {
-            DialogHelper.alert(this, "Thêm mới thất bại!");
+            DialogHelper.alert(this, "Cập nhật thất bại!");
         }
     }
 
@@ -450,11 +449,15 @@ public class BanJFrame extends javax.swing.JFrame {
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
-        delete(Integer.parseInt(txtMaBan.getText()));
-        this.load();
+        if (ShareHelper.getQuyenTruyCap()) {
+            delete(Integer.parseInt(txtMaBan.getText()));
+            this.load();
 //        cái này duần làm
-        DanhMucJFrame.loadTabs();
-        DanhMucJFrame.loadDonHangTheoBan();
+            DanhMucJFrame.loadTabs();
+            DanhMucJFrame.loadDonHangTheoBan();
+        } else {
+            DialogHelper.alert(this, "Bạn không đủ quyền để thực hiện chức năng này.");
+        }
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed

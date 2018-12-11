@@ -162,7 +162,7 @@ public class ThongTinDonHangJFrame extends javax.swing.JFrame {
     HoaDon getModelHD() {
         HoaDon hd = new HoaDon();
         hd.setMaBan(maBan);
-        hd.setMaNhanVien(1);
+        hd.setMaNhanVien(ShareHelper.USER.getMaNhanVien());
         hd.setGhiChu("");
         hd.setTrangThai(false); // false = 0
         hd.setNgayThanhToan(XDate.now());

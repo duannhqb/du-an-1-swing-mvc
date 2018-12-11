@@ -27,8 +27,8 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
     }
     int index = 0;
     LoaiSanPhamDAO dao = new LoaiSanPhamDAO();
-    
-    void init(){
+
+    void init() {
         setIconImage(ShareHelper.APP_ICON);
         setLocationRelativeTo(null);
         this.load();
@@ -36,7 +36,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         this.setTitle("Hệ thống quản lý quán coffee");
         ShareHelper.setBoderForTable(jScrollPane1);
     }
-    
+
     void load() {
         DefaultTableModel model = (DefaultTableModel) tblLoaiSanPham.getModel();
         model.setRowCount(0);
@@ -48,13 +48,13 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
                     lsp.getTenLoaiSP()
                 };
                 model.addRow(row);
-                
+
             }
         } catch (Exception e) {
             DialogHelper.alert(this, "Lỗi truy ván dữ liệu");
         }
     }
-    
+
     void insert() {
         LoaiSanPham model = getModel();
         try {
@@ -66,7 +66,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
             DialogHelper.alert(this, "Thêm mới thất bại");
         }
     }
-    
+
     void update() {
         LoaiSanPham model = getModel();
         try {
@@ -78,7 +78,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
             DialogHelper.alert(this, "Cập nhập thất bại");
         }
     }
-    
+
     void delete(int maLoaiSP) {
         if (DialogHelper.confirm(this, "Bạn muốn xóa hàng này")) {
             try {
@@ -91,7 +91,7 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
             }
         }
     }
-    
+
     void clear() {
         LoaiSanPham model = new LoaiSanPham();
         model.setMaLoaiSP(model.getMaLoaiSP());
@@ -99,12 +99,12 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
         this.setStatus(true);
         txtLoaiSanPham.setText("");
     }
-    
+
     void edit() {
         try {
             int malsp = (int) tblLoaiSanPham.getValueAt(this.index, 0);
             LoaiSanPham model = dao.findById(malsp);
-            
+
             if (model != null) {
                 this.setModel(model);
                 this.setStatus(false);
@@ -113,42 +113,42 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
             DialogHelper.alert(this, "Lỗi truy vấn dữ liệu");
         }
     }
-    
+
     void setModel(LoaiSanPham model) {
         txtLoaiSanPham.setText(model.getTenLoaiSP());
         txtLoaiSanPham.setToolTipText(String.valueOf(model.getMaLoaiSP()));
     }
-    
+
     LoaiSanPham getModel() {
         LoaiSanPham model = new LoaiSanPham();
         model.setTenLoaiSP(txtLoaiSanPham.getText());
         if (txtLoaiSanPham.getToolTipText() != null) {
-            model.setMaLoaiSP(Integer.parseInt(txtLoaiSanPham.getToolTipText()));            
+            model.setMaLoaiSP(Integer.parseInt(txtLoaiSanPham.getToolTipText()));
         }
         return model;
     }
-    
+
     void setStatus(boolean insertable) {
         btnThem.setEnabled(insertable);
         btnSua.setEnabled(!insertable);
         btnXoa.setEnabled(!insertable);
-        
+
         boolean first = this.index > 0;
         boolean last = this.index < tblLoaiSanPham.getRowCount() - 1;
-        
+
         btnNext.setEnabled(!insertable && last);
         btnLast.setEnabled(!insertable && last);
         btnFirst.setEnabled(!insertable && first);
         btnPrev.setEnabled(!insertable && first);
-        
     }
-    public boolean check(){
-        if (txtLoaiSanPham.getText().isEmpty()){
+
+    public boolean check() {
+        if (txtLoaiSanPham.getText().isEmpty()) {
             DialogHelper.alert(this, "Loại sản phẩm rỗng");
+            return false;
         }
-        return false;
+        return true;
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -350,20 +350,26 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
-        delete(Integer.parseInt(txtLoaiSanPham.getToolTipText()));
-        this.load();
+        if (ShareHelper.getQuyenTruyCap()) {
+            delete(Integer.parseInt(txtLoaiSanPham.getToolTipText()));
+            this.load();
+        } else {
+            DialogHelper.alert(this, "Bạn không đủ quyền để thực hiện chức năng này.");
+        }
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        if(check()){
+        if (check()) {
             insert();
         }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-        update();
+        if (check()) {
+            update();
+        }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
@@ -407,7 +413,10 @@ public class LoaiSanPhamJFrame extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-       
+        this.load();
+        this.setStatus(true);
+
+
     }//GEN-LAST:event_formWindowOpened
 
     /**

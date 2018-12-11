@@ -106,19 +106,18 @@ public class SanPhamJFrame extends javax.swing.JFrame {
     }
 
     void setStatus(boolean insertTable) {
-        try {
-            btnThem.setEnabled(insertTable);
-            btnSua.setEnabled(!insertTable);
-            btnXoa.setEnabled(!insertTable);
 
-            boolean first = this.index > 0;
-            boolean last = this.index < tblSanPham.getRowCount() - 1;
-            btnFirst.setEnabled(!insertTable && first);
-            btnPrev.setEnabled(!insertTable && first);
-            btnNext.setEnabled(!insertTable && last);
-            btnLast.setEnabled(!insertTable && last);
-        } catch (Exception e) {
-        }
+        btnThem.setEnabled(insertTable);
+        btnSua.setEnabled(!insertTable);
+        btnXoa.setEnabled(!insertTable);
+
+        boolean first = this.index > 0;
+        boolean last = this.index < tblSanPham.getRowCount() - 1;
+        btnFirst.setEnabled(!insertTable && first);
+        btnPrev.setEnabled(!insertTable && first);
+        btnNext.setEnabled(!insertTable && last);
+        btnLast.setEnabled(!insertTable && last);
+
     }
 
     void clear() {
@@ -128,6 +127,7 @@ public class SanPhamJFrame extends javax.swing.JFrame {
         model.setMaLoaiSP(a.getMaLoaiSP());
         this.cboLoaiSanPham.setSelectedItem(0);
         this.setModel(model);
+        this.setStatus(true);
         txtGiaBan.setText("");
     }
 
@@ -176,7 +176,6 @@ public class SanPhamJFrame extends javax.swing.JFrame {
             if (model != null) {
                 this.setModel(model);
                 this.setStatus(false);
-
             }
         } catch (Exception e) {
             DialogHelper.alert(this, "Lỗi truy vấn dữ liệu");
@@ -184,21 +183,23 @@ public class SanPhamJFrame extends javax.swing.JFrame {
     }
 
     public boolean check() {
-
         boolean check = true;
         if (txtTenSanPham.getText().isEmpty()) {
             DialogHelper.alert(this, "Tên sản phẩm không được để rỗng");
             check = false;
         }
+
         if (txtGiaBan.getText().isEmpty()) {
             DialogHelper.alert(this, "Giá bán không được để rỗng");
             check = false;
-        }
-        if (txtGiaBan.getText().isEmpty()) {
-
         } else {
-            if (Float.parseFloat(txtGiaBan.getText())<1) {
-                DialogHelper.alert(this, "Giá bán phải lớn hơn 0");
+            try {
+                if (Float.parseFloat(txtGiaBan.getText()) <= 0) {
+                    DialogHelper.alert(this, "Giá bán phải lớn hơn 0");
+                    check = false;
+                }
+            } catch (Exception e) {
+                DialogHelper.alert(this, "Giá bán phải là số.");
                 check = false;
             }
         }
@@ -478,7 +479,11 @@ public class SanPhamJFrame extends javax.swing.JFrame {
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
-        delete();
+        if (ShareHelper.getQuyenTruyCap()) {
+            delete();
+        } else {
+            DialogHelper.alert(this, "Bạn không đủ quyền để thực hiện chức năng này.");
+        }
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
@@ -499,7 +504,8 @@ public class SanPhamJFrame extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-
+        this.load();
+        this.setStatus(true);
     }//GEN-LAST:event_formWindowOpened
 
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed

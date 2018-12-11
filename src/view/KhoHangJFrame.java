@@ -150,12 +150,10 @@ public class KhoHangJFrame extends javax.swing.JFrame {
     void setModel(KhoHang model) {
         cboSanPham.setToolTipText(String.valueOf(model.getMaKhoHang()));
         SanPham sp = spdao.findById(model.getMaSanPham());
-
         try {
             cboSanPham.setSelectedItem(sp.getTenSanPham());
         } catch (Exception e) {
         }
-
         txtSoLuong.setText(String.valueOf(model.getSoLuong()));
         txtGhiChu.setText(model.getGhiChu());
     }
@@ -164,7 +162,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         KhoHang khoHang = new KhoHang();
         String tenSanPham = (String) cboSanPham.getSelectedItem();
         SanPham sp = spdao.findByName(tenSanPham);
-        if (txtSoLuong.getToolTipText() != null) {
+        if (cboSanPham.getToolTipText() != null) {
             khoHang.setMaKhoHang(Integer.valueOf(cboSanPham.getToolTipText()));
         }
         khoHang.setMaSanPham(sp.getMaSanPham());
@@ -172,8 +170,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         khoHang.setNgayNhap(XDate.now());
         khoHang.setSoLuong(Integer.valueOf(txtSoLuong.getText()));
         khoHang.setGhiChu(txtGhiChu.getText());
-        khoHang.setHanSuDung(XDate.addDays(XDate.now(), 30)); // hạn sử dụng 1 tháng kể từ ngày thêm 
-
+        khoHang.setHanSuDung(XDate.addDays(XDate.now(), 30));  // hạn sử dụng 1 tháng kể từ ngày thêm 
         return khoHang;
     }
 
@@ -181,7 +178,6 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         btnthem.setEnabled(insertable);
         btnsua.setEnabled(!insertable);
         btnxoa.setEnabled(!insertable);
-
         boolean first = this.index > 0;
         boolean last = this.index < tblQuanLyKhoHang.getRowCount() - 1;
         btnFirst.setEnabled(!insertable && first);
@@ -194,21 +190,19 @@ public class KhoHangJFrame extends javax.swing.JFrame {
         boolean check = true;
         if (txtSoLuong.getText().isEmpty()) {
             DialogHelper.alert(this, "Số lượng không được rỗng");
-            return false;
+            check = false;
+        } else {
+            try {
+                if (Integer.parseInt(txtSoLuong.getText()) < 50 || Integer.parseInt(txtSoLuong.getText()) > 100) {
+                    DialogHelper.alert(this, "Số lượng phải từ 50 đến 100.");
+                    check = false;
+                }
+            } catch (Exception e) {
+                DialogHelper.alert(this, "Số lượng phải là số.");
+                check = false;
+            }
         }
-        return true;
-    }
-
-    private boolean checksoluong() {
-        if (Integer.parseInt(txtSoLuong.getText()) < 50) {
-            DialogHelper.alert(this, "Số lượng phải lớn hơn 50");
-            return false;
-        }
-        if (Integer.parseInt(txtSoLuong.getText()) > 100) {
-            DialogHelper.alert(this, "Số lượng tối đa là 100");
-            return false;
-        }
-        return true;
+        return check;
     }
 
     /**
@@ -464,7 +458,7 @@ public class KhoHangJFrame extends javax.swing.JFrame {
 
     private void btnthemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemActionPerformed
         // TODO add your handling code here:
-        if (check() && checksoluong()) {
+        if (check()) {
             insert();
         }
     }//GEN-LAST:event_btnthemActionPerformed
@@ -499,25 +493,25 @@ public class KhoHangJFrame extends javax.swing.JFrame {
 
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
         // TODO add your handling code here:
-        this.index--;
+        this.index = 0;
         this.edit();
     }//GEN-LAST:event_btnFirstActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
         // TODO add your handling code here:
-        this.index = 0;
+        this.index--;
         this.edit();
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         // TODO add your handling code here:
-        this.index = tblQuanLyKhoHang.getRowCount() - 1;
+        this.index++;
         this.edit();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
         // TODO add your handling code here:
-        this.index++;
+        this.index = tblQuanLyKhoHang.getRowCount() - 1;
         this.edit();
     }//GEN-LAST:event_btnLastActionPerformed
 

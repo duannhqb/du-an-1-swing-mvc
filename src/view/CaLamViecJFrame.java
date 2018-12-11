@@ -154,18 +154,16 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
             DialogHelper.alert(this, "Tên ca làm việc không được để trống!");
             return false;
         }
-         if (txtBatDau.getText().isEmpty()) {
+        if (txtBatDau.getText().isEmpty()) {
             DialogHelper.alert(this, "Thời gian bắt đầu không được để trống!");
-            check= false;
+            check = false;
         }
-         if (txtKetThuc.getText().isEmpty()) {
+        if (txtKetThuc.getText().isEmpty()) {
             DialogHelper.alert(this, "Thời gian kết thúc không được để trống!");
-            check= false;
+            check = false;
         }
         return check;
     }
-
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -439,10 +437,10 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        if(check()){
+        if (check()) {
             insert();
         }
-        
+
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void tblCaLamViecMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCaLamViecMouseClicked
@@ -457,44 +455,49 @@ public class CaLamViecJFrame extends javax.swing.JFrame {
 
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
         // TODO add your handling code here:
-        this.index--;
+        this.index = 0;
         this.edit();
     }//GEN-LAST:event_btnFirstActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
         // TODO add your handling code here:
-        this.index = 0;
+        this.index--;
         this.edit();
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         // TODO add your handling code here:
-        this.index = tblCaLamViec.getRowCount() - 1;
+        this.index++;
         this.edit();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
         // TODO add your handling code here:
-        this.index++;
+        this.index = tblCaLamViec.getRowCount() - 1;
         this.edit();
     }//GEN-LAST:event_btnLastActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
 
+
     }//GEN-LAST:event_formWindowOpened
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-        if(check()){
+        if (check()) {
             update();
         }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
-        delete(Integer.parseInt(txtTenCaLV.getToolTipText()));
-        this.load();
+        if (ShareHelper.getQuyenTruyCap()) {
+            delete(Integer.parseInt(txtTenCaLV.getToolTipText()));
+            this.load();
+        } else {
+            DialogHelper.alert(this, "Bạn không đủ quyền để thực hiện chức năng này.");
+        }
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed

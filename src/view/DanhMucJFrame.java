@@ -122,6 +122,15 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         new ThongTinDonHangJFrame(id).setVisible(true);
     }
 
+    private void logOff() {
+        ShareHelper.logOff();
+        this.dispose();
+        this.openLogin();
+        if (ShareHelper.USER != null) {
+            this.setVisible(true);
+        }
+    }
+
     void xemThongTinBan() {
         DialogHelper.alert(this, "Xem thông tin bàn");
     }
@@ -159,6 +168,9 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         lblBanHD = new javax.swing.JLabel();
         pnlBan = new javax.swing.JPanel();
         mnu = new javax.swing.JMenuBar();
+        mnuHeThong = new javax.swing.JMenu();
+        mniDangXuat = new javax.swing.JMenuItem();
+        mniThongTinUngDung = new javax.swing.JMenu();
         mniBan = new javax.swing.JMenu();
         mniKhuVuc = new javax.swing.JMenu();
         mniSanPham = new javax.swing.JMenu();
@@ -199,7 +211,6 @@ public class DanhMucJFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblHoaDon);
 
-        lblBanHD.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         lblBanHD.setForeground(new java.awt.Color(255, 255, 255));
         lblBanHD.setText("Thông tin các bàn đang hoạt động");
 
@@ -233,12 +244,27 @@ public class DanhMucJFrame extends javax.swing.JFrame {
                         .addComponent(lblBanHD)
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
             .addGroup(pnlWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlWrapperLayout.createSequentialGroup()
                     .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
+
+        mnuHeThong.setText("Hệ thống");
+
+        mniDangXuat.setText("Đăng xuất");
+        mniDangXuat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniDangXuatActionPerformed(evt);
+            }
+        });
+        mnuHeThong.add(mniDangXuat);
+
+        mniThongTinUngDung.setText("Thông tin ứng dụng");
+        mnuHeThong.add(mniThongTinUngDung);
+
+        mnu.add(mnuHeThong);
 
         mniBan.setText("Bàn");
         mniBan.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -360,7 +386,11 @@ public class DanhMucJFrame extends javax.swing.JFrame {
 
     private void mniNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mniNhanVienMouseClicked
         // TODO add your handling code here:
-        new NhanVienJFrame().setVisible(true);
+        if (ShareHelper.getQuyenTruyCap()) {
+            new NhanVienJFrame().setVisible(true);
+        } else {
+            DialogHelper.alert(this, "Bạn không đủ quyền để vào chức năng này.");
+        }
     }//GEN-LAST:event_mniNhanVienMouseClicked
 
     private void mniCaLamViecMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mniCaLamViecMouseClicked
@@ -370,18 +400,31 @@ public class DanhMucJFrame extends javax.swing.JFrame {
 
     private void mniKhoHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mniKhoHangMouseClicked
         // TODO add your handling code here:
-        new KhoHangJFrame().setVisible(true);
+        if (ShareHelper.getQuyenTruyCap()) {
+            new KhoHangJFrame().setVisible(true);
+        } else {
+            DialogHelper.alert(this, "Bạn không đủ quyền để vào chức năng này.");
+        }
     }//GEN-LAST:event_mniKhoHangMouseClicked
 
     private void mniThongKeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mniThongKeMouseClicked
         // TODO add your handling code here:
-        new ThongKeJFrame().setVisible(true);
+        if (ShareHelper.getQuyenTruyCap()) {
+            new ThongKeJFrame().setVisible(true);
+        } else {
+            DialogHelper.alert(this, "Bạn không đủ quyền để vào chức năng này.");
+        }
     }//GEN-LAST:event_mniThongKeMouseClicked
 
     private void mniChiTietMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mniChiTietMouseClicked
         // TODO add your handling code here:
         this.xemThongTinChiTiet();
     }//GEN-LAST:event_mniChiTietMouseClicked
+
+    private void mniDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniDangXuatActionPerformed
+        // TODO add your handling code here:
+        this.logOff();
+    }//GEN-LAST:event_mniDangXuatActionPerformed
 
     /**
      * @param args the command line arguments
@@ -425,13 +468,16 @@ public class DanhMucJFrame extends javax.swing.JFrame {
     private javax.swing.JMenu mniBan;
     private javax.swing.JMenu mniCaLamViec;
     private javax.swing.JMenu mniChiTiet;
+    private javax.swing.JMenuItem mniDangXuat;
     private javax.swing.JMenu mniKhoHang;
     private javax.swing.JMenu mniKhuVuc;
     private javax.swing.JMenu mniLoaiSanPham;
     private javax.swing.JMenu mniNhanVien;
     private javax.swing.JMenu mniSanPham;
     private javax.swing.JMenu mniThongKe;
+    private javax.swing.JMenu mniThongTinUngDung;
     private javax.swing.JMenuBar mnu;
+    private javax.swing.JMenu mnuHeThong;
     public static javax.swing.JPanel pnlBan;
     public static javax.swing.JPanel pnlWrapper;
     public static javax.swing.JTable tblHoaDon;
