@@ -84,4 +84,9 @@ public class KhuVucDAO {
         List<KhuVuc> list = select(sql, tenBan);
         return list.size() > 0 ? list.get(0) : null;
     }
+    public boolean check(String khuVuc) {
+        String sql = "SELECT * FROM KhuVuc WHERE MaBan LIKE ?";
+        List<KhuVuc> list = select(sql, khuVuc);
+        return list.size() == 0;
+    }
 }
