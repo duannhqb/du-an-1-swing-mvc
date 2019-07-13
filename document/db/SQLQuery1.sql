@@ -1,0 +1,1 @@
+SELECT MaNhanVien, HoTen, MatKhau, VaiTro, NgaySinh, GioiTinh, Email, DienThoai, NhanVien.GhiChu, CaLamViec.TenCaLV from NhanVien join CaLamViec on NhanVien.MaCaLV = CaLamViec.MaCaLV
